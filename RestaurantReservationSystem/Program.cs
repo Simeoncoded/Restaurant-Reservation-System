@@ -5,9 +5,14 @@ using RestaurantReservationSystem.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("RestaurantReservationSystemContext") ?? throw new InvalidOperationException("Connection string 'RestaurantReservationSystemContext' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
+
+builder.Services.AddDbContext<RestaurantReservationSystemContext>(options =>
+    options.UseSqlite(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -39,5 +44,14 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+//To prepare the database and seed data.  Can comment this out some of the time.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    RestaurantReservationSystemInitializer.Initialize(services);
+}
+
 
 app.Run();

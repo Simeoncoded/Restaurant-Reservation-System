@@ -1,0 +1,5 @@
+﻿Add-Migration -Context ApplicationDbContext -OutputDir Data\Migrations Initial
+Update-Database -Context ApplicationDbContext 
+
+Add-Migration -Context RestaurantReservationSystemContext -o Data\RestaurantMigrations Initial
+Update-Database -Context RestaurantReservationSystemContext

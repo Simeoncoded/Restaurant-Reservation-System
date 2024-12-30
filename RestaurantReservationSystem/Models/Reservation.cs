@@ -8,10 +8,12 @@ namespace RestaurantReservationSystem.Models
 
         [Required(ErrorMessage = "First Name is required")]
         [Display(Name = "First Name")]
+        [MaxLength(50, ErrorMessage = "First name cannot be more than 100 characters long.")]
         public string? FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required")]
         [Display(Name = "Last Name")]
+        [MaxLength(100, ErrorMessage = "Last name cannot be more than 100 characters long.")]
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Customer Phone is required")]

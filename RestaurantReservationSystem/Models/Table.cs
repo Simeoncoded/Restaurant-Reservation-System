@@ -19,6 +19,7 @@ namespace RestaurantReservationSystem.Models
         public TableStatus Status { get; set; } = TableStatus.Available; //defaults to available
 
         [Display(Name = "Table Location")]
+        [Required(ErrorMessage = "You cannot leave Table Location blank")]
         public string? Location { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; } = new HashSet<Reservation>();
