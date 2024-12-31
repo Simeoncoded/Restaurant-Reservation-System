@@ -12,7 +12,7 @@ namespace RestaurantReservationSystem.Controllers
 {
     public class ReservationController : Controller
     {
-        private readonly RestaurantReservationSystemContext _context;
+         private readonly RestaurantReservationSystemContext _context;
 
         public ReservationController(RestaurantReservationSystemContext context)
         {
@@ -206,7 +206,7 @@ namespace RestaurantReservationSystem.Controllers
 
 
 
-private void PopulateDropDownLists(Reservation? reservation = null)
+    private void PopulateDropDownLists(Reservation? reservation = null)
         {
             var dQuery = from d in _context.Tables
                          orderby d.Location

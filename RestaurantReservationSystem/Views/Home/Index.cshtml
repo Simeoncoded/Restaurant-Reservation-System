@@ -1,8 +1,67 @@
-﻿@{
+﻿@model RestaurantReservationSystem.ViewModels.HomePageVM
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Welcome to Our Restaurant Reservation System</h1>
+        <p class="lead">Stay updated on today's reservations and table availability!</p>
+    </div>
+
+    <div class="row">
+        <!-- Total Reservations Today Card -->
+        <div class="col-md-4">
+            <div class="card border-primary mb-3">
+                <div class="card-header bg-primary text-white">Reservations Today</div>
+                <div class="card-body text-primary">
+                    <h5 class="card-title">@Model.TotalReservationsToday</h5>
+                    <p class="card-text">Reservations made for today.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Tables Card -->
+        <div class="col-md-4">
+            <div class="card border-success mb-3">
+                <div class="card-header bg-success text-white">Available Tables</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">@Model.AvailableTables</h5>
+                    <p class="card-text">Tables currently available for reservation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservations This Week Card -->
+        <div class="col-md-4">
+            <div class="card border-warning mb-3">
+                <div class="card-header bg-warning text-white">Reservations This Week</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-title">@Model.ReservationsThisWeek</h5>
+                    <p class="card-text">Total reservations made for this week.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Reservations -->
+    <div class="mt-4">
+        <h3>Upcoming Reservations</h3>
+        @if (Model.UpcomingReservations != null && Model.UpcomingReservations.Any())
+        {
+            <ul class="list-group">
+                @foreach (var reservation in Model.UpcomingReservations)
+                {
+                    <li class="list-group-item">
+                        <strong>@(reservation.Date.HasValue ? reservation.Date.Value.ToString("d") : "N/A")</strong> - @reservation.Summary
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No upcoming reservations at the moment.</p>
+        }
+    </div>
 </div>

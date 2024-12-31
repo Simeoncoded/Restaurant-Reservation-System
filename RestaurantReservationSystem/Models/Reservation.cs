@@ -10,6 +10,21 @@ namespace RestaurantReservationSystem.Models
         public string PhoneFormatted => "(" + Phone?.Substring(0, 3) + ") "
            + Phone?.Substring(3, 3) + "-" + Phone?[6..];
 
+
+        public string Summary
+        {
+            get
+            {
+                var timeString = Time.HasValue
+                    ? Date?.Add(Time.Value).ToString("hh:mm tt") ?? "N/A"
+                    : "N/A";
+                return $"{FirstName} {LastName} - Party of {PartySize} on {Date?.ToString("d") ?? "N/A"} at {timeString}";
+            }
+        }
+
+
+
+
         [Required(ErrorMessage = "First Name is required")]
         [Display(Name = "First Name")]
         [MaxLength(50, ErrorMessage = "First name cannot be more than 100 characters long.")]
@@ -42,9 +57,11 @@ namespace RestaurantReservationSystem.Models
 
         [Required(ErrorMessage = "You cannot leave Reservation Time blank")]
         [Display(Name = "Reservation Time")]
+        [DataType(DataType.Time)]
         public TimeSpan? Time { get; set; }
 
         [Display(Name = "End Time")]
+        [DataType(DataType.Time)]
         public TimeSpan? EndTime { get; set; }
 
 
