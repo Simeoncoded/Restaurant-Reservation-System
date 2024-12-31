@@ -56,12 +56,29 @@ namespace RestaurantReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,TableNumber,Capacity,Status,Location")] Table table)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(table);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(table);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            catch (DbUpdateException dex)
+            {
+
+                if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed: Tables.TableNumber"))
+                {
+                    ModelState.AddModelError("TableNumber", "Unable to save changes. Remember, you cannot have duplicate Table Numbers.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+
+           
             return View(table);
         }
 
@@ -86,23 +103,27 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,TableNumber,Capacity,Status,Location")] Table table)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != table.ID)
+            //Go get the table to update
+            var tableToUpdate = await _context.Tables.FirstOrDefaultAsync(t => t.ID == id);
+
+            if (tableToUpdate == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            //Try updating it with the values posted
+            if (await TryUpdateModelAsync<Table>(tableToUpdate, "",
+                t => t.TableNumber, t => t.Capacity, t => t.Status, t => t.Location))
             {
                 try
                 {
-                    _context.Update(table);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TableExists(table.ID))
+                    if (!TableExists(tableToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -111,9 +132,21 @@ namespace RestaurantReservationSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException dex)
+                {
+
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed: Tables.TableNumber"))
+                    {
+                        ModelState.AddModelError("TableNumber", "Unable to save changes. Remember, you cannot have duplicate Table Numbers.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    }
+                }
+
             }
-            return View(table);
+            return View(tableToUpdate);
         }
 
         // GET: Table/Delete/5
@@ -125,6 +158,7 @@ namespace RestaurantReservationSystem.Controllers
             }
 
             var table = await _context.Tables
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (table == null)
             {
@@ -140,13 +174,30 @@ namespace RestaurantReservationSystem.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var table = await _context.Tables.FindAsync(id);
-            if (table != null)
-            {
-                _context.Tables.Remove(table);
-            }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                if (table != null)
+                {
+                    _context.Tables.Remove(table);
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException dex)
+            {
+                if (dex.GetBaseException().Message.Contains("FOREIGN KEY constraint failed"))
+                {
+                    ModelState.AddModelError("", "Unable to Delete Table. Remember, you cannot delete a Table that has reservationss assigned.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View(table);
+
+           
         }
 
         private bool TableExists(int id)
