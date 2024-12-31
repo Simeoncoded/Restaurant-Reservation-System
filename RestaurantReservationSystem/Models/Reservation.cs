@@ -37,6 +37,7 @@ namespace RestaurantReservationSystem.Models
         [Required(ErrorMessage ="You cannot leave Reservation Date blank")]
         [Display(Name = "Reservation Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
 
         [Required(ErrorMessage = "You cannot leave Reservation Time blank")]

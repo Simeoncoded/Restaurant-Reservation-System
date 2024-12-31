@@ -59,12 +59,30 @@ namespace RestaurantReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Phone,Email,Date,Time,EndTime,PartySize,Status,SpecialRequests,IsCheckedIn,TableID")] Reservation reservation)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            catch (DbUpdateException dex)
+            {
+                string message = dex.GetBaseException().Message;
+               if (message.Contains("UNIQUE") && message.Contains("Reservations.Date"))
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Remember, " +
+                        "you cannot have duplicate Reservations(Time,Date and Table)");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+           
+
             PopulateDropDownLists(reservation);
             return View(reservation);
         }
@@ -91,23 +109,29 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Phone,Email,Date,Time,EndTime,PartySize,Status,SpecialRequests,IsCheckedIn,TableID")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id != reservation.ID)
+            //Go get the table to update
+            var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
+
+            if (reservationToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //Try updating it with the values posted
+            if (await TryUpdateModelAsync<Reservation>(reservationToUpdate, "",
+                r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email, r => r.Date, r => r.Time, r => r.EndTime,
+                r => r.PartySize, r => r.Status, r => r.SpecialRequests, r => r.IsCheckedIn, r => r.TableID))
             {
                 try
                 {
-                    _context.Update(reservation);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservationExists(reservation.ID))
+                    if (!ReservationExists(reservationToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -116,10 +140,23 @@ namespace RestaurantReservationSystem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException dex)
+                {
+                    string message = dex.GetBaseException().Message;
+                    if (message.Contains("UNIQUE") && message.Contains("Reservations.Date"))
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Remember, " +
+                            "you cannot have duplicate Reservations(Time,Date and Table)");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    }
+                }
+
             }
-            PopulateDropDownLists(reservation);
-            return View(reservation);
+            PopulateDropDownLists(reservationToUpdate);
+            return View(reservationToUpdate);
         }
 
         // GET: Reservation/Delete/5
@@ -146,7 +183,11 @@ namespace RestaurantReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation = await _context.Reservations
+                .Include(p => p.Table)
+                 .FirstOrDefaultAsync(m => m.ID == id);
+
+            try { 
             if (reservation != null)
             {
                 _context.Reservations.Remove(reservation);
@@ -155,9 +196,17 @@ namespace RestaurantReservationSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+         catch (DbUpdateException)
+            {
+                //Note: there is really no reason a delete should fail if you can "talk" to the database.
+                ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(reservation);
+}
 
 
-        private void PopulateDropDownLists(Reservation? reservation = null)
+
+private void PopulateDropDownLists(Reservation? reservation = null)
         {
             var dQuery = from d in _context.Tables
                          orderby d.Location
