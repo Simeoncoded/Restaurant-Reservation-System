@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Phone)
+                @Html.DisplayFor(modelItem => item.PhoneFormatted)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -88,7 +88,7 @@
                 @Html.DisplayFor(modelItem => item.IsCheckedIn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Table.Location)
+                @Html.DisplayFor(modelItem => item.Table.Summary)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

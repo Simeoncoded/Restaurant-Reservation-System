@@ -6,6 +6,17 @@ namespace RestaurantReservationSystem.Models
     {
         public int ID { get; set; }
 
+        public string Summary
+        {
+            get
+            {
+               
+                return $"{TableNumber} - Capacity: {Capacity} - Location: {Location ?? "N/A"}";
+            }
+        }
+
+
+
         [Display(Name = "Table Number")]
         [Required(ErrorMessage = "You cannot leave Table Number blank")]
         public int TableNumber {  get; set; }

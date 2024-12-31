@@ -48,7 +48,7 @@ namespace RestaurantReservationSystem.Controllers
         // GET: Reservation/Create
         public IActionResult Create()
         {
-            ViewData["TableID"] = new SelectList(_context.Tables, "ID", "TableNumber");
+            PopulateDropDownLists();
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace RestaurantReservationSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TableID"] = new SelectList(_context.Tables, "ID", "TableNumber", reservation.TableID);
+            PopulateDropDownLists(reservation);
             return View(reservation);
         }
 
@@ -82,7 +82,7 @@ namespace RestaurantReservationSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["TableID"] = new SelectList(_context.Tables, "ID", "TableNumber", reservation.TableID);
+            PopulateDropDownLists(reservation);
             return View(reservation);
         }
 
@@ -118,7 +118,7 @@ namespace RestaurantReservationSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TableID"] = new SelectList(_context.Tables, "ID", "TableNumber", reservation.TableID);
+            PopulateDropDownLists(reservation);
             return View(reservation);
         }
 
@@ -156,6 +156,14 @@ namespace RestaurantReservationSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        private void PopulateDropDownLists(Reservation? reservation = null)
+        {
+            var dQuery = from d in _context.Tables
+                         orderby d.Location
+                         select d;
+            ViewData["TableID"] = new SelectList(dQuery, "ID", "Summary", reservation?.TableID);
+        }
         private bool ReservationExists(int id)
         {
             return _context.Reservations.Any(e => e.ID == id);
