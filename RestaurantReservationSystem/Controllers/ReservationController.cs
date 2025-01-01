@@ -209,9 +209,10 @@ namespace RestaurantReservationSystem.Controllers
     private void PopulateDropDownLists(Reservation? reservation = null)
         {
             var dQuery = from d in _context.Tables
+                         where d.Status == TableStatus.Available //show only available tables
                          orderby d.Location
                          select d;
-            ViewData["TableID"] = new SelectList(dQuery, "ID", "Summary", reservation?.TableID);
+            ViewData["TableID"] = new SelectList(dQuery, "ID", "Summary", reservation?.TableID );
         }
         private bool ReservationExists(int id)
         {

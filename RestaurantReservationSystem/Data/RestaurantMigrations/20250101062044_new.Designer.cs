@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantReservationSystem.Data;
 
@@ -10,9 +11,11 @@ using RestaurantReservationSystem.Data;
 namespace RestaurantReservationSystem.Data.RestaurantMigrations
 {
     [DbContext(typeof(RestaurantReservationSystemContext))]
-    partial class RestaurantReservationSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250101062044_new")]
+    partial class @new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");

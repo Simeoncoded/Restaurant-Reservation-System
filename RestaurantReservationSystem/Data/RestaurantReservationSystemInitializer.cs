@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace RestaurantReservationSystem.Data
@@ -58,6 +59,8 @@ namespace RestaurantReservationSystem.Data
                     // Seed Reservations (5 different reservations)
                     if (!context.Reservations.Any())
                     {
+                       // var seedingContext = new ValidationContext(new Reservation(), new Dictionary<object, object?> { { "IsSeeding", true } });//skip validation when seeding
+
                         context.Reservations.AddRange(
                             new Reservation
                             {
@@ -67,6 +70,7 @@ namespace RestaurantReservationSystem.Data
                                 Email = "fflintstone@outlook.com",
                                 Date = DateTime.Parse("2025-01-11"),
                                 Time = new TimeSpan(18, 0, 0), // 6:00 PM
+                                EndTime = new TimeSpan(20, 0, 0), // 8:00 PM
                                 PartySize = 4,
                                 Status = ReservationStatus.Confirmed,
                                 SpecialRequests = "Vegetarian meal",
@@ -81,6 +85,7 @@ namespace RestaurantReservationSystem.Data
                                 Email = "wflintstone@outlook.com",
                                 Date = DateTime.Parse("2025-01-11"),
                                 Time = new TimeSpan(19, 30, 0), // 7:30 PM
+                                EndTime = new TimeSpan(22, 0, 0), // 10:00 PM
                                 PartySize = 2,
                                 Status = ReservationStatus.Confirmed,
                                 SpecialRequests = "Window seat",
@@ -95,6 +100,7 @@ namespace RestaurantReservationSystem.Data
                                 Email = "brubble@outlook.com",
                                 Date = DateTime.Parse("2025-01-12"),
                                 Time = new TimeSpan(20, 0, 0), // 8:00 PM
+                                EndTime = new TimeSpan(22, 0, 0), // 10:00 PM
                                 PartySize = 6,
                                 Status = ReservationStatus.Confirmed,
                                 SpecialRequests = "Birthday celebration",
@@ -109,6 +115,7 @@ namespace RestaurantReservationSystem.Data
                                 Email = "dinorubble@outlook.com",
                                 Date = DateTime.Parse("2025-01-12"),
                                 Time = new TimeSpan(18, 30, 0), // 6:30 PM
+                                //EndTime = new TimeSpan(22, 0, 0), // 10:00 PM
                                 PartySize = 8,
                                 Status = ReservationStatus.Confirmed,
                                 SpecialRequests = "Private room, Anniversary",
@@ -123,6 +130,7 @@ namespace RestaurantReservationSystem.Data
                                 Email = "pebbles@outlook.com",
                                 Date = DateTime.Parse("2025-01-13"),
                                 Time = new TimeSpan(17, 0, 0), // 5:00 PM
+                                EndTime = new TimeSpan(20, 0, 0), // 8:00 PM
                                 PartySize = 2,
                                 Status = ReservationStatus.Confirmed,
                                 SpecialRequests = "Near the bar",

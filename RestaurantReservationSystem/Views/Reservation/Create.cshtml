@@ -69,7 +69,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="TableID" class="control-label"></label>
-                <select asp-for="TableID" class ="form-control" asp-items="ViewBag.TableID"></select>
+                @if (ViewData["TableID"] is SelectList tableSelectList && !tableSelectList.Any())
+                {
+                    <select class="form-control" disabled>
+                        <option>No tables available</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="TableID" class="form-control" asp-items="ViewBag.TableID"></select>
+                }
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

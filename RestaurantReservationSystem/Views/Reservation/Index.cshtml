@@ -24,12 +24,8 @@
             </th>
           
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                @Html.DisplayNameFor(model => model.TimeSummary)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
@@ -58,14 +54,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-          
-            <td>
-                @Html.DisplayFor(modelItem => item.Time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-           
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeSummary)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>

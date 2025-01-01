@@ -6,10 +6,29 @@ namespace RestaurantReservationSystem.Models
     {
         public int ID { get; set; }
 
+
+        #region Summary Properties
         [Display(Name = "Phone")]
         public string PhoneFormatted => "(" + Phone?.Substring(0, 3) + ") "
            + Phone?.Substring(3, 3) + "-" + Phone?[6..];
 
+
+        [Display(Name = "Time Summary")]
+        public string TimeSummary
+        {
+            get
+            {
+                var startTimeString = Date.HasValue && Time.HasValue
+                 ? Date?.Add(Time.Value).ToString("hh:mm tt") ?? "N/A"
+                 : "N/A";
+
+                var endTimeString = Date.HasValue && EndTime.HasValue
+                 ? Date?.Add(EndTime.Value).ToString("hh:mm tt") ?? "N/A"
+                 : "N/A";
+
+                return $"From: {startTimeString} To :{endTimeString}";
+            }
+        }
 
         public string Summary
         {
@@ -22,8 +41,7 @@ namespace RestaurantReservationSystem.Models
             }
         }
 
-
-
+        #endregion
 
         [Required(ErrorMessage = "First Name is required")]
         [Display(Name = "First Name")]
@@ -60,6 +78,7 @@ namespace RestaurantReservationSystem.Models
         [DataType(DataType.Time)]
         public TimeSpan? Time { get; set; }
 
+        [Required(ErrorMessage = "You cannot leave Reservation End Time blank")]
         [Display(Name = "End Time")]
         [DataType(DataType.Time)]
         public TimeSpan? EndTime { get; set; }
@@ -87,6 +106,9 @@ namespace RestaurantReservationSystem.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+
+
+
             if (Date.GetValueOrDefault() < DateTime.Today)
             {
                 yield return new ValidationResult("Reservation Date cannot be in the past.", ["Date"]);
