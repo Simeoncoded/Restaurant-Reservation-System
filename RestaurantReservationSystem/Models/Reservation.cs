@@ -22,11 +22,8 @@ namespace RestaurantReservationSystem.Models
                  ? Date?.Add(Time.Value).ToString("hh:mm tt") ?? "N/A"
                  : "N/A";
 
-                var endTimeString = Date.HasValue && EndTime.HasValue
-                 ? Date?.Add(EndTime.Value).ToString("hh:mm tt") ?? "N/A"
-                 : "N/A";
 
-                return $"From: {startTimeString} To :{endTimeString}";
+                return $"{startTimeString}";
             }
         }
 
@@ -78,10 +75,6 @@ namespace RestaurantReservationSystem.Models
         [DataType(DataType.Time)]
         public TimeSpan? Time { get; set; }
 
-        [Required(ErrorMessage = "You cannot leave Reservation End Time blank")]
-        [Display(Name = "End Time")]
-        [DataType(DataType.Time)]
-        public TimeSpan? EndTime { get; set; }
 
 
         [Required(ErrorMessage = "You cannot leave Reservation Size blank")]
@@ -90,7 +83,7 @@ namespace RestaurantReservationSystem.Models
         public int PartySize {  get; set; }
 
         [Display(Name = "Reservation Status")]
-        public ReservationStatus Status { get; set; } = ReservationStatus.Confirmed; //defaults to confirmed
+        public ReservationStatus Status { get; set; } = ReservationStatus.Pending; //defaults to confirmed
 
         [Display(Name = "Special Requests")]
         [StringLength(255, ErrorMessage ="Special Requests cannot exceed 500 characters")]
@@ -107,7 +100,13 @@ namespace RestaurantReservationSystem.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
+            var resOpen = new TimeSpan(10,0,0); //10am
+            var resClose = new TimeSpan(22,0,0);//10pm
 
+            if(Time < resOpen || Time > resClose)
+            {
+                yield return new ValidationResult($"Reservation Time must be between {resOpen:hh\\:mm} and {resClose:hh\\:mm}", ["Time"]);
+            }
 
             if (Date.GetValueOrDefault() < DateTime.Today)
             {
@@ -117,11 +116,6 @@ namespace RestaurantReservationSystem.Models
             if (Time.GetValueOrDefault() < DateTime.Now.AddHours(2).TimeOfDay)
             {
                 yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
-            }
-
-            if(EndTime <= Time)
-            {
-                yield return new ValidationResult("End time must be later than the start time.", ["EndTime"]);
             }
 
             if (Date.GetValueOrDefault() > DateTime.Today.AddMonths(6))

@@ -57,7 +57,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Phone,Email,Date,Time,EndTime,PartySize,Status,SpecialRequests,IsCheckedIn,TableID")] Reservation reservation)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Phone,Email,Date,Time,PartySize,Status,SpecialRequests,IsCheckedIn,TableID")] Reservation reservation)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace RestaurantReservationSystem.Controllers
 
             //Try updating it with the values posted
             if (await TryUpdateModelAsync<Reservation>(reservationToUpdate, "",
-                r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email, r => r.Date, r => r.Time, r => r.EndTime,
+                r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email, r => r.Date, r => r.Time,
                 r => r.PartySize, r => r.Status, r => r.SpecialRequests, r => r.IsCheckedIn, r => r.TableID))
             {
                 try
