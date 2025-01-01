@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<RestaurantReservationSystemContext>(options =>
     options.UseSqlite(connectionString));
 
+builder.Services.AddScoped<ReservationRepository>(); // Register the repository for DI
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
