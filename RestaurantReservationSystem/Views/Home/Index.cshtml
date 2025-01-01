@@ -43,25 +43,4 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Upcoming Reservations -->
-    <div class="mt-4">
-        <h3>Upcoming Reservations</h3>
-        @if (Model.UpcomingReservations != null && Model.UpcomingReservations.Any())
-        {
-            <ul class="list-group">
-                @foreach (var reservation in Model.UpcomingReservations)
-                {
-                    <li class="list-group-item">
-                        <strong>@(reservation.Date.HasValue ? reservation.Date.Value.ToString("d") : "N/A")</strong> - @reservation.Summary
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>No upcoming reservations at the moment.</p>
-        }
-    </div>
 </div>

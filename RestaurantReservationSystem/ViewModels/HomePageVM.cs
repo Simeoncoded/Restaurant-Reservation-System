@@ -7,6 +7,8 @@ namespace RestaurantReservationSystem.ViewModels
         public int TotalReservationsToday { get; set; }
         public int AvailableTables { get; set; }
         public int ReservationsThisWeek { get; set; }
-        public List<Reservation> UpcomingReservations { get; set; } = new List<Reservation>();
+
+        //should be your reservations instead
+        //public List<Reservation> UpcomingReservations { get; set; } = new List<Reservation>();
     }
 }

@@ -38,12 +38,6 @@ namespace RestaurantReservationSystem.Controllers
                 ReservationsThisWeek = await _context.Reservations
                     .Where(r => r.Date >= today && r.Date <= nextWeek)
                     .CountAsync(),
-
-                UpcomingReservations = await _context.Reservations
-                    .Where(r => r.Date >= today)
-                    .OrderBy(r => r.Date)
-                    .Take(5) // Show top 5 upcoming reservations
-                    .ToListAsync()
             };
 
             return View(model);

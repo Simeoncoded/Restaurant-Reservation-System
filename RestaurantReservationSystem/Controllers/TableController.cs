@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
+using RestaurantReservationSystem.ViewModels;
 
 namespace RestaurantReservationSystem.Controllers
 {
@@ -78,7 +79,7 @@ namespace RestaurantReservationSystem.Controllers
                 }
             }
 
-           
+
             return View(table);
         }
 
@@ -197,10 +198,43 @@ namespace RestaurantReservationSystem.Controllers
             }
             return View(table);
 
-           
+
         }
 
-        private bool TableExists(int id)
+
+        public IActionResult AdminDashboard()
+        {
+            var totalReservationsToday = _context.Reservations
+                .Where(r => r.Date == DateTime.Today).Count();
+
+            var availableTables = _context.Tables
+                .Where(t => t.Status == TableStatus.Available).Count();
+
+            var reservationsThisWeek = _context.Reservations
+                .Where(r => r.Date >= DateTime.Today && r.Date <= DateTime.Today.AddDays(7)).Count();
+
+            var upcomingReservations = _context.Reservations
+                .Where(r => r.Date >= DateTime.Today)
+                .OrderBy(r => r.Date)
+                .Take(5)
+                .ToList();
+
+            var vm = new AdminPageVM
+            {
+                TotalReservationsToday = totalReservationsToday,
+                AvailableTables = availableTables,
+                ReservationsThisWeek = reservationsThisWeek,
+                UpcomingReservations = upcomingReservations,
+                CheckedInReservations = _context.Reservations
+                    .Where(r => r.IsCheckedIn).Count(),
+                TotalTables = _context.Tables.Count()
+            };
+
+            return View(vm);
+        }
+    
+
+    private bool TableExists(int id)
         {
             return _context.Tables.Any(e => e.ID == id);
         }

@@ -1,0 +1,62 @@
+﻿@model RestaurantReservationSystem.ViewModels.AdminPageVM
+
+<div class="container mt-4">
+    <h1 class="text-center">Admin Dashboard</h1>
+    <hr />
+
+    <!-- Stats Section -->
+    <div class="row text-center mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Total Reservations Today</h5>
+                    <p class="display-4">@Model.TotalReservationsToday</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Available Tables</h5>
+                    <p class="display-4">@Model.AvailableTables</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Reservations This Week</h5>
+                    <p class="display-4">@Model.ReservationsThisWeek</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Checked-In Reservations</h5>
+                    <p class="display-4">@Model.CheckedInReservations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Reservations -->
+    <div class="mt-4">
+        <h3>Upcoming Reservations</h3>
+        @if (Model.UpcomingReservations != null && Model.UpcomingReservations.Any())
+        {
+            <ul class="list-group">
+                @foreach (var reservation in Model.UpcomingReservations)
+                {
+                    <li class="list-group-item">
+                        <strong>@(reservation.Date.HasValue ? reservation.Date.Value.ToString("d") : "N/A")</strong> - @reservation.Summary
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No upcoming reservations at the moment.</p>
+        }
+    </div>
+</div>
