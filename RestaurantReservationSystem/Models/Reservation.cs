@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NuGet.Protocol.Plugins;
+using RestaurantReservationSystem.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantReservationSystem.Models
 {
@@ -78,7 +80,7 @@ namespace RestaurantReservationSystem.Models
 
 
         [Required(ErrorMessage = "You cannot leave Reservation Size blank")]
-        [Range(1, int.MaxValue, ErrorMessage = "Party size must be at least 1")]
+        [Range(1, 20, ErrorMessage = "Party size must be between 1 and 20.")]
         [Display(Name = "Reservation Size")]
         public int PartySize {  get; set; }
 
@@ -100,6 +102,19 @@ namespace RestaurantReservationSystem.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
+            var dbContext = (RestaurantReservationSystemContext)validationContext.GetService(typeof(RestaurantReservationSystemContext));
+            var table = dbContext.Tables.FirstOrDefault(t => t.ID == TableID); //gets the correct table
+
+            if (table != null && PartySize > table.Capacity)
+            {
+                yield return new ValidationResult($"Party size exceeds the table's capacity of {table.Capacity}.", new[] { "PartySize" });
+            }
+
+            if (table != null && PartySize < 1)
+            {
+                yield return new ValidationResult($"Party size must be at least 1 for table {TableID}.", new[] { "PartySize" });
+            }
+
             var resOpen = new TimeSpan(10,0,0); //10am
             var resClose = new TimeSpan(22,0,0);//10pm
 
@@ -113,10 +128,16 @@ namespace RestaurantReservationSystem.Models
                 yield return new ValidationResult("Reservation Date cannot be in the past.", ["Date"]);
             }
 
-            if (Time.GetValueOrDefault() < DateTime.Now.AddHours(2).TimeOfDay)
+
+            if (Date.HasValue && Time.HasValue)
             {
-                yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
-            }
+                var reservationDateTime = Date.Value.Add(Time.Value); // Combine date and time
+                
+                    if (reservationDateTime < DateTime.Now.AddHours(2))
+                    {
+                        yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
+                    }
+                }
 
             if (Date.GetValueOrDefault() > DateTime.Today.AddMonths(6))
             {
