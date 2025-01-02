@@ -21,9 +21,47 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Table
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc)
         {
-            return View(await _context.Tables.ToListAsync());
+            //Count the number of filters applied - start by assuming no filters
+            ViewData["Filtering"] = "btn-outline-secondary";
+            int numberFilters = 0;
+            //Then in each "test" for filtering, add to the count of Filters applied
+
+            var tables = from t in _context.Tables
+                         .AsNoTracking()
+                         select t;
+
+            if(TableNum != null)
+            {
+                tables = tables.Where(t => t.TableNumber.ToString().Contains(TableNum));
+                numberFilters++;
+            }
+            if(TableCap != null)
+            {
+                tables = tables.Where(t => t.Capacity.ToString().Contains(TableCap));
+                numberFilters++;
+            }
+            if (!String.IsNullOrEmpty(TableLoc)) 
+            {
+                tables = tables.Where(t => t.Location.ToUpper().Contains(TableLoc.ToUpper()));
+                numberFilters++;
+            }
+
+            //Give feedback about the state of the filters
+            if (numberFilters != 0)
+            {
+                //Toggle the Open/Closed state of the collapse depending on if we are filtering
+                ViewData["Filtering"] = " btn-danger";
+                //Show how many filters have been applied
+                ViewData["numberFilters"] = "(" + numberFilters.ToString()
+                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
+                //Keep the Bootstrap collapse open
+                @ViewData["ShowFilter"] = " show";
+            }
+
+
+            return View(await tables.ToListAsync());
         }
 
         // GET: Table/Details/5
