@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
+using RestaurantReservationSystem.Utilities;
 using RestaurantReservationSystem.ViewModels;
 
 namespace RestaurantReservationSystem.Controllers
@@ -21,12 +22,22 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Table
-        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc)
+        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter)
         {
             //Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
             //Then in each "test" for filtering, add to the count of Filters applied
+
+            //SelectList for the Coverage Enum
+            if (Enum.TryParse(StatusFilter, out TableStatus selectedStatus))
+            {
+                ViewBag.StatusSelectList = TableStatus.Available.ToSelectList(selectedStatus);
+            }
+            else
+            {
+                ViewBag.StatusSelectList = TableStatus.Available.ToSelectList(null);
+            }
 
             var tables = from t in _context.Tables
                          .AsNoTracking()
@@ -45,6 +56,11 @@ namespace RestaurantReservationSystem.Controllers
             if (!String.IsNullOrEmpty(TableLoc)) 
             {
                 tables = tables.Where(t => t.Location.ToUpper().Contains(TableLoc.ToUpper()));
+                numberFilters++;
+            }
+            if (!String.IsNullOrEmpty(StatusFilter))
+            {
+                tables = tables.Where(t => t.Status == selectedStatus);
                 numberFilters++;
             }
 

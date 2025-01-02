@@ -18,17 +18,22 @@
             <div class="card card-body bg-light">
                 <div class="row">
                    
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label class="control-label">Search Table Number:</label>
                         @Html.TextBox("TableNum", null, new { @class = "form-control" })
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label class="control-label">Search Table Capacity:</label>
                         @Html.TextBox("TableCap", null, new { @class = "form-control" })
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label class="control-label">Search Table Location:</label>
                         @Html.TextBox("TableLoc", null, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Select by Table Status:</label>
+                        @Html.DropDownList("StatusFilter", (SelectList)ViewBag.StatusSelectList,
+                                 "All Table Statuses", htmlAttributes: new { @class = "form-control" })
                     </div>
                     <div class="form-group col-md-4 align-self-end">
                         <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
