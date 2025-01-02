@@ -14,6 +14,8 @@
         <button class="btn @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             Filter/Search @ViewData["numberFilters"]
         </button><br />
+         <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+    <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
         <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
             <div class="card card-body bg-light">
                 <div class="row">
@@ -48,16 +50,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TableNumber)
+               <input type="submit" name="actionButton" value="Table" class="btn btn-link" />
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacity)
+               <input type="submit" name="actionButton" value="Capacity" class="btn btn-link" />
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+               <input type="submit" value="Table Status" class="btn btn-toolbar" />
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                <input type="submit" value="Table Location" class="btn btn-toolbar" />
             </th>
             <th></th>
         </tr>

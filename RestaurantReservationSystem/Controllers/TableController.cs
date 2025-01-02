@@ -22,8 +22,13 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Table
-        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter)
+        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter,
+            string? actionButton, string sortDirection = "asc", string sortField = "Table")
         {
+            //List of sort options.
+            //NOTE: make sure this array has matching values to the column headings
+            string[] sortOptions = new[] { "Table", "Capacity" };
+
             //Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
@@ -76,6 +81,50 @@ namespace RestaurantReservationSystem.Controllers
                 @ViewData["ShowFilter"] = " show";
             }
 
+            //Before we sort, see if we have called for a change of filtering or sorting
+            if (!String.IsNullOrEmpty(actionButton)) //Form Submitted!
+            {
+                if (sortOptions.Contains(actionButton))//Change of sort is requested
+                {
+                    if (actionButton == sortField) //Reverse order on same field
+                    {
+                        sortDirection = sortDirection == "asc" ? "desc" : "asc";
+                    }
+                    sortField = actionButton;//Sort by the button clicked
+                }
+            }
+
+            //Now we know which field and direction to sort by
+            if (sortField == "Capacity")
+            {
+                if (sortDirection == "asc")
+                {
+                    tables = tables
+                        .OrderByDescending(t => t.Capacity);
+                }
+                else
+                {
+                    tables = tables
+                        .OrderBy(t => t.Capacity);
+                }
+            }
+           
+            else 
+            {
+                if (sortDirection == "asc")
+                {
+                    tables = tables
+                        .OrderBy(t => t.TableNumber);
+                }
+                else
+                {
+                    tables = tables
+                        .OrderByDescending(t => t.TableNumber);
+                }
+            }
+            //Set sort for next time
+            ViewData["sortField"] = sortField;
+            ViewData["sortDirection"] = sortDirection;
 
             return View(await tables.ToListAsync());
         }
