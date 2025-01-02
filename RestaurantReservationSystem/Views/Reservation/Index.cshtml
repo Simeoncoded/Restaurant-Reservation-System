@@ -17,12 +17,8 @@
             </th>
             
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-          
+                @Html.DisplayNameFor(model => model.CustomerDetails)
+            </th>          
             <th>
                 @Html.DisplayNameFor(model => model.TimeSummary)
             </th>
@@ -49,10 +45,7 @@
             </td>
            
             <td>
-                @Html.DisplayFor(modelItem => item.PhoneFormatted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.CustomerDetails)
             </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TimeSummary)

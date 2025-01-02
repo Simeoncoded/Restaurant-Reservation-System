@@ -15,7 +15,7 @@ namespace RestaurantReservationSystem.Models
            + Phone?.Substring(3, 3) + "-" + Phone?[6..];
 
 
-        [Display(Name = "Time Summary")]
+        [Display(Name = "Time")]
         public string TimeSummary
         {
             get
@@ -26,6 +26,14 @@ namespace RestaurantReservationSystem.Models
 
 
                 return $"{startTimeString}";
+            }
+        }
+
+        public string CustomerDetails
+        {
+               get{
+
+                return $"Phone: {PhoneFormatted}, Email: {Email} ";
             }
         }
 
