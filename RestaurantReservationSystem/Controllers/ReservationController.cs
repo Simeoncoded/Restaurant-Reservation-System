@@ -228,9 +228,45 @@ namespace RestaurantReservationSystem.Controllers
             return View(reservation);
 }
 
+        // GET: Reservation/Cancel/5
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var reservation = await _context.Reservations
+                .Include(r => r.Table) // Include related data if needed
+                .FirstOrDefaultAsync(r => r.ID == id);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            return View(reservation); // Show the confirmation view
+        }
 
 
-    private void PopulateDropDownLists(Reservation? reservation = null)
+        //Cancel Action
+        [HttpPost, ActionName("Cancel")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelConfirmed(int id)
+        {
+            var reservation = await _context.Reservations.FindAsync(id);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            // Update the status in memory
+            reservation.Status = ReservationStatus.Cancelled;
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            // Redirect back to the reservations list
+            return RedirectToAction(nameof(Index));
+        }
+
+        private void PopulateDropDownLists(Reservation? reservation = null)
         {
             var dQuery = from d in _context.Tables
                          where d.Status == TableStatus.Available //show only available tables
