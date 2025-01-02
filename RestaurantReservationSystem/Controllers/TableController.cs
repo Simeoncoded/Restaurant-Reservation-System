@@ -27,7 +27,7 @@ namespace RestaurantReservationSystem.Controllers
         {
             //List of sort options.
             //NOTE: make sure this array has matching values to the column headings
-            string[] sortOptions = new[] { "Table", "Capacity" };
+            string[] sortOptions = new[] { "Table", "Capacity", "Status", "Location" };
 
             //Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -108,7 +108,33 @@ namespace RestaurantReservationSystem.Controllers
                         .OrderBy(t => t.Capacity);
                 }
             }
-           
+            else if (sortField == "Status")
+            {
+                if (sortDirection == "asc")
+                {
+                    tables = tables
+                        .OrderByDescending(t => t.Status);
+                }
+                else
+                {
+                    tables = tables
+                        .OrderBy(t => t.Status);
+                }
+            }
+            else if (sortField == "Location")
+            {
+                if (sortDirection == "asc")
+                {
+                    tables = tables
+                        .OrderByDescending(t => t.Location);
+                }
+                else
+                {
+                    tables = tables
+                        .OrderBy(t => t.Location);
+                }
+            }
+
             else 
             {
                 if (sortDirection == "asc")
