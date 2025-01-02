@@ -78,3 +78,24 @@
 }
     </tbody>
 </table>
+
+
+<!-- Section to Display All Tables -->
+<h2>Available Tables</h2>
+<p>Below is a list of all available tables:</p>
+
+<div>
+    @foreach (var table in ViewBag.Tables)
+    {
+        <a class="btn btn-link" role="button" data-bs-toggle="collapse" href="#tableDetails@(table.ID)"
+           aria-expanded="false" aria-controls="tableDetails@(table.ID)">
+            Table: @table.Summary
+        </a>
+        <div class="collapse" id="tableDetails@(table.ID)">
+            <ul>
+                <li>Status: @table.Status</li>
+                <li>Location: @table.Location</li>
+            </ul>
+        </div>
+    }
+</div>

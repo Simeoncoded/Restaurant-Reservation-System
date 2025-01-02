@@ -24,8 +24,16 @@ namespace RestaurantReservationSystem.Controllers
         // GET: Reservation
         public async Task<IActionResult> Index()
         {
-            var restaurantReservationSystemContext = _context.Reservations.Include(r => r.Table);
-            return View(await restaurantReservationSystemContext.ToListAsync());
+            var reservations = 
+                _context.Reservations
+                .Include(r => r.Table)
+                .ToList();
+
+            var tables = _context.Tables.ToList();
+
+            ViewBag.Tables = tables; // Pass the list of tables to the view.
+
+            return View(reservations);
         }
 
         // GET: Reservation/Details/5
