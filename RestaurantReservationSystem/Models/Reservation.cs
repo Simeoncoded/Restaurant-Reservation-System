@@ -29,6 +29,7 @@ namespace RestaurantReservationSystem.Models
             }
         }
 
+        [Display(Name = "Customer Details")]
         public string CustomerDetails
         {
                get{
