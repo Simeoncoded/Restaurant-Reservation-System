@@ -22,7 +22,7 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Table
-        public async Task<IActionResult> Index(string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter,
+        public async Task<IActionResult> Index(int? page, string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter,
             string? actionButton, string sortDirection = "asc", string sortField = "Table")
         {
             //List of sort options.
@@ -84,6 +84,7 @@ namespace RestaurantReservationSystem.Controllers
             //Before we sort, see if we have called for a change of filtering or sorting
             if (!String.IsNullOrEmpty(actionButton)) //Form Submitted!
             {
+                page = 1;
                 if (sortOptions.Contains(actionButton))//Change of sort is requested
                 {
                     if (actionButton == sortField) //Reverse order on same field
@@ -152,7 +153,11 @@ namespace RestaurantReservationSystem.Controllers
             ViewData["sortField"] = sortField;
             ViewData["sortDirection"] = sortDirection;
 
-            return View(await tables.ToListAsync());
+            //Handle Paging
+            int pageSize = 5;//Change as required
+            var pagedData = await PaginatedList<Table>.CreateAsync(tables.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
         // GET: Table/Details/5
@@ -169,6 +174,8 @@ namespace RestaurantReservationSystem.Controllers
             {
                 return NotFound();
             }
+
+
 
             return View(table);
         }
