@@ -13,12 +13,12 @@ namespace RestaurantReservationSystem.Controllers
     public class ReservationController : Controller
     {
          private readonly RestaurantReservationSystemContext _context;
-         private readonly ReservationRepository _reservationRepository;
+         //private readonly ReservationRepository _reservationRepository;
 
-        public ReservationController(RestaurantReservationSystemContext context, ReservationRepository reservationRepository)
+        public ReservationController(RestaurantReservationSystemContext context)//, ReservationRepository reservationRepository)
         {
             _context = context;
-            _reservationRepository = reservationRepository;
+            //_reservationRepository = reservationRepository;
         }
 
         // GET: Reservation
@@ -73,22 +73,24 @@ namespace RestaurantReservationSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //_context.Add(reservation);
+                    _context.Add(reservation);
                     //await _context.SaveChangesAsync();
-                    //return RedirectToAction(nameof(Index));
+                   
 
                     // Update the table status before creating the reservation
-                    bool tableUpdated = await _reservationRepository.UpdateTableStatusAsync(reservation.TableID);
+                    //bool tableUpdated = await _reservationRepository.UpdateTableStatusAsync(reservation.TableID);
 
-                    if (!tableUpdated)
-                    {
-                        ModelState.AddModelError("", "The selected table is unavailable.");
-                        PopulateDropDownLists(reservation);
-                        return View(reservation);
-                    }
+                    //if (!tableUpdated)
+                    //{
+                        //ModelState.AddModelError("", "The selected table is unavailable.");
+                       // PopulateDropDownLists(reservation);
+                       // return View(reservation);
+                    //}
 
                     // Create the reservation
-                    await _reservationRepository.CreateReservationAsync(reservation);
+
+                    //await _reservationRepository.CreateReservationAsync(reservation);
+                    await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
             }
