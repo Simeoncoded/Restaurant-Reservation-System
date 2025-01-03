@@ -138,15 +138,37 @@ namespace RestaurantReservationSystem.Models
             }
 
 
+            //if (Date.HasValue && Time.HasValue)
+            //{
+            //    var reservationDateTime = Date.Value.Add(Time.Value); // Combine date and time
+
+            //        if (reservationDateTime < DateTime.Now.AddHours(2))
+            //        {
+            //            yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
+            //        }
+            //    }
+
+
             if (Date.HasValue && Time.HasValue)
             {
                 var reservationDateTime = Date.Value.Add(Time.Value); // Combine date and time
-                
-                    if (reservationDateTime < DateTime.Now.AddHours(2))
+                var tableReservations = dbContext.Reservations
+                    .Where(r => r.TableID == TableID && r.Date == Date)
+                    .ToList();
+
+                foreach (var existingReservation in tableReservations)
+                {
+                    var existingStartTime = existingReservation.Date.Value.Add(existingReservation.Time.Value);
+                    var existingEndTime = existingStartTime.AddHours(1); // Assuming 1-hour slots
+                    var newReservationEndTime = reservationDateTime.AddHours(1);
+
+                    if (reservationDateTime < existingEndTime && newReservationEndTime > existingStartTime)
                     {
-                        yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
+                        yield return new ValidationResult($"The selected table is already booked from {existingStartTime:hh:mm tt} to {existingEndTime:hh:mm tt}.",["Time"]);
                     }
                 }
+            }
+
 
             if (Date.GetValueOrDefault() > DateTime.Today.AddMonths(6))
             {
