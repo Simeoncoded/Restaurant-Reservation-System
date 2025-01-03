@@ -164,7 +164,7 @@ namespace RestaurantReservationSystem.Models
 
                     if (reservationDateTime < existingEndTime && newReservationEndTime > existingStartTime)
                     {
-                        yield return new ValidationResult($"The selected table is already booked from {existingStartTime:hh:mm tt} to {existingEndTime:hh:mm tt}.",["Time"]);
+                        yield return new ValidationResult($"The selected table is already booked from {existingStartTime:hh:mm tt} to {existingEndTime:hh:mm tt}. Please select a time after {existingEndTime:hh:mm tt}",["Time"]);
                     }
                 }
             }
