@@ -13,7 +13,7 @@ using RestaurantReservationSystem.ViewModels;
 
 namespace RestaurantReservationSystem.Controllers
 {
-    public class TableController : CognizantController
+    public class TableController : ElephantController
     {
         private readonly RestaurantReservationSystemContext _context;
 
@@ -201,7 +201,8 @@ namespace RestaurantReservationSystem.Controllers
                 {
                     _context.Add(table);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { table.ID });
+
                 }
             }
             catch (DbUpdateException dex)
@@ -258,7 +259,7 @@ namespace RestaurantReservationSystem.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { tableToUpdate.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -321,7 +322,13 @@ namespace RestaurantReservationSystem.Controllers
                     _context.Tables.Remove(table);
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var returnUrl = ViewData["returnURL"]?.ToString();
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return Redirect(returnUrl);
+
             }
             catch (DbUpdateException dex)
             {
