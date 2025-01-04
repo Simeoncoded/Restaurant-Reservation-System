@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RestaurantReservationSystem.CustomControllers;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
 using RestaurantReservationSystem.Utilities;
@@ -12,7 +13,7 @@ using RestaurantReservationSystem.ViewModels;
 
 namespace RestaurantReservationSystem.Controllers
 {
-    public class TableController : Controller
+    public class TableController : CognizantController
     {
         private readonly RestaurantReservationSystemContext _context;
 
@@ -22,7 +23,7 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Table
-        public async Task<IActionResult> Index(int? page, string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter,
+        public async Task<IActionResult> Index(int? page, int? pageSizeID, string? TableNum, string? TableCap, string? TableLoc, string? StatusFilter,
             string? actionButton, string sortDirection = "asc", string sortField = "Table")
         {
             //List of sort options.
@@ -154,7 +155,8 @@ namespace RestaurantReservationSystem.Controllers
             ViewData["sortDirection"] = sortDirection;
 
             //Handle Paging
-            int pageSize = 5;//Change as required
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID, ControllerName());
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
             var pagedData = await PaginatedList<Table>.CreateAsync(tables.AsNoTracking(), page ?? 1, pageSize);
 
             return View(pagedData);
