@@ -12,7 +12,7 @@
             if (returnURL.Contains(SearchText))
             {
                 //Came here from the Index with some parameters
-                //Save the Parameters in a Cookie
+                //Save the Parameters in a Cookiein
                 returnURL = returnURL[returnURL.LastIndexOf(SearchText)..];
                 CookieHelper.CookieSet(httpContext, cookieName, returnURL, 30);
                 return returnURL;
