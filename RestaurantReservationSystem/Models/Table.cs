@@ -2,7 +2,7 @@
 
 namespace RestaurantReservationSystem.Models
 {
-    public class Table
+    public class Table : Auditable
     {
         public int ID { get; set; }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantReservationSystem.Models
 {
-    public class Reservation : IValidatableObject
+    public class Reservation : Auditable, IValidatableObject
     {
         public int ID { get; set; }
 
