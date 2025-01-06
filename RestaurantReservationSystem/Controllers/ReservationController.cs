@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
+using RestaurantReservationSystem.Utilities;
 
 namespace RestaurantReservationSystem.Controllers
 {
@@ -65,6 +66,7 @@ namespace RestaurantReservationSystem.Controllers
             //Before we sort, see if we have called for a change of filtering or sorting
             if (!String.IsNullOrEmpty(actionButton)) //Form Submitted!
             {
+                page = 1;
                 if (sortOptions.Contains(actionButton))//Change of sort is requested
                 {
                     if (actionButton == sortField) //Reverse order on same field
@@ -98,9 +100,14 @@ namespace RestaurantReservationSystem.Controllers
 
             var tables = _context.Tables.ToList();
 
-            ViewBag.Tables = tables; // Pass the list of tables to the view.
+            ViewBag.Tables = tables; // Pass the list of tables to the view //Handle Paging
 
-            return View(await reservations.ToListAsync());
+            int pageSize = 10;//Change as required
+            var pagedData = await PaginatedList<Reservation>.CreateAsync(reservations.AsNoTracking(), page ?? 1, pageSize);
+
+
+
+            return View(pagedData);
         }
 
         // GET: Reservation/Details/5
