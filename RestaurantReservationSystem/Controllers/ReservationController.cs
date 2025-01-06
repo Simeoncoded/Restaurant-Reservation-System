@@ -24,6 +24,10 @@ namespace RestaurantReservationSystem.Controllers
         // GET: Reservation
         public async Task<IActionResult> Index(string? SearchString, string? PhoneString)
         {
+            //Count the number of filters applied - start by assuming no filters
+            ViewData["Filtering"] = "btn-outline-secondary";
+            int numberFilters = 0;
+
             var reservations = from r in _context.Reservations
                 .Include(r => r.Table)
                 .AsNoTracking()
@@ -33,14 +37,27 @@ namespace RestaurantReservationSystem.Controllers
             {
                reservations = reservations.Where(p => p.LastName.ToUpper().Contains(SearchString.ToUpper())
                                        || p.FirstName.ToUpper().Contains(SearchString.ToUpper()));
+                numberFilters++;
             }
 
             if (!String.IsNullOrEmpty(PhoneString))
             {
                 reservations = reservations.Where(p => p.Phone.Contains(PhoneString));
+                numberFilters++;
             }
 
 
+            //Give feedback about the state of the filters
+            if (numberFilters != 0)
+            {
+                //Toggle the Open/Closed state of the collapse depending on if we are filtering
+                ViewData["Filtering"] = " btn-danger";
+                //Show how many filters have been applied
+                ViewData["numberFilters"] = "(" + numberFilters.ToString()
+                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
+                //Keep the Bootstrap collapse open
+                @ViewData["ShowFilter"] = " show";
+            }
 
             var tables = _context.Tables.ToList();
 
