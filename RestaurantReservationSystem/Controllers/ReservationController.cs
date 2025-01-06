@@ -22,18 +22,31 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Reservation
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? SearchString, string? PhoneString)
         {
-            var reservations = 
-                _context.Reservations
+            var reservations = from r in _context.Reservations
                 .Include(r => r.Table)
-                .ToList();
+                .AsNoTracking()
+                select r;
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+               reservations = reservations.Where(p => p.LastName.ToUpper().Contains(SearchString.ToUpper())
+                                       || p.FirstName.ToUpper().Contains(SearchString.ToUpper()));
+            }
+
+            if (!String.IsNullOrEmpty(PhoneString))
+            {
+                reservations = reservations.Where(p => p.Phone.Contains(PhoneString));
+            }
+
+
 
             var tables = _context.Tables.ToList();
 
             ViewBag.Tables = tables; // Pass the list of tables to the view.
 
-            return View(reservations);
+            return View(await reservations.ToListAsync());
         }
 
         // GET: Reservation/Details/5
