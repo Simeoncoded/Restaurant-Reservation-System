@@ -98,7 +98,9 @@
         </tr>
 }
     </tbody>
+        
 </table>
+    <partial name="_PagingNavBar" />
 
 
 <!-- Section to Display All Tables -->
@@ -126,4 +128,14 @@
         <br />
     }
 </div>
+
 </form>
+
+@section Scripts {
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

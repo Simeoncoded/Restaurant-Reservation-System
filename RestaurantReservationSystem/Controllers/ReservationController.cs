@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RestaurantReservationSystem.CustomControllers;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
 using RestaurantReservationSystem.Utilities;
 
 namespace RestaurantReservationSystem.Controllers
 {
-    public class ReservationController : Controller
+    public class ReservationController : ElephantController
     {
          private readonly RestaurantReservationSystemContext _context;
          //private readonly ReservationRepository _reservationRepository;
@@ -23,7 +24,7 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Reservation
-        public async Task<IActionResult> Index(int? page, string? SearchString, string? PhoneString,
+        public async Task<IActionResult> Index(int? page, int? pageSizeID, string? SearchString, string? PhoneString,
             string? actionButton, string sortDirection = "asc", string sortField = "Summary")
         {
             string[] sortOptions = new[] { "Summary" };
@@ -102,9 +103,10 @@ namespace RestaurantReservationSystem.Controllers
 
             ViewBag.Tables = tables; // Pass the list of tables to the view //Handle Paging
 
-            int pageSize = 10;//Change as required
+            //Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID, ControllerName());
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
             var pagedData = await PaginatedList<Reservation>.CreateAsync(reservations.AsNoTracking(), page ?? 1, pageSize);
-
 
 
             return View(pagedData);
