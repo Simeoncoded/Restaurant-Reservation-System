@@ -27,10 +27,10 @@ namespace RestaurantReservationSystem.Controllers
             string? actionButton, string sortDirection = "asc", string sortField = "Table")
         {
             //List of sort options.
-            //NOTE: make sure this array has matching values to the column headings
+            
             string[] sortOptions = new[] { "Table", "Capacity", "Status", "Location" };
 
-            //Count the number of filters applied - start by assuming no filters
+            //Count the number of filters applied 
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
             //Then in each "test" for filtering, add to the count of Filters applied

@@ -22,8 +22,11 @@ namespace RestaurantReservationSystem.Controllers
         }
 
         // GET: Reservation
-        public async Task<IActionResult> Index(string? SearchString, string? PhoneString)
+        public async Task<IActionResult> Index(int? page, string? SearchString, string? PhoneString,
+            string? actionButton, string sortDirection = "asc", string sortField = "Summary")
         {
+            string[] sortOptions = new[] { "Summary" };
+
             //Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
@@ -58,6 +61,40 @@ namespace RestaurantReservationSystem.Controllers
                 //Keep the Bootstrap collapse open
                 @ViewData["ShowFilter"] = " show";
             }
+
+            //Before we sort, see if we have called for a change of filtering or sorting
+            if (!String.IsNullOrEmpty(actionButton)) //Form Submitted!
+            {
+                if (sortOptions.Contains(actionButton))//Change of sort is requested
+                {
+                    if (actionButton == sortField) //Reverse order on same field
+                    {
+                        sortDirection = sortDirection == "asc" ? "desc" : "asc";
+                    }
+                    sortField = actionButton;//Sort by the button clicked
+                }
+            }
+
+
+            if (sortField == "Summary")
+            {
+                if (sortDirection == "asc")
+                {
+                    reservations = reservations
+                      .OrderBy(p => p.LastName)
+                      .ThenBy(p => p.FirstName);
+                }
+                else
+                {
+                    reservations = reservations
+                        .OrderByDescending(p => p.LastName)
+                        .ThenByDescending(p => p.FirstName);
+                }
+            }
+          
+            //Set sort for next time
+            ViewData["sortField"] = sortField;
+            ViewData["sortDirection"] = sortDirection;
 
             var tables = _context.Tables.ToList();
 

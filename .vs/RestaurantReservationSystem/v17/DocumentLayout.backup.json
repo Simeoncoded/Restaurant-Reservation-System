@@ -13,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\views\\reservation\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\views\\reservation\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\views\\table\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\views\\table\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 118,
+          "SelectedChildIndex": 119,
           "Children": [
             {
               "$type": "Bookmark",
@@ -494,13 +498,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
+              "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-06T19:17:27.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "TableController.cs",
               "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\TableController.cs",
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Controllers\\TableController.cs",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\TableController.cs",
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\TableController.cs",
-              "ViewState": "AgIAAIcAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAYwCAAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-06T19:07:12.386Z",
               "EditorCaption": ""
@@ -513,7 +530,7 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\ReservationController.cs",
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAYwDsAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-06T18:20:16.999Z",
               "EditorCaption": ""
@@ -526,7 +543,7 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Reservation\\Index.cshtml",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Index.cshtml",
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-01-06T18:18:04.153Z",
               "EditorCaption": ""
