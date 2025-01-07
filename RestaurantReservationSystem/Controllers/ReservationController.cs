@@ -167,7 +167,8 @@ namespace RestaurantReservationSystem.Controllers
 
                     //await _reservationRepository.CreateReservationAsync(reservation);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { reservation.ID });
                 }
             }
             catch (DbUpdateException dex)
@@ -229,7 +230,9 @@ namespace RestaurantReservationSystem.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", new { reservationToUpdate.ID });
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -296,8 +299,14 @@ namespace RestaurantReservationSystem.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+                //return RedirectToAction(nameof(Index));
+                var returnUrl = ViewData["returnURL"]?.ToString();
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return Redirect(returnUrl);
+            }
          catch (DbUpdateException)
             {
                 //Note: there is really no reason a delete should fail if you can "talk" to the database.
