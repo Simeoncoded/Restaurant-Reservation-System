@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<RestaurantReservationSystem.Models.Reservation>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<partial name="_ViewHeading" />
 
-<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New @ViewData["ControllerFriendlyName"]</a>
+</p>
 
 <p>
     <a asp-action="Create">Create New</a>
