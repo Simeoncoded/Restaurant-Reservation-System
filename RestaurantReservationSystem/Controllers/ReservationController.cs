@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -212,7 +213,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
         {
             //Go get the table to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
@@ -221,6 +222,9 @@ namespace RestaurantReservationSystem.Controllers
             {
                 return NotFound();
             }
+
+            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+
 
             //Try updating it with the values posted
             if (await TryUpdateModelAsync<Reservation>(reservationToUpdate, "",
@@ -234,15 +238,65 @@ namespace RestaurantReservationSystem.Controllers
                     return RedirectToAction("Details", new { reservationToUpdate.ID });
 
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)// Added for concurrency
                 {
-                    if (!ReservationExists(reservationToUpdate.ID))
+                    var exceptionEntry = ex.Entries.Single();
+                    var reservationValues = (Reservation)exceptionEntry.Entity;
+                    var databaseEntry = exceptionEntry.GetDatabaseValues();
+                    if (databaseEntry == null)
                     {
-                        return NotFound();
+                        ModelState.AddModelError("",
+                            "Unable to save changes. The Patient was deleted by another user.");
                     }
                     else
                     {
-                        throw;
+                        var databaseValues = (Reservation)databaseEntry.ToObject();
+                        if (databaseValues.FirstName != reservationValues.FirstName)
+                            ModelState.AddModelError("FirstName", "Current value: "
+                                + databaseValues.FirstName);
+                        if (databaseValues.LastName != reservationValues.LastName)
+                            ModelState.AddModelError("LastName", "Current value: "
+                                + databaseValues.LastName);
+                        if (databaseValues.Phone != reservationValues.Phone)
+                            ModelState.AddModelError("Phone", "Current value: "
+                                + databaseValues.PhoneFormatted);
+                        if (databaseValues.Email != reservationValues.Email)
+                            ModelState.AddModelError("EMail", "Current value: "
+                                + databaseValues.Email);
+                        if (databaseValues.Date != reservationValues.Date)
+                            ModelState.AddModelError("Date", "Current value: "
+                                + databaseValues.Date);
+                        if (databaseValues.Time != reservationValues.Time)
+                            ModelState.AddModelError("Time", "Current value: "
+                                + databaseValues.Time);
+                        if (databaseValues.PartySize != reservationValues.PartySize)
+                            ModelState.AddModelError("PartySize", "Current value: "
+                                + databaseValues.PartySize);
+                        if (databaseValues.Status != reservationValues.Status)
+                            ModelState.AddModelError("Status", "Current value: "
+                                + databaseValues.Status);
+                        if (databaseValues.SpecialRequests != reservationValues.SpecialRequests)
+                            ModelState.AddModelError("SpecialRequests", "Current value: "
+                                + databaseValues.SpecialRequests);
+                        if (databaseValues.IsCheckedIn != reservationValues.IsCheckedIn)
+                            ModelState.AddModelError("IsCheckedIn", "Current value: "
+                                + databaseValues.IsCheckedIn);
+                        //For the foreign key
+                        if (databaseValues.TableID != reservationValues.TableID)
+                        {
+                            Table? databaseTable = await _context.Tables.FirstOrDefaultAsync(i => i.ID == databaseValues.TableID);
+                            ModelState.AddModelError("DoctorID", $"Current value: {databaseTable?.Summary}");
+                        }
+                    
+                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+                                + "was modified by another user after you received your values. The "
+                                + "edit operation was canceled and the current values in the database "
+                                + "have been displayed. If you still want to save your version of this record, click "
+                                + "the Save button again. Otherwise click the 'Back to Patient List' hyperlink.");
+
+                        
+                        reservationToUpdate.RowVersion = databaseValues.RowVersion ?? Array.Empty<byte>();
+                        ModelState.Remove("RowVersion");
                     }
                 }
                 catch (DbUpdateException dex)
