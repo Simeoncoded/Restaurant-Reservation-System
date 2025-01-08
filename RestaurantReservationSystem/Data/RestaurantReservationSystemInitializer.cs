@@ -32,7 +32,7 @@ namespace RestaurantReservationSystem.Data
                         }
                         //Now create any additional database objects such as Triggers or Views
                         //--------------------------------------------------------------------
-                        //Create the Triggers for Client
+                        //Create the Triggers for Reservation
                         string sqlCmd = @"
                             CREATE TRIGGER SetReservationTimestampOnUpdate
                             AFTER UPDATE ON Reservations
@@ -55,7 +55,7 @@ namespace RestaurantReservationSystem.Data
                         ";
                         context.Database.ExecuteSqlRaw(sqlCmd);
 
-                        //Triggers for GroupClass
+                        //Triggers for Table
                         sqlCmd = @"
                             CREATE TRIGGER SetTableTimestampOnUpdate
                             AFTER UPDATE ON Tables

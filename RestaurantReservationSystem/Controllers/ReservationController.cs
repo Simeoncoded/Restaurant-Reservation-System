@@ -213,7 +213,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
+        public async Task<IActionResult> Edit(int id)
         {
             //Go get the table to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
@@ -223,7 +223,7 @@ namespace RestaurantReservationSystem.Controllers
                 return NotFound();
             }
 
-            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+           _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
 
             //Try updating it with the values posted
@@ -246,7 +246,7 @@ namespace RestaurantReservationSystem.Controllers
                     if (databaseEntry == null)
                     {
                         ModelState.AddModelError("",
-                            "Unable to save changes. The Patient was deleted by another user.");
+                            "Unable to save changes. The Reservation was deleted by another user.");
                     }
                     else
                     {
@@ -285,16 +285,16 @@ namespace RestaurantReservationSystem.Controllers
                         if (databaseValues.TableID != reservationValues.TableID)
                         {
                             Table? databaseTable = await _context.Tables.FirstOrDefaultAsync(i => i.ID == databaseValues.TableID);
-                            ModelState.AddModelError("DoctorID", $"Current value: {databaseTable?.Summary}");
+                            ModelState.AddModelError("TableID", $"Current value: {databaseTable?.Summary}");
                         }
-                    
+
                         ModelState.AddModelError(string.Empty, "The record you attempted to edit "
                                 + "was modified by another user after you received your values. The "
                                 + "edit operation was canceled and the current values in the database "
                                 + "have been displayed. If you still want to save your version of this record, click "
-                                + "the Save button again. Otherwise click the 'Back to Patient List' hyperlink.");
+                                + "the Save button again. Otherwise click the 'Back to Reservation List' hyperlink.");
 
-                        
+
                         reservationToUpdate.RowVersion = databaseValues.RowVersion ?? Array.Empty<byte>();
                         ModelState.Remove("RowVersion");
                     }
