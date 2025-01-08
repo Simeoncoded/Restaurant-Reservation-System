@@ -52,7 +52,8 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    RestaurantReservationSystemInitializer.Initialize(services);
+    RestaurantReservationSystemInitializer.Initialize(serviceProvider: services, DeleteDatabase: false,
+        UseMigrations: true, SeedSampleData: true);
 }
 
 

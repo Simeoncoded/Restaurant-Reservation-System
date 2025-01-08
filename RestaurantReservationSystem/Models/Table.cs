@@ -33,6 +33,11 @@ namespace RestaurantReservationSystem.Models
         [Required(ErrorMessage = "You cannot leave Table Location blank")]
         public string? Location { get; set; }
 
+        [ScaffoldColumn(false)]
+        [Timestamp]
+        public Byte[]? RowVersion { get; set; }//Added for concurrency
+
+
         public ICollection<Reservation> Reservations { get; set; } = new HashSet<Reservation>();
     }
 }
