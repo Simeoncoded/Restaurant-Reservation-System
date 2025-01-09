@@ -32,7 +32,8 @@ namespace RestaurantReservationSystem.Models
         [Display(Name = "Customer Details")]
         public string CustomerDetails
         {
-               get{
+            get
+            {
 
                 return $"Phone: {PhoneFormatted}, Email: {Email} ";
             }
@@ -75,7 +76,7 @@ namespace RestaurantReservationSystem.Models
         public string? Email { get; set; }
 
 
-        [Required(ErrorMessage ="You cannot leave Reservation Date blank")]
+        [Required(ErrorMessage = "You cannot leave Reservation Date blank")]
         [Display(Name = "Reservation Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
@@ -91,13 +92,13 @@ namespace RestaurantReservationSystem.Models
         [Required(ErrorMessage = "You cannot leave Reservation Size blank")]
         [Range(1, 20, ErrorMessage = "Party size must be between 1 and 20.")]
         [Display(Name = "Reservation Size")]
-        public int PartySize {  get; set; }
+        public int PartySize { get; set; }
 
         [Display(Name = "Reservation Status")]
         public ReservationStatus Status { get; set; } = ReservationStatus.Pending; //defaults to confirmed
 
         [Display(Name = "Special Requests")]
-        [StringLength(255, ErrorMessage ="Special Requests cannot exceed 500 characters")]
+        [StringLength(255, ErrorMessage = "Special Requests cannot exceed 500 characters")]
         public string? SpecialRequests { get; set; }
 
         [ScaffoldColumn(false)]
@@ -114,9 +115,8 @@ namespace RestaurantReservationSystem.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-
             var dbContext = (RestaurantReservationSystemContext)validationContext.GetService(typeof(RestaurantReservationSystemContext));
-            var table = dbContext.Tables.FirstOrDefault(t => t.ID == TableID); //gets the correct table
+            var table = dbContext.Tables.FirstOrDefault(t => t.ID == TableID); // Get the correct table
 
             if (table != null && PartySize > table.Capacity)
             {
@@ -128,36 +128,24 @@ namespace RestaurantReservationSystem.Models
                 yield return new ValidationResult($"Party size must be at least 1 for table {TableID}.", new[] { "PartySize" });
             }
 
-            var resOpen = new TimeSpan(10,0,0); //10am
-            var resClose = new TimeSpan(22,0,0);//10pm
+            var resOpen = new TimeSpan(10, 0, 0); // 10 AM
+            var resClose = new TimeSpan(22, 0, 0); // 10 PM
 
-            if(Time < resOpen || Time > resClose)
+            if (Time < resOpen || Time > resClose)
             {
-                yield return new ValidationResult($"Reservation Time must be between {resOpen:hh\\:mm} and {resClose:hh\\:mm}", ["Time"]);
+                yield return new ValidationResult($"Reservation Time must be between {resOpen:hh\\:mm} and {resClose:hh\\:mm}.", new[] { "Time" });
             }
 
             if (Date.GetValueOrDefault() < DateTime.Today)
             {
-                yield return new ValidationResult("Reservation Date cannot be in the past.", ["Date"]);
+                yield return new ValidationResult("Reservation Date cannot be in the past.", new[] { "Date" });
             }
-
-
-            //if (Date.HasValue && Time.HasValue)
-            //{
-            //    var reservationDateTime = Date.Value.Add(Time.Value); // Combine date and time
-
-            //        if (reservationDateTime < DateTime.Now.AddHours(2))
-            //        {
-            //            yield return new ValidationResult("Reservation Time must be at least 2 hours from now.", ["Time"]);
-            //        }
-            //    }
-
 
             if (Date.HasValue && Time.HasValue)
             {
                 var reservationDateTime = Date.Value.Add(Time.Value); // Combine date and time
                 var tableReservations = dbContext.Reservations
-                    .Where(r => r.TableID == TableID && r.Date == Date)
+                    .Where(r => r.TableID == TableID && r.Date == Date && r.ID != ID) // Exclude the current reservation by ID
                     .ToList();
 
                 foreach (var existingReservation in tableReservations)
@@ -168,17 +156,15 @@ namespace RestaurantReservationSystem.Models
 
                     if (reservationDateTime < existingEndTime && newReservationEndTime > existingStartTime)
                     {
-                        yield return new ValidationResult($"The selected table is already booked from {existingStartTime:hh:mm tt} to {existingEndTime:hh:mm tt}. Please select a time after {existingEndTime:hh:mm tt}",["Time"]);
+                        yield return new ValidationResult($"The selected table is already booked from {existingStartTime:hh:mm tt} to {existingEndTime:hh:mm tt}. Please select a time after {existingEndTime:hh:mm tt}.", new[] { "Time" });
                     }
                 }
             }
 
-
             if (Date.GetValueOrDefault() > DateTime.Today.AddMonths(6))
             {
-                yield return new ValidationResult("Reservations cannot be made more than 6 months in advance.", ["Date"]);
+                yield return new ValidationResult("Reservations cannot be made more than 6 months in advance.", new[] { "Date" });
             }
-
         }
     }
 }

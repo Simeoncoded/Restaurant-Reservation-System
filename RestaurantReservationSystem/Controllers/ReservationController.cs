@@ -213,7 +213,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, Byte? RowVersion)
         {
             //Go get the table to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
