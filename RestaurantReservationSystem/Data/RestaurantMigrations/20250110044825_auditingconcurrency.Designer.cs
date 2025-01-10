@@ -11,8 +11,8 @@ using RestaurantReservationSystem.Data;
 namespace RestaurantReservationSystem.Data.RestaurantMigrations
 {
     [DbContext(typeof(RestaurantReservationSystemContext))]
-    [Migration("20250108210101_Concurrency")]
-    partial class Concurrency
+    [Migration("20250110044825_auditingconcurrency")]
+    partial class auditingconcurrency
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

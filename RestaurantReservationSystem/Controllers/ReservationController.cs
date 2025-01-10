@@ -213,9 +213,9 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte? RowVersion)
+        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
         {
-            //Go get the table to update
+            // Find the record to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
 
             if (reservationToUpdate == null)
@@ -223,100 +223,91 @@ namespace RestaurantReservationSystem.Controllers
                 return NotFound();
             }
 
-           _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+            // Set the original RowVersion value for concurrency check
+            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
-
-            //Try updating it with the values posted
-            if (await TryUpdateModelAsync<Reservation>(reservationToUpdate, "",
-                r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email, r => r.Date, r => r.Time,
-                r => r.PartySize, r => r.Status, r => r.SpecialRequests, r => r.IsCheckedIn, r => r.TableID))
+            // Try to update the model
+            if (await TryUpdateModelAsync(reservationToUpdate, "",
+                r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email,
+                r => r.Date, r => r.Time, r => r.PartySize, r => r.Status,
+                r => r.SpecialRequests, r => r.IsCheckedIn, r => r.TableID))
             {
                 try
                 {
+                    // Save changes to the database
                     await _context.SaveChangesAsync();
-                    //return RedirectToAction(nameof(Index));
-                    return RedirectToAction("Details", new { reservationToUpdate.ID });
-
+                    return RedirectToAction("Details", new { id = reservationToUpdate.ID });
                 }
-                catch (DbUpdateConcurrencyException ex)// Added for concurrency
+                catch (DbUpdateConcurrencyException ex)
                 {
                     var exceptionEntry = ex.Entries.Single();
-                    var reservationValues = (Reservation)exceptionEntry.Entity;
                     var databaseEntry = exceptionEntry.GetDatabaseValues();
+
                     if (databaseEntry == null)
                     {
-                        ModelState.AddModelError("",
-                            "Unable to save changes. The Reservation was deleted by another user.");
+                        ModelState.AddModelError("", "The reservation was deleted by another user.");
                     }
                     else
                     {
                         var databaseValues = (Reservation)databaseEntry.ToObject();
-                        if (databaseValues.FirstName != reservationValues.FirstName)
-                            ModelState.AddModelError("FirstName", "Current value: "
-                                + databaseValues.FirstName);
-                        if (databaseValues.LastName != reservationValues.LastName)
-                            ModelState.AddModelError("LastName", "Current value: "
-                                + databaseValues.LastName);
-                        if (databaseValues.Phone != reservationValues.Phone)
-                            ModelState.AddModelError("Phone", "Current value: "
-                                + databaseValues.PhoneFormatted);
-                        if (databaseValues.Email != reservationValues.Email)
-                            ModelState.AddModelError("EMail", "Current value: "
-                                + databaseValues.Email);
-                        if (databaseValues.Date != reservationValues.Date)
-                            ModelState.AddModelError("Date", "Current value: "
-                                + databaseValues.Date);
-                        if (databaseValues.Time != reservationValues.Time)
-                            ModelState.AddModelError("Time", "Current value: "
-                                + databaseValues.Time);
-                        if (databaseValues.PartySize != reservationValues.PartySize)
-                            ModelState.AddModelError("PartySize", "Current value: "
-                                + databaseValues.PartySize);
-                        if (databaseValues.Status != reservationValues.Status)
-                            ModelState.AddModelError("Status", "Current value: "
-                                + databaseValues.Status);
-                        if (databaseValues.SpecialRequests != reservationValues.SpecialRequests)
-                            ModelState.AddModelError("SpecialRequests", "Current value: "
-                                + databaseValues.SpecialRequests);
-                        if (databaseValues.IsCheckedIn != reservationValues.IsCheckedIn)
-                            ModelState.AddModelError("IsCheckedIn", "Current value: "
-                                + databaseValues.IsCheckedIn);
-                        //For the foreign key
-                        if (databaseValues.TableID != reservationValues.TableID)
+                        var clientValues = (Reservation)exceptionEntry.Entity;
+
+                        // Compare values and add errors for any mismatched fields
+                        if (databaseValues.FirstName != clientValues.FirstName)
+                            ModelState.AddModelError("FirstName", $"Current value: {databaseValues.FirstName}");
+                        if (databaseValues.LastName != clientValues.LastName)
+                            ModelState.AddModelError("LastName", $"Current value: {databaseValues.LastName}");
+                        if (databaseValues.Phone != clientValues.Phone)
+                            ModelState.AddModelError("Phone", $"Current value: {databaseValues.Phone}");
+                        if (databaseValues.Email != clientValues.Email)
+                            ModelState.AddModelError("Email", $"Current value: {databaseValues.Email}");
+                        if (databaseValues.Date != clientValues.Date)
+                            ModelState.AddModelError("Date", $"Current value: {databaseValues.Date}");
+                        if (databaseValues.Time != clientValues.Time)
+                            ModelState.AddModelError("Time", $"Current value: {databaseValues.Time}");
+                        if (databaseValues.PartySize != clientValues.PartySize)
+                            ModelState.AddModelError("PartySize", $"Current value: {databaseValues.PartySize}");
+                        if (databaseValues.Status != clientValues.Status)
+                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
+                        if (databaseValues.SpecialRequests != clientValues.SpecialRequests)
+                            ModelState.AddModelError("SpecialRequests", $"Current value: {databaseValues.SpecialRequests}");
+                        if (databaseValues.IsCheckedIn != clientValues.IsCheckedIn)
+                            ModelState.AddModelError("IsCheckedIn", $"Current value: {databaseValues.IsCheckedIn}");
+
+                        // Handle foreign key differences (e.g., TableID)
+                        if (databaseValues.TableID != clientValues.TableID)
                         {
-                            Table? databaseTable = await _context.Tables.FirstOrDefaultAsync(i => i.ID == databaseValues.TableID);
+                            var databaseTable = await _context.Tables.FirstOrDefaultAsync(t => t.ID == databaseValues.TableID);
                             ModelState.AddModelError("TableID", $"Current value: {databaseTable?.Summary}");
                         }
 
-                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-                                + "was modified by another user after you received your values. The "
-                                + "edit operation was canceled and the current values in the database "
-                                + "have been displayed. If you still want to save your version of this record, click "
-                                + "the Save button again. Otherwise click the 'Back to Reservation List' hyperlink.");
+                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user. "
+                            + "If you still want to save your changes, click Save again.");
 
-
-                        reservationToUpdate.RowVersion = databaseValues.RowVersion ?? Array.Empty<byte>();
+                        // Update the RowVersion to the current database value
+                        reservationToUpdate.RowVersion = databaseValues.RowVersion;
                         ModelState.Remove("RowVersion");
                     }
                 }
-                catch (DbUpdateException dex)
+                catch (DbUpdateException ex)
                 {
-                    string message = dex.GetBaseException().Message;
+                    var message = ex.GetBaseException().Message;
                     if (message.Contains("UNIQUE") && message.Contains("Reservations.Date"))
                     {
-                        ModelState.AddModelError("", "Unable to save changes. Remember, " +
-                            "you cannot have duplicate Reservations(Time,Date and Table)");
+                        ModelState.AddModelError("", "Unable to save changes. Remember, you cannot have duplicate reservations (Time, Date, and Table).");
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, contact your system administrator.");
                     }
                 }
-
             }
+
+            // Repopulate dropdown lists if model state is invalid
             PopulateDropDownLists(reservationToUpdate);
             return View(reservationToUpdate);
         }
+
 
         // GET: Reservation/Delete/5
         public async Task<IActionResult> Delete(int? id)

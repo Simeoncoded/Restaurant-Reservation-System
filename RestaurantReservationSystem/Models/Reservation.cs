@@ -101,10 +101,6 @@ namespace RestaurantReservationSystem.Models
         [StringLength(255, ErrorMessage = "Special Requests cannot exceed 500 characters")]
         public string? SpecialRequests { get; set; }
 
-        [ScaffoldColumn(false)]
-        [Timestamp]
-        public Byte[]? RowVersion { get; set; }//Added for concurrency
-
         [Display(Name = "Checked-In Status")]
         public bool IsCheckedIn { get; set; } = false; //defaults to false
 
@@ -112,6 +108,10 @@ namespace RestaurantReservationSystem.Models
         public int TableID { get; set; }
 
         public Table? Table { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Timestamp]
+        public Byte[]? RowVersion { get; set; }//Added for concurrency
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
