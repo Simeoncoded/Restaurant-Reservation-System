@@ -88,6 +88,10 @@ namespace RestaurantReservationSystem.Models
         public TimeSpan? Time { get; set; }
 
 
+        [ScaffoldColumn(false)]
+        [Timestamp]
+        public Byte[]? RowVersion { get; set; }//Added for concurrency
+
 
         [Required(ErrorMessage = "You cannot leave Reservation Size blank")]
         [Range(1, 20, ErrorMessage = "Party size must be between 1 and 20.")]
@@ -109,9 +113,6 @@ namespace RestaurantReservationSystem.Models
 
         public Table? Table { get; set; }
 
-        [ScaffoldColumn(false)]
-        [Timestamp]
-        public Byte[]? RowVersion { get; set; }//Added for concurrency
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
