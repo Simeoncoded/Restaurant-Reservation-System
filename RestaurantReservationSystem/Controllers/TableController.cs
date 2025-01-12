@@ -243,7 +243,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
+        public async Task<IActionResult> Edit(int id)
         {
             //Go get the table to update
             var tableToUpdate = await _context.Tables.FirstOrDefaultAsync(t => t.ID == id);
@@ -254,7 +254,7 @@ namespace RestaurantReservationSystem.Controllers
             }
 
             //Put the original RowVersion value in the OriginalValues collection for the entity
-            _context.Entry(tableToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+            //_context.Entry(tableToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
 
             //Try updating it with the values posted
@@ -271,11 +271,6 @@ namespace RestaurantReservationSystem.Controllers
                     if (!TableExists(tableToUpdate.ID))
                     {
                         return NotFound();
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-                            + "was modified by another user. Please go back and refresh.");
                     }
                 }
 
