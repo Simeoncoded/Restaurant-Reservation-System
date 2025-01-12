@@ -23,3 +23,65 @@ body {
 .form-group {
     margin-bottom: 1rem;
 }
+
+
+.form-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    margin-bottom: 15px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.table {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.table th,
+.table td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+.hh ul {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.hh a {
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-link {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-danger,
+.btn-outline-warning {
+    margin-right: 5px;
+}

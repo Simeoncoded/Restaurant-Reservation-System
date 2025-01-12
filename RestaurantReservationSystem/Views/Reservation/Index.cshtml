@@ -3,12 +3,12 @@
 <partial name="_ViewHeading" />
 
 <p>
-    <a asp-action="Create">Create New @ViewData["ControllerFriendlyName"]</a>
+    <a asp-action="Create" class="btn btn-primary">Create New @ViewData["ControllerFriendlyName"]</a>
 </p>
 
-<form asp-action="Index" method="get">
-    <div class="form-horizontal">
-        <button class="btn @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+<form asp-action="Index" method="get" class="form-container">
+    <div class="form-group">
+        <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             Filter/Search @ViewData["numberFilters"]
         </button><br />
         <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
@@ -16,116 +16,80 @@
         <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
             <div class="card card-body bg-light">
                 <div class="row">
-                   
-                    <div class="form-group col-md-4">
-                        <label class="control-label">Search by FirstName or LastName:</label>
-                        @Html.TextBox("SearchString", null, new { @class = "form-control" })
+                    <div class="col-md-4">
+                        <label for="SearchString" class="form-label">Search by FirstName or LastName:</label>
+                        @Html.TextBox("SearchString", null, new { @class = "form-control", @id = "SearchString" })
                     </div>
-                    <div class="form-group col-md-4">
-                        <label class="control-label">Search by Phone Number:</label>
-                        @Html.TextBox("PhoneString", null, new { @class = "form-control" })
+                    <div class="col-md-4">
+                        <label for="PhoneString" class="form-label">Search by Phone Number:</label>
+                        @Html.TextBox("PhoneString", null, new { @class = "form-control", @id = "PhoneString" })
                     </div>
-                    <div class="form-group col-md-4 align-self-end">
-                        <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
-                        <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                    <div class="col-md-4 align-self-end">
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Clear</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                    <input type="submit" name="actionButton" value="Summary" class="btn btn-link" />
-            
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails)
-            </th>          
-            <th>
-                @Html.DisplayNameFor(model => model.TimeSummary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpecialRequests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsCheckedIn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Table)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerDetails)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimeSummary)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecialRequests)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCheckedIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Table.Summary)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                 <a asp-action="Cancel" asp-route-id="@item.ID">Cancel</a>
-            </td>
-        </tr>
-}
-    </tbody>
-        
-</table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Summary)</th>
+                <th>@Html.DisplayNameFor(model => model.CustomerDetails)</th>
+                <th>@Html.DisplayNameFor(model => model.TimeSummary)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>@Html.DisplayNameFor(model => model.SpecialRequests)</th>
+                <th>@Html.DisplayNameFor(model => model.IsCheckedIn)</th>
+                <th>@Html.DisplayNameFor(model => model.Table)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Summary)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerDetails)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TimeSummary)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SpecialRequests)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IsCheckedIn)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Table.Summary)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a asp-action="Cancel" asp-route-id="@item.ID" class="btn btn-sm btn-outline-warning">Cancel</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
     <partial name="_PagingNavBar" />
 
+    <!-- Section to Display All Tables -->
+    <h2>Available Tables</h2>
+    <p>Below is a list of all available tables. Click on each table to view more information.</p>
 
-<!-- Section to Display All Tables -->
-<h2>Available Tables</h2>
-<p>Below is a list of all available tables</p>
-<p>Click on each table to view more information about the table</p>
-
-<div>
-    @foreach (var table in ViewBag.Tables)
-    {
-        <a class="btn btn-link" role="button" data-bs-toggle="collapse" href="#tableDetails@(table.ID)"
-           aria-expanded="false" aria-controls="tableDetails@(table.ID)">
-            Table: @table.Summary 
-        </a>
-      
-        <div class="collapse" id="tableDetails@(table.ID)">
-            <ul>
-
-                <li>Table Number: @table.TableNumber</li>
-                <li>Table Capacity: @table.Capacity</li>
-                <li>Table Status: @table.Status</li>
-                <li>Table Location: @table.Location</li>
-            </ul>
-        </div>
-        <br />
-    }
-</div>
-
+    <div>
+        @foreach (var table in ViewBag.Tables)
+        {
+            <a class="btn btn-link" role="button" data-bs-toggle="collapse" href="#tableDetails@(table.ID)" aria-expanded="false" aria-controls="tableDetails@(table.ID)">
+                Table: @table.Summary
+            </a>
+            <div class="collapse hh" id="tableDetails@(table.ID)">
+                <ul>
+                    <li>Table Number: @table.TableNumber</li>
+                    <li>Table Capacity: @table.Capacity</li>
+                    <li>Table Status: @table.Status</li>
+                    <li>Table Location: @table.Location</li>
+                </ul>
+            </div>
+        }
+    </div>
 </form>
 
 @section Scripts {
