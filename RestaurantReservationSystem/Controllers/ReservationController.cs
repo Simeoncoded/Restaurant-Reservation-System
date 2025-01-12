@@ -199,7 +199,9 @@ namespace RestaurantReservationSystem.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation = await _context.Reservations
+               .FirstOrDefaultAsync(r => r.ID == id);
+
             if (reservation == null)
             {
                 return NotFound();
@@ -215,8 +217,16 @@ namespace RestaurantReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
         {
+
+            if (RowVersion == null || RowVersion.Length == 0)
+            {
+                return BadRequest("Concurrency token is missing or invalid.");
+            }
+
+
             // Find the record to update
-            var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
+            var reservationToUpdate = await _context.Reservations
+                .FirstOrDefaultAsync(r => r.ID == id);
 
             if (reservationToUpdate == null)
             {
@@ -240,17 +250,56 @@ namespace RestaurantReservationSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!ReservationExists(reservationToUpdate.ID))
+                    var exceptionEntry = ex.Entries.Single();
+                    var databaseEntry = exceptionEntry.GetDatabaseValues();
+
+                    if (databaseEntry == null)
                     {
-                        return NotFound();
+                        ModelState.AddModelError("", "The reservation was deleted by another user.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-                            + "was modified by another user. Please go back and refresh.");
+                        var databaseValues = (Reservation)databaseEntry.ToObject();
+                        var clientValues = (Reservation)exceptionEntry.Entity;
+
+                        // Compare values and add errors for any mismatched fields
+                        if (databaseValues.FirstName != clientValues.FirstName)
+                            ModelState.AddModelError("FirstName", $"Current value: {databaseValues.FirstName}");
+                        if (databaseValues.LastName != clientValues.LastName)
+                            ModelState.AddModelError("LastName", $"Current value: {databaseValues.LastName}");
+                        if (databaseValues.Phone != clientValues.Phone)
+                            ModelState.AddModelError("Phone", $"Current value: {databaseValues.Phone}");
+                        if (databaseValues.Email != clientValues.Email)
+                            ModelState.AddModelError("Email", $"Current value: {databaseValues.Email}");
+                        if (databaseValues.Date != clientValues.Date)
+                            ModelState.AddModelError("Date", $"Current value: {databaseValues.Date}");
+                        if (databaseValues.Time != clientValues.Time)
+                            ModelState.AddModelError("Time", $"Current value: {databaseValues.Time}");
+                        if (databaseValues.PartySize != clientValues.PartySize)
+                            ModelState.AddModelError("PartySize", $"Current value: {databaseValues.PartySize}");
+                        if (databaseValues.Status != clientValues.Status)
+                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
+                        if (databaseValues.SpecialRequests != clientValues.SpecialRequests)
+                            ModelState.AddModelError("SpecialRequests", $"Current value: {databaseValues.SpecialRequests}");
+                        if (databaseValues.IsCheckedIn != clientValues.IsCheckedIn)
+                            ModelState.AddModelError("IsCheckedIn", $"Current value: {databaseValues.IsCheckedIn}");
+
+                        // Handle foreign key differences (e.g., TableID)
+                        if (databaseValues.TableID != clientValues.TableID)
+                        {
+                            var databaseTable = await _context.Tables.FirstOrDefaultAsync(t => t.ID == databaseValues.TableID);
+                            ModelState.AddModelError("TableID", $"Current value: {databaseTable?.Summary}");
+                        }
+
+                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user. "
+                            + "If you still want to save your changes, click Save again.");
+
+                        // Update the RowVersion to the current database value
+                        reservationToUpdate.RowVersion = databaseValues.RowVersion;
+                        ModelState.Remove("RowVersion");
                     }
                 }
-               
+
                 catch (DbUpdateException ex)
                 {
                     var message = ex.GetBaseException().Message;

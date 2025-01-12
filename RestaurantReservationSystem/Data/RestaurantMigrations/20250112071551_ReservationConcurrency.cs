@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestaurantReservationSystem.Data.RestaurantMigrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class ReservationConcurrency : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+           
+
             migrationBuilder.CreateTable(
                 name: "Tables",
                 columns: table => new
@@ -43,6 +46,7 @@ namespace RestaurantReservationSystem.Data.RestaurantMigrations
                     Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Time = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", rowVersion: true, nullable: true),
                     PartySize = table.Column<int>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
                     SpecialRequests = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
@@ -86,6 +90,8 @@ namespace RestaurantReservationSystem.Data.RestaurantMigrations
                 table: "Tables",
                 columns: new[] { "TableNumber", "Location" },
                 unique: true);
+
+            ExtraMigration.Steps(migrationBuilder);
         }
 
         /// <inheritdoc />
