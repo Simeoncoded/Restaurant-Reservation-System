@@ -6,6 +6,13 @@ namespace RestaurantReservationSystem.Data
     {
         public static void Steps(MigrationBuilder migrationBuilder)
         {
+            // Drop triggers if they already exist
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS SetReservationTimestampOnUpdate;");
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS SetReservationTimestampOnInsert;");
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS SetTableTimestampOnUpdate;");
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS SetTableTimestampOnInsert;");
+
+            // Create triggers for Reservations table
             migrationBuilder.Sql(
                 @"
                 CREATE TRIGGER SetReservationTimestampOnUpdate
@@ -27,7 +34,29 @@ namespace RestaurantReservationSystem.Data
                     WHERE rowid = NEW.rowid;
                 END
             ");
+
+            // Create triggers for Tables table
+            migrationBuilder.Sql(
+               @"
+                CREATE TRIGGER SetTableTimestampOnUpdate
+                AFTER UPDATE ON Tables
+                BEGIN
+                    UPDATE Tables
+                    SET RowVersion = randomblob(8)
+                    WHERE rowid = NEW.rowid;
+                END
+            ");
+
+            migrationBuilder.Sql(
+                @"
+                CREATE TRIGGER SetTableTimestampOnInsert
+                AFTER INSERT ON Tables
+                BEGIN
+                    UPDATE Tables
+                    SET RowVersion = randomblob(8)
+                    WHERE rowid = NEW.rowid;
+                END
+            ");
         }
     }
-
 }
