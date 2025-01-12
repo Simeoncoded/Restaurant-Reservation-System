@@ -273,19 +273,39 @@ namespace RestaurantReservationSystem.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", new { tableToUpdate.ID });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    if (!TableExists(tableToUpdate.ID))
+                    var exceptionEntry = ex.Entries.Single();
+                    var databaseEntry = exceptionEntry.GetDatabaseValues();
+
+                    if (databaseEntry == null)
                     {
-                        return NotFound();
+                        ModelState.AddModelError("", "The table was deleted by another user.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-                            + "was modified by another user. Please go back and refresh.");
+                        var databaseValues = (Table)databaseEntry.ToObject();
+                        var clientValues = (Table)exceptionEntry.Entity;
+
+                        // Compare values and add errors for any mismatched fields
+                        if (databaseValues.TableNumber != clientValues.TableNumber)
+                            ModelState.AddModelError("TableNumber", $"Current value: {databaseValues.TableNumber}");
+                        if (databaseValues.Capacity != clientValues.Capacity)
+                            ModelState.AddModelError("Capacity", $"Current value: {databaseValues.Capacity}");
+                        if (databaseValues.Status != clientValues.Status)
+                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
+                        if (databaseValues.Location != clientValues.Location)
+                            ModelState.AddModelError("Location", $"Current value: {databaseValues.Location}");
+
+
+                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user. "
+                            + "If you still want to save your changes, click Save again.");
+
+                        // Update the RowVersion to the current database value
+                        tableToUpdate.RowVersion = databaseValues.RowVersion;
+                        ModelState.Remove("RowVersion");
                     }
                 }
-
                 catch (DbUpdateException dex)
                 {
 
