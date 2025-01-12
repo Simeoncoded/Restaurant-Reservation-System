@@ -11,7 +11,7 @@ using RestaurantReservationSystem.Data;
 namespace RestaurantReservationSystem.Data.RestaurantMigrations
 {
     [DbContext(typeof(RestaurantReservationSystemContext))]
-    [Migration("20250110185527_Initial")]
+    [Migration("20250112062435_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,11 +61,6 @@ namespace RestaurantReservationSystem.Data.RestaurantMigrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
 
                     b.Property<string>("SpecialRequests")
                         .HasMaxLength(255)
@@ -117,11 +112,6 @@ namespace RestaurantReservationSystem.Data.RestaurantMigrations
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");

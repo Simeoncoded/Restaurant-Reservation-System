@@ -8,66 +8,66 @@ namespace RestaurantReservationSystem.Data
     public class RestaurantReservationSystemInitializer
     {
         public static void Initialize(IServiceProvider serviceProvider,
-             bool DeleteDatabase = false, bool UseMigrations = true, bool SeedSampleData = true)
+             bool DeleteDatabase = false, bool UseMigrations = true)
         {
             using (var context = new RestaurantReservationSystemContext(
                 serviceProvider.GetRequiredService<DbContextOptions<RestaurantReservationSystemContext>>()))
             {
 
                 //Refresh the database as per the parameter options
-                //#region Prepare the Database
-                //try
-                //{
-                //    //Note: .CanConnect() will return false if the database is not there!
-                //    if (DeleteDatabase || !context.Database.CanConnect())
-                //    {
-                //        context.Database.EnsureDeleted(); //Delete the existing version 
-                //        if (UseMigrations)
-                //        {
-                //            context.Database.Migrate(); //Create the Database and apply all migrations
-                //        }
-                //        else
-                //        {
-                //            context.Database.EnsureCreated(); //Create and update the database as per the Model
-                //        }
-                //        //Now create any additional database objects such as Triggers or Views
-                //        //--------------------------------------------------------------------
-                //        //Create the Triggers
-                //        string sqlCmd = @"
-                //            CREATE TRIGGER SetReservationTimestampOnUpdate
-                //            AFTER UPDATE ON Reservations
-                //            BEGIN
-                //                UPDATE Reservations
-                //                SET RowVersion = randomblob(8)
-                //                WHERE rowid = NEW.rowid;
-                //            END;
-                //        ";
-                //        context.Database.ExecuteSqlRaw(sqlCmd);
+                #region Prepare the Database
+                try
+                {
+                    //Note: .CanConnect() will return false if the database is not there!
+                    if (DeleteDatabase || !context.Database.CanConnect())
+                    {
+                        context.Database.EnsureDeleted(); //Delete the existing version 
+                        if (UseMigrations)
+                        {
+                            context.Database.Migrate(); //Create the Database and apply all migrations
+                        }
+                        else
+                        {
+                            context.Database.EnsureCreated(); //Create and update the database as per the Model
+                        }
+                        //Now create any additional database objects such as Triggers or Views
+                        //--------------------------------------------------------------------
+                        //Create the Triggers
+                        string sqlCmd = @"
+                            CREATE TRIGGER SetReservationTimestampOnUpdate
+                            AFTER UPDATE ON Reservations
+                            BEGIN
+                                UPDATE Reservations
+                                SET RowVersion = randomblob(8)
+                                WHERE rowid = NEW.rowid;
+                            END;
+                        ";
+                        context.Database.ExecuteSqlRaw(sqlCmd);
 
-                //        sqlCmd = @"
-                //            CREATE TRIGGER SetReservationTimestampOnInsert
-                //            AFTER INSERT ON Reservations
-                //            BEGIN
-                //                UPDATE Reservations
-                //                SET RowVersion = randomblob(8)
-                //                WHERE rowid = NEW.rowid;
-                //            END
-                //        ";
-                //        context.Database.ExecuteSqlRaw(sqlCmd);
-                //    }
-                //    else //The database is already created
-                //    {
-                //        if (UseMigrations)
-                //        {
-                //            context.Database.Migrate(); //Apply all migrations
-                //        }
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    Debug.WriteLine(ex.GetBaseException().Message);
-                //}
-                //#endregion
+                        sqlCmd = @"
+                            CREATE TRIGGER SetReservationTimestampOnInsert
+                            AFTER INSERT ON Reservations
+                            BEGIN
+                                UPDATE Reservations
+                                SET RowVersion = randomblob(8)
+                                WHERE rowid = NEW.rowid;
+                            END
+                        ";
+                        context.Database.ExecuteSqlRaw(sqlCmd);
+                    }
+                    else //The database is already created
+                    {
+                        if (UseMigrations)
+                        {
+                            context.Database.Migrate(); //Apply all migrations
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.GetBaseException().Message);
+                }
+                #endregion
                 try
                 {
                     // Seed Tables (5 different tables)

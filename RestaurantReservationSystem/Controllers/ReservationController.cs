@@ -213,7 +213,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
         {
             // Find the record to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
@@ -224,7 +224,7 @@ namespace RestaurantReservationSystem.Controllers
             }
 
             // Set the original RowVersion value for concurrency check
-            //_context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
             // Try to update the model
             if (await TryUpdateModelAsync(reservationToUpdate, "",
@@ -243,6 +243,11 @@ namespace RestaurantReservationSystem.Controllers
                     if (!ReservationExists(reservationToUpdate.ID))
                     {
                         return NotFound();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+                            + "was modified by another user. Please go back and refresh.");
                     }
                 }
                
