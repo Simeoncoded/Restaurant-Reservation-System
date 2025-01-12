@@ -213,7 +213,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
+        public async Task<IActionResult> Edit(int id)
         {
             // Find the record to update
             var reservationToUpdate = await _context.Reservations.FirstOrDefaultAsync(r => r.ID == id);
@@ -224,7 +224,7 @@ namespace RestaurantReservationSystem.Controllers
             }
 
             // Set the original RowVersion value for concurrency check
-            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
+            //_context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
             // Try to update the model
             if (await TryUpdateModelAsync(reservationToUpdate, "",
@@ -240,55 +240,12 @@ namespace RestaurantReservationSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    var exceptionEntry = ex.Entries.Single();
-                    var databaseEntry = exceptionEntry.GetDatabaseValues();
-
-                    if (databaseEntry == null)
+                    if (!ReservationExists(reservationToUpdate.ID))
                     {
-                        ModelState.AddModelError("", "The reservation was deleted by another user.");
-                    }
-                    else
-                    {
-                        var databaseValues = (Reservation)databaseEntry.ToObject();
-                        var clientValues = (Reservation)exceptionEntry.Entity;
-
-                        // Compare values and add errors for any mismatched fields
-                        if (databaseValues.FirstName != clientValues.FirstName)
-                            ModelState.AddModelError("FirstName", $"Current value: {databaseValues.FirstName}");
-                        if (databaseValues.LastName != clientValues.LastName)
-                            ModelState.AddModelError("LastName", $"Current value: {databaseValues.LastName}");
-                        if (databaseValues.Phone != clientValues.Phone)
-                            ModelState.AddModelError("Phone", $"Current value: {databaseValues.Phone}");
-                        if (databaseValues.Email != clientValues.Email)
-                            ModelState.AddModelError("Email", $"Current value: {databaseValues.Email}");
-                        if (databaseValues.Date != clientValues.Date)
-                            ModelState.AddModelError("Date", $"Current value: {databaseValues.Date}");
-                        if (databaseValues.Time != clientValues.Time)
-                            ModelState.AddModelError("Time", $"Current value: {databaseValues.Time}");
-                        if (databaseValues.PartySize != clientValues.PartySize)
-                            ModelState.AddModelError("PartySize", $"Current value: {databaseValues.PartySize}");
-                        if (databaseValues.Status != clientValues.Status)
-                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
-                        if (databaseValues.SpecialRequests != clientValues.SpecialRequests)
-                            ModelState.AddModelError("SpecialRequests", $"Current value: {databaseValues.SpecialRequests}");
-                        if (databaseValues.IsCheckedIn != clientValues.IsCheckedIn)
-                            ModelState.AddModelError("IsCheckedIn", $"Current value: {databaseValues.IsCheckedIn}");
-
-                        // Handle foreign key differences (e.g., TableID)
-                        if (databaseValues.TableID != clientValues.TableID)
-                        {
-                            var databaseTable = await _context.Tables.FirstOrDefaultAsync(t => t.ID == databaseValues.TableID);
-                            ModelState.AddModelError("TableID", $"Current value: {databaseTable?.Summary}");
-                        }
-
-                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user. "
-                            + "If you still want to save your changes, click Save again.");
-
-                        // Update the RowVersion to the current database value
-                        reservationToUpdate.RowVersion = databaseValues.RowVersion;
-                        ModelState.Remove("RowVersion");
+                        return NotFound();
                     }
                 }
+               
                 catch (DbUpdateException ex)
                 {
                     var message = ex.GetBaseException().Message;
