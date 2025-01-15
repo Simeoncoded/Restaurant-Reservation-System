@@ -7,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("RestaurantReservationSystemContext") ?? throw new InvalidOperationException("Connection string 'RestaurantReservationSystemContext' not found.");
 
+var apiKey = Environment.GetEnvironmentVariable("OpenAI__ApiKey");
+if (string.IsNullOrEmpty(apiKey))
+{
+    throw new InvalidOperationException("OpenAI API Key is not set.");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
@@ -34,6 +40,9 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
