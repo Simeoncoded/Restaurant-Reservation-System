@@ -14,6 +14,7 @@ if (string.IsNullOrEmpty(apiKey))
     throw new InvalidOperationException("OpenAI API Key is not set.");
 }
 
+builder.Services.AddSingleton(new OpenAI.OpenAIClient(Environment.GetEnvironmentVariable("OpenAI__ApiKey")));
 
 
 
