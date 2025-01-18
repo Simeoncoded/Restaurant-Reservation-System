@@ -8,13 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("RestaurantReservationSystemContext") ?? throw new InvalidOperationException("Connection string 'RestaurantReservationSystemContext' not found.");
 
-var apiKey = Environment.GetEnvironmentVariable("OpenAI__ApiKey");
-if (string.IsNullOrEmpty(apiKey))
-{
-    throw new InvalidOperationException("OpenAI API Key is not set.");
-}
+//var apiKey = Environment.GetEnvironmentVariable("OpenAI__ApiKey");
+//if (string.IsNullOrEmpty(apiKey))
+//{
+//    throw new InvalidOperationException("OpenAI API Key is not set.");
+//}
 
-builder.Services.AddSingleton(new OpenAI.OpenAIClient(Environment.GetEnvironmentVariable("OpenAI__ApiKey")));
+//builder.Services.AddSingleton(new OpenAI.OpenAIClient(Environment.GetEnvironmentVariable("OpenAI__ApiKey")));
 
 
 
