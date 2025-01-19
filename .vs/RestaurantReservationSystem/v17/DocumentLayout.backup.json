@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\RestaurantReservationSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\views\\reservation\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\views\\reservation\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -491,14 +491,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "RestaurantReservationSystem\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "RestaurantReservationSystem\\wwwroot\\css\\site.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-01-19T18:30:05.582Z",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
+              "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-19T20:57:05.846Z",
               "EditorCaption": ""
             }
           ]

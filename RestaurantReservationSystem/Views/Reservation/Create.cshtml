@@ -5,73 +5,113 @@
 <h4>Reservation</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+
+            <!-- First Row -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" data-toggle="tooltip" title="Enter your first name" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" data-toggle="tooltip" title="Enter your last name" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control" data-toggle="tooltip" title="Enter your phone number" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+
+            <!-- Second Row -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" data-toggle="tooltip" title="Enter your email address" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" type="date" class="form-control" data-toggle="tooltip" title="Select the reservation date" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Time" class="control-label"></label>
+                        <input asp-for="Time" type="time" class="form-control" data-toggle="tooltip" title="Select the reservation time" />
+                        <span asp-validation-for="Time" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+
+            <!-- Third Row -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PartySize" class="control-label"></label>
+                        <input asp-for="PartySize" class="form-control" data-toggle="tooltip" title="Enter the number of guests" />
+                        <span asp-validation-for="PartySize" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ReservationStatus>()" data-toggle="tooltip" title="Select the reservation status"></select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="SpecialRequests" class="control-label"></label>
+                        <input asp-for="SpecialRequests" class="form-control" data-toggle="tooltip" title="Add any special requests for the reservation" />
+                        <span asp-validation-for="SpecialRequests" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+
+            <!-- Fourth Row -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group form-check">
+                        <label class="form-check-label" data-toggle="tooltip" title="Check this box if the guest has checked in">
+                            <input class="form-check-input" asp-for="IsCheckedIn" />
+                            @Html.DisplayNameFor(model => model.IsCheckedIn)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label asp-for="TableID" class="control-label"></label>
+                        @if (ViewData["TableID"] is SelectList tableSelectList && !tableSelectList.Any())
+                        {
+                            <select class="form-control" disabled data-toggle="tooltip" title="No tables available at the moment">
+                                <option>No tables available</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="TableID" class="form-control" asp-items="ViewBag.TableID" data-toggle="tooltip" title="Select a table for the reservation"></select>
+                        }
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
-                <span asp-validation-for="Time" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PartySize" class="control-label"></label>
-                <input asp-for="PartySize" class="form-control" />
-                <span asp-validation-for="PartySize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ReservationStatus>()"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SpecialRequests" class="control-label"></label>
-                <input asp-for="SpecialRequests" class="form-control" />
-                <span asp-validation-for="SpecialRequests" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsCheckedIn" /> @Html.DisplayNameFor(model => model.IsCheckedIn)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="TableID" class="control-label"></label>
-                @if (ViewData["TableID"] is SelectList tableSelectList && !tableSelectList.Any())
-                {
-                    <select class="form-control" disabled>
-                        <option>No tables available</option>
-                    </select>
-                }
-                else
-                {
-                    <select asp-for="TableID" class="form-control" asp-items="ViewBag.TableID"></select>
-                }
-                
-            </div>
+
+            <!-- Submit Button -->
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -84,5 +124,12 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 }
