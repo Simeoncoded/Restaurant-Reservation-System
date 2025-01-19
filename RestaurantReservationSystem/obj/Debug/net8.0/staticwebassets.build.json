@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JAHwOka0HLC/mR+1CQFhdLTLvbWFw+NYcQIMV3/3Klg=",
+  "Hash": "PshF4nsSG8DYn4d0/0oaBtPSVl5FvDAM5VtGIPakRaM=",
   "Source": "RestaurantReservationSystem",
   "BasePath": "_content/RestaurantReservationSystem",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\images\\bgg.jpg",
+      "SourceId": "RestaurantReservationSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\",
+      "BasePath": "_content/RestaurantReservationSystem",
+      "RelativePath": "images/bgg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\bgg.jpg"
     },
     {
       "Identity": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\site.js",

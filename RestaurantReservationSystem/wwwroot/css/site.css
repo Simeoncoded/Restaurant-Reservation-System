@@ -18,7 +18,12 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+   /* margin-bottom: 60px;
+    margin-bottom: 60px;*/
+    background-image: url('/images/bgg.jpg');
+/*    background-position: left bottom;*/
+    background-repeat: no-repeat;
+    background-size: 100% auto;
 }
 .form-group {
     margin-bottom: 1rem;

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\images\\bgg.jpg",
+      "PackagePath": "staticwebassets\\images\\bgg.jpg"
+    },
+    {
       "Id": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
