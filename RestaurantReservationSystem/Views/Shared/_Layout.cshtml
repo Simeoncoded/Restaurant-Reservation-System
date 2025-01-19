@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RestaurantReservationSystem.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -26,7 +27,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Table" asp-action="Index">Tables</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Index">Reservations</a>  
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Index">Reservations</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Table" asp-action="admindashboard">Admin Dashboard</a>
@@ -43,7 +44,40 @@
         </main>
     </div>
 
-     <!--Start of Tawk.to Script-->
+    <!-- Scroll to Top Button -->
+    <a href="#" class="btn btn-primary scroll-to-top" id="scrollToTop" role="button" data-toggle="tooltip" title="Back to Top">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Restaurant Reservation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Show/hide the scroll-to-top button
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 200) {
+                    $('#scrollToTop').fadeIn();
+                } else {
+                    $('#scrollToTop').fadeOut();
+                }
+            });
+
+            // Smooth scroll to top when button is clicked
+            $('#scrollToTop').click(function (e) {
+                e.preventDefault();
+                $('html, body').animate({ scrollTop: 0 }, 800);
+            });
+        });
+    </script>
+
+    <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
         (function(){
@@ -57,13 +91,6 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Restaurant Reservation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
