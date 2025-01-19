@@ -3,12 +3,14 @@
 <partial name="_ViewHeading" />
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New @ViewData["ControllerFriendlyName"]</a>
+    <a asp-action="Create" class="btn btn-primary" data-bs-toggle="tooltip" title="Create a new reservation">
+        Create New @ViewData["ControllerFriendlyName"]
+    </a>
 </p>
 
 <form asp-action="Index" method="get" class="form-container">
     <div class="form-group">
-        <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+        <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" data-bs-toggle="tooltip" title="Toggle filter options">
             Filter/Search @ViewData["numberFilters"]
         </button><br />
         <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
@@ -17,16 +19,16 @@
             <div class="card card-body bg-light">
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="SearchString" class="form-label">Search by FirstName or LastName:</label>
+                        <label for="SearchString" class="form-label" data-bs-toggle="tooltip" title="Search by customer name">Search by FirstName or LastName:</label>
                         @Html.TextBox("SearchString", null, new { @class = "form-control", @id = "SearchString" })
                     </div>
                     <div class="col-md-4">
-                        <label for="PhoneString" class="form-label">Search by Phone Number:</label>
+                        <label for="PhoneString" class="form-label" data-bs-toggle="tooltip" title="Search by phone number">Search by Phone Number:</label>
                         @Html.TextBox("PhoneString", null, new { @class = "form-control", @id = "PhoneString" })
                     </div>
                     <div class="col-md-4 align-self-end">
-                        <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                        <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" data-bs-toggle="tooltip" title="Apply the filter" />
+                        <a asp-action="Index" class="btn btn-secondary" data-bs-toggle="tooltip" title="Clear all filters">Clear</a>
                     </div>
                 </div>
             </div>
@@ -49,21 +51,29 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Summary)</td>
-                    <td>@Html.DisplayFor(modelItem => item.CustomerDetails)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TimeSummary)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SpecialRequests)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IsCheckedIn)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Table.Summary)</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">Delete</a>
-                        <a asp-action="Cancel" asp-route-id="@item.ID" class="btn btn-sm btn-outline-warning">Cancel</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Summary)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CustomerDetails)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TimeSummary)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SpecialRequests)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsCheckedIn)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Table.Summary)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit this reservation">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View reservation details">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete this reservation">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </a>
+                            <a asp-action="Cancel" asp-route-id="@item.ID" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Cancel this reservation">
+                                <i class="fa-solid fa-ban"></i>
+                            </a>
+                        </td>
+                    </tr>
             }
         </tbody>
     </table>
@@ -77,26 +87,28 @@
     <div>
         @foreach (var table in ViewBag.Tables)
         {
-            <a class="btn btn-link" role="button" data-bs-toggle="collapse" href="#tableDetails@(table.ID)" aria-expanded="false" aria-controls="tableDetails@(table.ID)">
-                Table: @table.Summary
-            </a><br />
-            <div class="collapse hh" id="tableDetails@(table.ID)">
-                <ul>
-                    <li>Table Number: @table.TableNumber</li>
-                    <li>Table Capacity: @table.Capacity</li>
-                    <li>Table Status: @table.Status</li>
-                    <li>Table Location: @table.Location</li>
-                </ul>
-            </div>
+                <a class="btn btn-link" role="button" data-bs-toggle="collapse" href="#tableDetails@(table.ID)" aria-expanded="false" aria-controls="tableDetails@(table.ID)" data-bs-toggle="tooltip" title="Click to view table details">
+                    Table: @table.Summary
+                </a>
+
+            <br />
+                <div class="collapse hh" id="tableDetails@(table.ID)">
+                    <ul>
+                        <li>Table Number: @table.TableNumber</li>
+                        <li>Table Capacity: @table.Capacity</li>
+                        <li>Table Status: @table.Status</li>
+                        <li>Table Location: @table.Location</li>
+                    </ul>
+                </div>
         }
     </div>
 </form>
 
 @section Scripts {
-    <script type="text/javascript">
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    </script>
+        <script type="text/javascript">
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        </script>
 }
