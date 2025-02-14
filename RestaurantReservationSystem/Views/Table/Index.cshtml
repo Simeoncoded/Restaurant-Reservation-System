@@ -1,159 +1,101 @@
 ﻿@model IEnumerable<RestaurantReservationSystem.Models.Table>
 
-<partial name="_ViewHeading" />
+@* <partial name="_ViewHeading" /> *@
 
 <p>
-    <a asp-action="Create">Create New @ViewData["ControllerFriendlyName"]</a>
+    <a asp-action="Create" class="btn btn-primary" data-bs-toggle="tooltip" title="Create a new table">
+        Create New @ViewData["ControllerFriendlyName"]
+    </a>
 </p>
-<div class="table-container">
 
-    <form asp-action="Index" method="get">
-    <div class="form-horizontal">
-        <button class="btn @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-            Filter/Search @ViewData["numberFilters"]
-        </button><br />
-         <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
-    <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
-        <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
-            <div class="card card-body bg-light">
-                <div class="row">
-                   
-                    <div class="form-group col-md-3">
-                        <label class="control-label">Search Table Number:</label>
-                        @Html.TextBox("TableNum", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label class="control-label">Search Table Capacity:</label>
-                        @Html.TextBox("TableCap", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label class="control-label">Search Table Location:</label>
-                        @Html.TextBox("TableLoc", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label class="control-label">Select by Table Status:</label>
-                        @Html.DropDownList("StatusFilter", (SelectList)ViewBag.StatusSelectList,
-                                 "All Table Statuses", htmlAttributes: new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-4 align-self-end">
-                        <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
-                        <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+<div class="table-container">
+    <form asp-action="Index" method="get" class="form-container">
+        <div class="form-group">
+            <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" data-bs-toggle="tooltip" title="Toggle filter options">
+                Filter/Search @ViewData["numberFilters"]
+            </button><br />
+            <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+            <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+            <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                <div class="card card-body bg-light">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="TableNum" class="form-label" data-bs-toggle="tooltip" title="Search by Table Number">Table Number:</label>
+                            @Html.TextBox("TableNum", null, new { @class = "form-control", @id = "TableNum" })
+                        </div>
+                        <div class="col-md-3">
+                            <label for="TableCap" class="form-label" data-bs-toggle="tooltip" title="Search by Capacity">Table Capacity:</label>
+                            @Html.TextBox("TableCap", null, new { @class = "form-control", @id = "TableCap" })
+                        </div>
+                        <div class="col-md-3">
+                            <label for="TableLoc" class="form-label" data-bs-toggle="tooltip" title="Search by Location">Table Location:</label>
+                            @Html.TextBox("TableLoc", null, new { @class = "form-control", @id = "TableLoc" })
+                        </div>
+                        <div class="col-md-3">
+                            <label for="StatusFilter" class="form-label" data-bs-toggle="tooltip" title="Filter by Table Status">Table Status:</label>
+                            @Html.DropDownList("StatusFilter", (SelectList)ViewBag.StatusSelectList, "All Table Statuses", new { @class = "form-control", @id = "StatusFilter" })
+                        </div>
+                        <div class="col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" data-bs-toggle="tooltip" title="Apply filter" />
+                            <a asp-action="Index" class="btn btn-secondary" data-bs-toggle="tooltip" title="Clear filters">Clear</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-               <input type="submit" name="actionButton" value="Table" class="btn btn-link" />
-            </th>
-            <th>
-               <input type="submit" name="actionButton" value="Capacity" class="btn btn-link" />
-            </th>
-            <th>
-               <input type="submit"  name="actionButton"value="Status" class="btn btn-link" />
-            </th>
-            <th>
-                <input type="submit"  name="actionButton" value="Location" class="btn btn-link" />
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TableNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="submit" name="actionButton" value="Table" class="btn btn-link" />
+                    </th>
+                    <th>
+                        <input type="submit" name="actionButton" value="Capacity" class="btn btn-link" />
+                    </th>
+                    <th>
+                        <input type="submit" name="actionButton" value="Status" class="btn btn-link" />
+                    </th>
+                    <th>
+                        <input type="submit" name="actionButton" value="Location" class="btn btn-link" />
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.TableNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit table">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View table details">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete table">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <partial name="_PagingNavBar" />
-</form>
+        <partial name="_PagingNavBar" />
+    </form>
 </div>
-
 
 @section Scripts {
     <script type="text/javascript">
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
     </script>
 }
-
-<style>
-    body {
-        background: url('/images/dark-background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #f8f9fa;
-    }
-
-    .table-container {
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.7); /* Adds a slight transparency */
-        border-radius: 10px;
-    }
-
-    .table th, .table td {
-        color: white;
-    }
-
-    .table-dark {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .table a {
-        color: #17a2b8;
-    }
-
-    .btn {
-        border-radius: 5px;
-    }
-
-    .btn-outline-dark {
-        color: white;
-        border-color: white;
-    }
-
-    .card-body {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .form-control {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 1px solid #ccc;
-    }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-    .btn-link {
-        color: #f8f9fa;
-    }
-
-        .btn-link:hover {
-            color: #ffc107;
-        }
-</style>
+s
