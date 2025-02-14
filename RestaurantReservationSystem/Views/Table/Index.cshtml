@@ -5,8 +5,9 @@
 <p>
     <a asp-action="Create">Create New @ViewData["ControllerFriendlyName"]</a>
 </p>
+<div class="table-container">
 
-<form asp-action="Index" method="get">
+    <form asp-action="Index" method="get">
     <div class="form-horizontal">
         <button class="btn @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
             Filter/Search @ViewData["numberFilters"]
@@ -88,6 +89,7 @@
 
     <partial name="_PagingNavBar" />
 </form>
+</div>
 
 
 @section Scripts {
@@ -98,3 +100,60 @@
         })
     </script>
 }
+
+<style>
+    body {
+        background: url('/images/dark-background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #f8f9fa;
+    }
+
+    .table-container {
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7); /* Adds a slight transparency */
+        border-radius: 10px;
+    }
+
+    .table th, .table td {
+        color: white;
+    }
+
+    .table-dark {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .table a {
+        color: #17a2b8;
+    }
+
+    .btn {
+        border-radius: 5px;
+    }
+
+    .btn-outline-dark {
+        color: white;
+        border-color: white;
+    }
+
+    .card-body {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid #ccc;
+    }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+    .btn-link {
+        color: #f8f9fa;
+    }
+
+        .btn-link:hover {
+            color: #ffc107;
+        }
+</style>

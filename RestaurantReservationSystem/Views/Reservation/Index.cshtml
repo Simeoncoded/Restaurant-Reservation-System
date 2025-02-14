@@ -10,7 +10,7 @@
 
 <form asp-action="Index" method="get" class="form-container">
     <div class="form-group">
-        <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" data-bs-toggle="tooltip" title="Toggle filter options">
+        <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse"  id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" data-bs-toggle="tooltip" title="Toggle filter options">
             Filter/Search @ViewData["numberFilters"]
         </button><br />
         <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
