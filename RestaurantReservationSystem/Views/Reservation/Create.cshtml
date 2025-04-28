@@ -4,6 +4,7 @@
 
 <h4>Reservation</h4>
 <hr />
+<div class="form-container">
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create">
@@ -118,10 +119,105 @@
         </form>
     </div>
 </div>
+</div>
 
 <div>
     <partial name="_BackToList" />
 </div>
+
+<style>
+    body {
+        background: url('your-dark-brown-image.jpg') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(149, 117, 205, 0.3);
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+
+    h4 {
+        color: #6A1B9A;
+        font-weight: 600;
+        border-bottom: 2px solid #9C27B0;
+        padding-bottom: 0.5rem;
+    }
+
+    .form-group label {
+        color: #4A148C;
+        font-weight: 500;
+    }
+
+    .form-control {
+        border: 1px solid #E1BEE7;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #9C27B0;
+        box-shadow: 0 0 8px rgba(156, 39, 176, 0.2);
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #9C27B0, #6A1B9A);
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+    }
+
+    .tooltip-inner {
+        background-color: #9C27B0;
+        border-radius: 4px;
+    }
+
+    .tooltip.bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: #9C27B0;
+    }
+
+    .form-check-label {
+        color: #4A148C;
+    }
+
+    .form-check-input:checked {
+        background-color: #9C27B0;
+        border-color: #6A1B9A;
+    }
+
+    select:disabled {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    .text-danger {
+        color: #d32f2f !important;
+        font-size: 0.9em;
+    }
+
+    @@media (max-width: 768px) {
+        .form-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .row > div[class^="col-"] {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+
 
 @section Scripts {
     @{
