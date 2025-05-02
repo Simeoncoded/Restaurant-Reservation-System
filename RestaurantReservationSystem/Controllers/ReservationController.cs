@@ -218,12 +218,6 @@ namespace RestaurantReservationSystem.Controllers
         public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
         {
 
-            if (RowVersion == null || RowVersion.Length == 0)
-            {
-                return BadRequest("Concurrency token is missing or invalid.");
-            }
-
-
             // Find the record to update
             var reservationToUpdate = await _context.Reservations
                 .FirstOrDefaultAsync(r => r.ID == id);
