@@ -11,7 +11,7 @@ using RestaurantReservationSystem.Data;
 namespace RestaurantReservationSystem.Data.RestaurantMigrations
 {
     [DbContext(typeof(RestaurantReservationSystemContext))]
-    [Migration("20250112200909_Initial")]
+    [Migration("20250502163845_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

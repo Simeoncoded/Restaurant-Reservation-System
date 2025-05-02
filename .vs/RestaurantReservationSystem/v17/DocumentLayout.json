@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\RestaurantReservationSystem\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\data\\_commoncommands.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\data\\_commoncommands.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\data\\restaurantreservationsysteminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\data\\restaurantreservationsysteminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\views\\reservation\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\views\\reservation\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 133,
+          "SelectedChildIndex": 131,
           "Children": [
             {
               "$type": "Bookmark",
@@ -554,12 +562,38 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_commoncommands.txt",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\_commoncommands.txt",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Data\\_commoncommands.txt",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\_commoncommands.txt",
+              "RelativeToolTip": "RestaurantReservationSystem\\Data\\_commoncommands.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-05-02T16:38:10.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "RestaurantReservationSystem\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T16:37:57.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
-              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml*",
-              "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml*",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
+              "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-02T16:30:34.337Z",
@@ -573,27 +607,27 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Program.cs",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Program.cs",
               "RelativeToolTip": "RestaurantReservationSystem\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T16:30:30.848Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "RestaurantReservationSystemInitializer.cs",
               "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
               "RelativeToolTip": "RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAADgAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADgAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-02T16:29:42.811Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "ReservationController.cs",
               "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\ReservationController.cs",
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",

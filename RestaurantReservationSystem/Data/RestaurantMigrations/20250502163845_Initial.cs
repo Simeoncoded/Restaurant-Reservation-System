@@ -88,8 +88,6 @@ namespace RestaurantReservationSystem.Data.RestaurantMigrations
                 table: "Tables",
                 columns: new[] { "TableNumber", "Location" },
                 unique: true);
-
-            ExtraMigration.Steps(migrationBuilder);
         }
 
         /// <inheritdoc />
