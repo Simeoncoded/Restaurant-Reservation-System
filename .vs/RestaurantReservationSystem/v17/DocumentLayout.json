@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\RestaurantReservationSystem\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\data\\restaurantreservationsysteminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\data\\restaurantreservationsysteminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\views\\reservation\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\views\\reservation\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|c:\\restaurantreservationsystem\\restaurantreservationsystem\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{273A1DAF-1427-4BE7-894C-89F42D6FE56E}|RestaurantReservationSystem\\RestaurantReservationSystem.csproj|solutionrelative:restaurantreservationsystem\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 133,
           "Children": [
             {
               "$type": "Bookmark",
@@ -536,8 +553,56 @@
               "Name": "ST:2037716325:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml*",
+              "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Edit.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-02T16:30:34.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Program.cs",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Program.cs",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Program.cs",
+              "RelativeToolTip": "RestaurantReservationSystem\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T16:30:30.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RestaurantReservationSystemInitializer.cs",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
+              "RelativeToolTip": "RestaurantReservationSystem\\Data\\RestaurantReservationSystemInitializer.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAADgAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T16:29:42.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReservationController.cs",
+              "DocumentMoniker": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\ReservationController.cs",
+              "RelativeDocumentMoniker": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",
+              "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Controllers\\ReservationController.cs",
+              "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",
+              "ViewState": "AgIAAM4AAAAAAAAAAAAswOEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-02T16:25:25.798Z",
+              "EditorCaption": ""
             }
           ]
         },
@@ -568,6 +633,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
