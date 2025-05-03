@@ -88,9 +88,8 @@ namespace RestaurantReservationSystem.Models
         public TimeSpan? Time { get; set; }
 
 
-        [ScaffoldColumn(false)]
         [Timestamp]
-        public Byte[]? RowVersion { get; set; }//Added for concurrency
+        public Byte[]? RowVersion { get; set; } //Added for concurrency
 
 
         [Required(ErrorMessage = "You cannot leave Reservation Size blank")]
