@@ -558,8 +558,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
               "ViewState": "AgIAAHUAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T03:18:26.029Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T03:18:26.029Z"
             },
             {
               "$type": "Document",
@@ -569,7 +568,7 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Table\\Edit.cshtml",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Table\\Edit.cshtml",
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Edit.cshtml",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAgwJ4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAiwJ4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-03T03:18:16.672Z",
               "EditorCaption": ""
@@ -584,8 +583,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Create.cshtml",
               "ViewState": "AgIAAEMAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T03:18:10.966Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T03:18:10.966Z"
             }
           ]
         },
