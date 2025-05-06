@@ -1,38 +1,91 @@
 ﻿@model RestaurantReservationSystem.Models.Table
 
-<partial name="_ViewHeading" />
 
-<div>
-    <h4>Table</h4>
+<div class="table-details-container">
+    <h4>Table Details</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TableNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TableNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Capacity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Capacity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
+        <dt class="col-sm-3">Table Number</dt>
+        <dd class="col-sm-9">@Model.TableNumber</dd>
+
+        <dt class="col-sm-3">Capacity</dt>
+        <dd class="col-sm-9">@Model.Capacity</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Status</dd>
+
+        <dt class="col-sm-3">Location</dt>
+        <dd class="col-sm-9">@Model.Location</dd>
     </dl>
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+        </a>
+        <a asp-action="Index" class="btn y ms-2">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back to List
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |
-    <partial name="_BackToList" />
-</div>
+
+<style>
+    .table-details-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(149, 117, 205, 0.3);
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+
+    h4 {
+        color: #6A1B9A;
+        font-weight: 600;
+        border-bottom: 2px solid #9C27B0;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    dt {
+        font-weight: 500;
+        color: #4A148C;
+    }
+
+    dd {
+        color: #333;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #9C27B0, #6A1B9A);
+        border: none;
+        border-radius: 5px;
+        padding: 0.4rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+        }
+
+    .btn-secondary {
+        background-color: #E0E0E0;
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 5px;
+    }
+
+        .btn-secondary:hover {
+            background-color: #D1C4E9;
+        }
+
+    @@media (max-width: 768px) {
+        .table-details-container {
+            padding: 1.5rem;
+        }
+
+        .row > div[class^="col-"] {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
