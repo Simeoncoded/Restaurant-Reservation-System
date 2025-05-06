@@ -17,12 +17,16 @@
 
         <dt class="col-sm-3">Email</dt>
         <dd class="col-sm-9">@Model.Email</dd>
-
         <dt class="col-sm-3">Date</dt>
-        <dd class="col-sm-9">@Model.Date.ToString("dddd, MMMM d, yyyy")</dd>
+        <dd class="col-sm-9">
+            @(Model?.Date.HasValue == true ? Model.Date.Value.ToString("dddd, MMMM d, yyyy") : "Not set")
+        </dd>
 
         <dt class="col-sm-3">Time</dt>
-        <dd class="col-sm-9">@Model.Time.ToString(@"hh\:mm")</dd>
+        <dd class="col-sm-9">
+            @(Model?.Time.HasValue == true ? Model.Time.Value.ToString(@"hh\:mm") : "Not set")
+        </dd>
+
 
         <dt class="col-sm-3">Party Size</dt>
         <dd class="col-sm-9">@Model.PartySize</dd>
