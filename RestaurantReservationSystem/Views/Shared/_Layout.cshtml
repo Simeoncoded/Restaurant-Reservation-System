@@ -34,6 +34,8 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Table" asp-action="admindashboard">Admin Dashboard</a>
                         </li>
                     </ul>
+                    <div id="google_translate_element"></div>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -59,6 +61,20 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', // Your site's default language
+                includedLanguages: 'en,fr,es,de,ar,zh', // Languages to support
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+
+    <script type="text/javascript"
+            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
+
     <script>
         $(document).ready(function () {
             // Show/hide the scroll-to-top button
