@@ -1,81 +1,119 @@
 ﻿@model RestaurantReservationSystem.Models.Reservation
 
 <partial name="_ViewHeading" />
-<div>
-    <h4>Reservation</h4>
+
+<div class="reservation-card">
+    <h4 class="reservation-heading"><i class="fa-solid fa-utensils"></i> Reservation Details</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Time)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Time)
-        </dd>
-       
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PartySize)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PartySize)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecialRequests)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecialRequests)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsCheckedIn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsCheckedIn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Table)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Table.Location)
-        </dd>
+        <dt class="col-sm-3">First Name</dt>
+        <dd class="col-sm-9">@Model.FirstName</dd>
 
+        <dt class="col-sm-3">Last Name</dt>
+        <dd class="col-sm-9">@Model.LastName</dd>
+
+        <dt class="col-sm-3">Phone</dt>
+        <dd class="col-sm-9">@Model.Phone</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Date</dt>
+        <dd class="col-sm-9">@Model.Date.ToString("dddd, MMMM d, yyyy")</dd>
+
+        <dt class="col-sm-3">Time</dt>
+        <dd class="col-sm-9">@Model.Time.ToString(@"hh\:mm")</dd>
+
+        <dt class="col-sm-3">Party Size</dt>
+        <dd class="col-sm-9">@Model.PartySize</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.Status</dd>
+
+        <dt class="col-sm-3">Special Requests</dt>
+        <dd class="col-sm-9 text-muted">@Model.SpecialRequests ?? "None"</dd>
+
+        <dt class="col-sm-3">Checked In?</dt>
+        <dd class="col-sm-9">@Model.IsCheckedIn ? "Yes" : "No"</dd>
+
+        <dt class="col-sm-3">Table Location</dt>
+        <dd class="col-sm-9">@Model.Table?.Location ?? "Not Assigned"</dd>
     </dl>
+    <div class="mt-4 d-flex gap-3">
+        <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+        </a>
+        <partial name="_BackToList" />
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |
-    <partial name="_BackToList" />
-</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
+
+<style>
+    .reservation-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        box-shadow: 0 0 25px rgba(149, 117, 205, 0.3);
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+    }
+
+    .reservation-heading {
+        color: #6A1B9A;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #9C27B0;
+        padding-bottom: 0.5rem;
+    }
+
+    dt {
+        color: #4A148C;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+
+    dd {
+        margin-bottom: 1rem;
+        font-size: 1.05rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #9C27B0, #6A1B9A);
+        border: none;
+        padding: 0.4rem 1.2rem;
+        border-radius: 8px;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+    }
+
+    .text-muted {
+        color: #7B1FA2 !important;
+        font-style: italic;
+    }
+
+    @@media (max-width: 768px) {
+        .reservation-card {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+
+        .row > dt,
+        .row > dd {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    }
+</style>
