@@ -1,6 +1,5 @@
 ﻿@model RestaurantReservationSystem.Models.Reservation
 
-<partial name="_ViewHeading" />
 
 <div class="reservation-card">
     <h4 class="reservation-heading"><i class="fa-solid fa-utensils"></i> Reservation Details</h4>
@@ -33,15 +32,21 @@
 
         <dt class="col-sm-3">Status</dt>
         <dd class="col-sm-9">@Model.Status</dd>
-
         <dt class="col-sm-3">Special Requests</dt>
-        <dd class="col-sm-9 text-muted">@Model.SpecialRequests ?? "None"</dd>
+        <dd class="col-sm-9 text-muted">
+            @(Model.SpecialRequests ?? "None")
+        </dd>
 
         <dt class="col-sm-3">Checked In?</dt>
-        <dd class="col-sm-9">@Model.IsCheckedIn ? "Yes" : "No"</dd>
+        <dd class="col-sm-9">
+            @(Model.IsCheckedIn ? "Yes" : "No")
+        </dd>
 
         <dt class="col-sm-3">Table Location</dt>
-        <dd class="col-sm-9">@Model.Table?.Location ?? "Not Assigned"</dd>
+        <dd class="col-sm-9">
+            @(Model.Table?.Location ?? "Not Assigned")
+        </dd>
+
     </dl>
     <div class="mt-4 d-flex gap-3">
         <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">
