@@ -1,83 +1,123 @@
 ﻿@model IEnumerable<RestaurantReservationSystem.Models.Table>
 
-@* <partial name="_ViewHeading" /> *@
-
 <p>
     <a asp-action="Create" class="btn btn-primary" data-bs-toggle="tooltip" title="Create a new table">
-        Create New @ViewData["ControllerFriendlyName"]
+        <i class="fa fa-plus"></i> Create New @ViewData["ControllerFriendlyName"]
     </a>
 </p>
 
 <div class="table-container">
-    <form asp-action="Index" method="get" class="form-container">
+    <form asp-action="Index" method="get" class="form-container" aria-labelledby="filter-heading">
         <div class="form-group">
-            <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" data-bs-toggle="tooltip" title="Toggle filter options">
-                Filter/Search @ViewData["numberFilters"]
-            </button><br />
+            <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" title="Toggle filter options">
+                <i class="fa fa-filter"></i> Filter/Search @ViewData["numberFilters"]
+            </button>
             <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
             <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+
             <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
-                <div class="card card-body bg-light">
-                    <div class="row">
+                <div class="card card-body bg-light" role="region" aria-label="Filter Options">
+                    <div class="row gy-3">
                         <div class="col-md-3">
-                            <label for="TableNum" class="form-label" data-bs-toggle="tooltip" title="Search by Table Number">Table Number:</label>
+                            <label for="TableNum" class="form-label">Table Number:</label>
                             @Html.TextBox("TableNum", null, new { @class = "form-control", @id = "TableNum" })
                         </div>
                         <div class="col-md-3">
-                            <label for="TableCap" class="form-label" data-bs-toggle="tooltip" title="Search by Capacity">Table Capacity:</label>
+                            <label for="TableCap" class="form-label">Table Capacity:</label>
                             @Html.TextBox("TableCap", null, new { @class = "form-control", @id = "TableCap" })
                         </div>
                         <div class="col-md-3">
-                            <label for="TableLoc" class="form-label" data-bs-toggle="tooltip" title="Search by Location">Table Location:</label>
+                            <label for="TableLoc" class="form-label">Table Location:</label>
                             @Html.TextBox("TableLoc", null, new { @class = "form-control", @id = "TableLoc" })
                         </div>
                         <div class="col-md-3">
-                            <label for="StatusFilter" class="form-label" data-bs-toggle="tooltip" title="Filter by Table Status">Table Status:</label>
+                            <label for="StatusFilter" class="form-label">Table Status:</label>
                             @Html.DropDownList("StatusFilter", (SelectList)ViewBag.StatusSelectList, "All Table Statuses", new { @class = "form-control", @id = "StatusFilter" })
                         </div>
-                        <div class="col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" data-bs-toggle="tooltip" title="Apply filter" />
-                            <a asp-action="Index" class="btn btn-secondary" data-bs-toggle="tooltip" title="Clear filters">Clear</a>
+                        <div class="col-md-4">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary">Clear</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-hover table-striped align-middle mt-4" role="table">
+            <thead class="table-primary">
                 <tr>
                     <th>
-                        <input type="submit" name="actionButton" value="Table" class="btn btn-link" />
+                        <button type="submit" name="actionButton" value="Table" class="sort-button btn btn-link text-light" aria-label="Sort by Table Number">
+                            Table
+                            @if ((string)ViewData["sortField"] == "Table" && (string)ViewData["sortDirection"] == "asc")
+                            {
+                                <i class="fa-solid fa-arrow-up-a-z"></i>
+                            }
+                            else if ((string)ViewData["sortField"] == "Table" && (string)ViewData["sortDirection"] == "desc")
+                            {
+                                <i class="fa-solid fa-arrow-down-a-z"></i>
+                            }
+                        </button>
                     </th>
                     <th>
-                        <input type="submit" name="actionButton" value="Capacity" class="btn btn-link" />
+                        <button type="submit" name="actionButton" value="Capacity" class="sort-button btn btn-link text-light" aria-label="Sort by Capacity">
+                            Capacity
+                            @if ((string)ViewData["sortField"] == "Capacity" && (string)ViewData["sortDirection"] == "asc")
+                            {
+                                <i class="fa-solid fa-arrow-up-1-9"></i>
+                            }
+                            else if ((string)ViewData["sortField"] == "Capacity" && (string)ViewData["sortDirection"] == "desc")
+                            {
+                                <i class="fa-solid fa-arrow-down-9-1"></i>
+                            }
+                        </button>
                     </th>
                     <th>
-                        <input type="submit" name="actionButton" value="Status" class="btn btn-link" />
+                        <button type="submit" name="actionButton" value="Status" class="sort-button btn btn-link text-light" aria-label="Sort by Status">
+                            Status
+                            @if ((string)ViewData["sortField"] == "Status" && (string)ViewData["sortDirection"] == "asc")
+                            {
+                                <i class="fa-solid fa-arrow-up-a-z"></i>
+                            }
+                            else if ((string)ViewData["sortField"] == "Status" && (string)ViewData["sortDirection"] == "desc")
+                            {
+                                <i class="fa-solid fa-arrow-down-a-z"></i>
+                            }
+                        </button>
                     </th>
                     <th>
-                        <input type="submit" name="actionButton" value="Location" class="btn btn-link" />
+                        <button type="submit" name="actionButton" value="Location" class="sort-button btn btn-link text-light" aria-label="Sort by Location">
+                            Location
+                            @if ((string)ViewData["sortField"] == "Location" && (string)ViewData["sortDirection"] == "asc")
+                            {
+                                <i class="fa-solid fa-arrow-up-a-z"></i>
+                            }
+                            else if ((string)ViewData["sortField"] == "Location" && (string)ViewData["sortDirection"] == "desc")
+                            {
+                                <i class="fa-solid fa-arrow-down-a-z"></i>
+                            }
+                        </button>
                     </th>
-                    <th>Actions</th>
+                    <th class="text-light">Actions</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.TableNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                        <td>@item.TableNumber</td>
+                        <td>@item.Capacity</td>
+                        <td>@item.Status</td>
+                        <td>@item.Location</td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit table">
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit table" aria-label="Edit Table">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View table details">
+                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" title="View details" aria-label="View Details">
                                 <i class="fa-solid fa-circle-info"></i>
                             </a>
-                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete table">
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" title="Delete table" aria-label="Delete Table">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                         </td>
@@ -91,11 +131,95 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
+    <script>
+        // Enable Bootstrap tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
         });
     </script>
 }
-s
+
+<style>
+    .form-container {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(149, 117, 205, 0.3);
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+
+    .table-container table {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .table thead th {
+        background-color: #6A1B9A;
+        color: white;
+        font-weight: 600;
+        border: none;
+    }
+
+    .table tbody tr:hover {
+        background-color: #F3E5F5;
+    }
+
+    .btn-primary,
+    .btn-outline-primary {
+        background: linear-gradient(45deg, #9C27B0, #6A1B9A);
+        border: none;
+        color: white;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #7B1FA2;
+    }
+
+    .btn-secondary {
+        background-color: #B39DDB;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #9575CD;
+    }
+
+    .btn-link {
+        color: #6A1B9A;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-link:hover {
+        color: #4A148C;
+        text-decoration: underline;
+    }
+
+    .filter-btn {
+        margin-bottom: 1rem;
+    }
+
+    .form-label, th {
+        color: #4A148C;
+    }
+
+    /* Accessibility: focus outline */
+    a:focus, button:focus, input:focus, select:focus {
+        outline: 3px dashed #CE93D8 !important;
+        outline-offset: 2px;
+    }
+
+    @@media (max-width: 768px) {
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .form-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
