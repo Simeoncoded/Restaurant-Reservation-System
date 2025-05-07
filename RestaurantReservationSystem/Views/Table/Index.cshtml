@@ -7,11 +7,14 @@
 </p>
 
 <div class="table-container">
+
+    <!-- Filter/Search Form -->
     <form asp-action="Index" method="get" class="form-container" aria-labelledby="filter-heading">
         <div class="form-group">
             <button class="btn btn-outline-primary filter-btn" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" title="Toggle filter options">
                 <i class="fa fa-filter"></i> Filter/Search @ViewData["numberFilters"]
             </button>
+
             <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
             <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
 
@@ -42,98 +45,100 @@
                 </div>
             </div>
         </div>
-
-        <table class="table table-hover table-striped align-middle mt-4" role="table">
-            <thead class="table-primary">
-                <tr>
-                    <th>
-                        <button type="submit" name="actionButton" value="Table" class="sort-button btn btn-link text-light" aria-label="Sort by Table Number">
-                            Table
-                            @if ((string)ViewData["sortField"] == "Table" && (string)ViewData["sortDirection"] == "asc")
-                            {
-                                <i class="fa-solid fa-arrow-up-a-z"></i>
-                            }
-                            else if ((string)ViewData["sortField"] == "Table" && (string)ViewData["sortDirection"] == "desc")
-                            {
-                                <i class="fa-solid fa-arrow-down-a-z"></i>
-                            }
-                        </button>
-                    </th>
-                    <th>
-                        <button type="submit" name="actionButton" value="Capacity" class="sort-button btn btn-link text-light" aria-label="Sort by Capacity">
-                            Capacity
-                            @if ((string)ViewData["sortField"] == "Capacity" && (string)ViewData["sortDirection"] == "asc")
-                            {
-                                <i class="fa-solid fa-arrow-up-1-9"></i>
-                            }
-                            else if ((string)ViewData["sortField"] == "Capacity" && (string)ViewData["sortDirection"] == "desc")
-                            {
-                                <i class="fa-solid fa-arrow-down-9-1"></i>
-                            }
-                        </button>
-                    </th>
-                    <th>
-                        <button type="submit" name="actionButton" value="Status" class="sort-button btn btn-link text-light" aria-label="Sort by Status">
-                            Status
-                            @if ((string)ViewData["sortField"] == "Status" && (string)ViewData["sortDirection"] == "asc")
-                            {
-                                <i class="fa-solid fa-arrow-up-a-z"></i>
-                            }
-                            else if ((string)ViewData["sortField"] == "Status" && (string)ViewData["sortDirection"] == "desc")
-                            {
-                                <i class="fa-solid fa-arrow-down-a-z"></i>
-                            }
-                        </button>
-                    </th>
-                    <th>
-                        <button type="submit" name="actionButton" value="Location" class="sort-button btn btn-link text-light" aria-label="Sort by Location">
-                            Location
-                            @if ((string)ViewData["sortField"] == "Location" && (string)ViewData["sortDirection"] == "asc")
-                            {
-                                <i class="fa-solid fa-arrow-up-a-z"></i>
-                            }
-                            else if ((string)ViewData["sortField"] == "Location" && (string)ViewData["sortDirection"] == "desc")
-                            {
-                                <i class="fa-solid fa-arrow-down-a-z"></i>
-                            }
-                        </button>
-                    </th>
-                    <th class="text-light">Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.TableNumber</td>
-                        <td>@item.Capacity</td>
-                        <td>@item.Status</td>
-                        <td>@item.Location</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit table" aria-label="Edit Table">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" title="View details" aria-label="View Details">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" title="Delete table" aria-label="Delete Table">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <partial name="_PagingNavBar" />
     </form>
+
+    <!-- Table -->
+    <table class="table table-hover table-striped align-middle mt-4" role="table">
+        <thead class="table-primary">
+            <tr>
+                <th>
+                    <form asp-action="Index" method="get" class="d-inline">
+                        <input type="hidden" name="sortField" value="Table" />
+                        <input type="hidden" name="sortDirection" value="@(ViewData["sortField"] as string == "Table" && ViewData["sortDirection"] as string == "asc" ? "desc" : "asc")" />
+                        <button type="submit" class="sort-button btn btn-link text-light" aria-label="Sort by Table Number">
+                            Table
+                            @if ((string)ViewData["sortField"] == "Table")
+                            {
+                                <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                            }
+                        </button>
+                    </form>
+                </th>
+                <th>
+                    <form asp-action="Index" method="get" class="d-inline">
+                        <input type="hidden" name="sortField" value="Capacity" />
+                        <input type="hidden" name="sortDirection" value="@(ViewData["sortField"] as string == "Capacity" && ViewData["sortDirection"] as string == "asc" ? "desc" : "asc")" />
+                        <button type="submit" class="sort-button btn btn-link text-light" aria-label="Sort by Capacity">
+                            Capacity
+                            @if ((string)ViewData["sortField"] == "Capacity")
+                            {
+                                <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-1-9" : "fa-arrow-down-9-1")"></i>
+                            }
+                        </button>
+                    </form>
+                </th>
+                <th>
+                    <form asp-action="Index" method="get" class="d-inline">
+                        <input type="hidden" name="sortField" value="Status" />
+                        <input type="hidden" name="sortDirection" value="@(ViewData["sortField"] as string == "Status" && ViewData["sortDirection"] as string == "asc" ? "desc" : "asc")" />
+                        <button type="submit" class="sort-button btn btn-link text-light" aria-label="Sort by Status">
+                            Status
+                            @if ((string)ViewData["sortField"] == "Status")
+                            {
+                                <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                            }
+                        </button>
+                    </form>
+                </th>
+                <th>
+                    <form asp-action="Index" method="get" class="d-inline">
+                        <input type="hidden" name="sortField" value="Location" />
+                        <input type="hidden" name="sortDirection" value="@(ViewData["sortField"] as string == "Location" && ViewData["sortDirection"] as string == "asc" ? "desc" : "asc")" />
+                        <button type="submit" class="sort-button btn btn-link text-light" aria-label="Sort by Location">
+                            Location
+                            @if ((string)ViewData["sortField"] == "Location")
+                            {
+                                <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                            }
+                        </button>
+                    </form>
+                </th>
+                <th class="text-light">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TableNumber</td>
+                    <td>@item.Capacity</td>
+                    <td>@item.Status</td>
+                    <td>@item.Location</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit table" aria-label="Edit Table">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-secondary" title="View details" aria-label="View Details">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger" title="Delete table" aria-label="Delete Table">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <partial name="_PagingNavBar" />
 </div>
 
 @section Scripts {
     <script>
         // Enable Bootstrap tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.forEach(function (tooltipTriggerEl) {
             new bootstrap.Tooltip(tooltipTriggerEl);
         });
@@ -173,9 +178,9 @@
         color: white;
     }
 
-    .btn-outline-primary:hover {
-        background-color: #7B1FA2;
-    }
+        .btn-outline-primary:hover {
+            background-color: #7B1FA2;
+        }
 
     .btn-secondary {
         background-color: #B39DDB;
@@ -183,9 +188,9 @@
         border: none;
     }
 
-    .btn-secondary:hover {
-        background-color: #9575CD;
-    }
+        .btn-secondary:hover {
+            background-color: #9575CD;
+        }
 
     .btn-link {
         color: #6A1B9A;
@@ -193,10 +198,10 @@
         font-weight: 600;
     }
 
-    .btn-link:hover {
-        color: #4A148C;
-        text-decoration: underline;
-    }
+        .btn-link:hover {
+            color: #4A148C;
+            text-decoration: underline;
+        }
 
     .filter-btn {
         margin-bottom: 1rem;
@@ -206,7 +211,6 @@
         color: #4A148C;
     }
 
-    /* Accessibility: focus outline */
     a:focus, button:focus, input:focus, select:focus {
         outline: 3px dashed #CE93D8 !important;
         outline-offset: 2px;
