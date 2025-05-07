@@ -144,15 +144,22 @@
         });
     </script>
 }
-
 <style>
-    .form-container {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(149, 117, 205, 0.3);
+    /* Container wrapping filters, table, and pagination */
+    .table-container {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         padding: 2rem;
-        margin: 2rem auto;
+        margin-top: 2rem;
+    }
+
+    .form-container {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 
     .table-container table {
@@ -219,6 +226,7 @@
     @@media (max-width: 768px) {
         .table-container {
             overflow-x: auto;
+            padding: 1rem;
         }
 
         .form-container {
