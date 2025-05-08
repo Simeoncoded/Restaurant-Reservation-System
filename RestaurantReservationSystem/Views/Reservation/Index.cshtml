@@ -46,8 +46,9 @@
                 </div>
             </div>
         </div>
+        <div class="table-container">
+            <table class="table table-striped table-hover table-bordered">
 
-        <table class="table table-striped table-hover table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Summary)</th>
@@ -90,7 +91,9 @@
                     </tr>
                 }
             </tbody>
-        </table>
+            </table>
+        </div>
+
 
         <partial name="_PagingNavBar" />
 
@@ -136,3 +139,94 @@
         });
     </script>
 }
+
+<style>
+    /* Container wrapping filters, table, and pagination */
+    .table-container {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+
+    .form-container {
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .table-container table {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .table thead th {
+        background-color: #6A1B9A;
+        color: white;
+        font-weight: 600;
+        border: none;
+    }
+
+    .table tbody tr:hover {
+        background-color: #F3E5F5;
+    }
+
+    .btn-primary,
+    .btn-outline-primary {
+        background: linear-gradient(45deg, #9C27B0, #6A1B9A);
+        border: none;
+        color: white;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #7B1FA2;
+        }
+
+    .btn-secondary {
+        background-color: #B39DDB;
+        color: #fff;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background-color: #9575CD;
+        }
+
+    .btn-link {
+        color: #6A1B9A;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .btn-link:hover {
+            color: #4A148C;
+            text-decoration: underline;
+        }
+
+    .filter-btn {
+        margin-bottom: 1rem;
+    }
+
+    .form-label, th {
+        color: #4A148C;
+    }
+
+    a:focus, button:focus, input:focus, select:focus {
+        outline: 3px dashed #CE93D8 !important;
+        outline-offset: 2px;
+    }
+
+    @@media (max-width: 768px) {
+        .table-container {
+            overflow-x: auto;
+            padding: 1rem;
+        }
+
+        .form-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
