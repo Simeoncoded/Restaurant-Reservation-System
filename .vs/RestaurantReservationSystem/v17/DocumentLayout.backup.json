@@ -558,8 +558,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Create.cshtml",
               "ViewState": "AgIAAHUAAAAAAAAAAAAAAJsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T00:49:19.323Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T00:49:19.323Z"
             },
             {
               "$type": "Document",
@@ -571,8 +570,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Delete.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-07T00:49:18.54Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-07T00:49:18.54Z"
             },
             {
               "$type": "Document",
@@ -582,7 +580,7 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Table\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAAAJkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-05-07T00:49:14.559Z",
               "EditorCaption": ""
