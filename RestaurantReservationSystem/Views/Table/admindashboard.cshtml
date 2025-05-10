@@ -71,6 +71,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body" style="width: 280px; height: 300px; margin: 0 auto;">
+                    <h5 class="text-center mb-3" style="color: #6A1B9A;">Reservations by Time</h5>
+                    <canvas id="timeDonutChart" height="30"></canvas>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
@@ -78,13 +89,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Bar chart for reservations by table
             const chartData = @Html.Raw(ViewData["data"]);
-
             const labels = chartData.map(item => `Table ${item.table}`);
             const values = chartData.map(item => item.count);
 
             const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -99,24 +110,41 @@
                 },
                 options: {
                     responsive: true,
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            precision: 0,
-                            ticks: {
-                                color: '#6A1B9A'
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: '#6A1B9A'
-                            }
-                        }
-                    },
+                        y: { beginAtZero: true, ticks: { color: '#6A1B9A' } },
+                        x: { ticks: { color: '#6A1B9A' } }
+                    }
+                }
+            });
+
+            // Donut chart for reservations by time
+            const timeData = @Html.Raw(ViewData["timeData"]);
+            const timeLabels = timeData.map(item => item.time);
+            const timeCounts = timeData.map(item => item.count);
+
+            const timeCtx = document.getElementById('timeDonutChart').getContext('2d');
+            new Chart(timeCtx, {
+                type: 'doughnut', // <--- Donut chart here!
+                data: {
+                    labels: timeLabels,
+                    datasets: [{
+                        data: timeCounts,
+                        backgroundColor: [
+                            '#6A1B9A', '#8E24AA', '#AB47BC', '#BA68C8',
+                            '#CE93D8', '#E1BEE7', '#F3E5F5', '#9C27B0',
+                            '#7B1FA2', '#4A148C'
+                        ],
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '80%', // controls size of the donut hole
                     plugins: {
-                        legend: { display: false },
-                        title: {
-                            display: false
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#6A1B9A' }
                         }
                     }
                 }
@@ -124,6 +152,8 @@
         });
     </script>
 }
+
+
 
 <style>
     .dashboard-container {

@@ -387,7 +387,29 @@ public IActionResult AdminDashboard()
         // Pass to view as JSON for Chart.js
         ViewData["data"] = JsonConvert.SerializeObject(reservationByTable);
 
-        var vm = new AdminPageVM
+            // Step 1: Get grouped data from the database (without ordering)
+            var reservationByTime = _context.Reservations
+                .Where(r => r.Time.HasValue)
+                .GroupBy(r => r.Time.Value)
+                .Select(group => new
+                {
+                    time = group.Key,  // Keep TimeSpan for now
+                    count = group.Count()
+                })
+                .AsEnumerable() // switch to LINQ to Objects
+                .OrderBy(g => g.time) // now you can safely sort TimeSpan
+                .Select(g => new
+                {
+                    time = DateTime.Today.Add(g.time).ToString("h:mm tt"),
+                    count = g.count
+                })
+                .ToList();
+
+            ViewData["timeData"] = JsonConvert.SerializeObject(reservationByTime);
+
+
+
+            var vm = new AdminPageVM
         {
             TotalReservationsToday = totalReservationsToday,
             AvailableTables = availableTables,
