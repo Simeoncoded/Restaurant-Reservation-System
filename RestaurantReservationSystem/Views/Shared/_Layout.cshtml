@@ -22,16 +22,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="color:#6A1B9A;">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Table" asp-action="Index">Tables</a>
+                            <a class="nav-link " asp-area="" asp-controller="Table" asp-action="Index" style="color:#6A1B9A;">Tables</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservation" asp-action="Index">Reservations</a>
+                            <a class="nav-link" asp-area="" asp-controller="Reservation" asp-action="Index" style="color:#6A1B9A;">Reservations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Table" asp-action="admindashboard">Admin Dashboard</a>
+                            <a class="nav-link" asp-area="" asp-controller="Table" asp-action="admindashboard" style="color:#6A1B9A;">Admin Dashboard</a>
                         </li>
                     </ul>
                     <div id="google_translate_element"></div>
@@ -48,14 +48,14 @@
     </div>
 
     <!-- Scroll to Top Button -->
-    <a href="#" class="btn btn-primary scroll-to-top" id="scrollToTop" role="button" data-toggle="tooltip" title="Back to Top">
+    <a href="#" class="btn scroll-to-top" id="scrollToTop" role="button" data-toggle="tooltip" title="Back to Top">
         <i class="bi bi-arrow-up"></i>
     </a>
 
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - Restaurant Reservation
+           Restaurant Reservation System
         </div>
     </footer>
 
@@ -112,3 +112,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

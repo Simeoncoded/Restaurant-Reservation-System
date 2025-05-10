@@ -110,16 +110,14 @@ footer {
     z-index: 1000; /* Above other elements */
     border-radius: 50%;
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #6A1B9A;
     color: white;
     text-align: center;
     cursor: pointer;
+    color:#fff;
 }
-
-    .scroll-to-top:hover {
-        background-color: #0056b3;
-    }
 
     .scroll-to-top i {
         font-size: 20px;
+        color:#fff;
     }
