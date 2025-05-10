@@ -37,7 +37,6 @@ namespace RestaurantReservationSystem.Models
         [Timestamp]
         public Byte[]? RowVersion { get; set; }//Added for concurrency
 
-
         public ICollection<Reservation> Reservations { get; set; } = new HashSet<Reservation>();
     }
 }
