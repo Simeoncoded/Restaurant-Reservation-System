@@ -60,3 +60,53 @@
         }
     </div>
 </div>
+
+
+
+<div class="mt-5">
+    <h3 class="text-center">Reservation Distribution by Table</h3>
+    <canvas id="myChart" height="100"></canvas>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const chartData = @Html.Raw(ViewData["data"]);
+
+            const labels = chartData.map(item => item.table);
+            const values = chartData.map(item => item.count);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Reservations',
+                        data: values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Reservations by Table'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RestaurantReservationSystem.CustomControllers;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
@@ -350,6 +351,8 @@ namespace RestaurantReservationSystem.Controllers
             // Redirect back to the reservations list
             return RedirectToAction(nameof(Index));
         }
+
+
 
         private void PopulateDropDownLists(Reservation? reservation = null)
         {

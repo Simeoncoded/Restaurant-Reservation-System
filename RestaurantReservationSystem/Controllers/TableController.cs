@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RestaurantReservationSystem.CustomControllers;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
@@ -344,38 +345,63 @@ namespace RestaurantReservationSystem.Controllers
 
         }
 
+public IActionResult AdminDashboard()
+    {
+        var today = DateTime.Today;
 
-        public IActionResult AdminDashboard()
-        {
-            var totalReservationsToday = _context.Reservations
-                .Where(r => r.Date == DateTime.Today).Count();
+        var totalReservationsToday = _context.Reservations
+            .Where(r => r.Date == today)
+            .Count();
 
-            var availableTables = _context.Tables
-                .Where(t => t.Status == TableStatus.Available).Count();
+        var availableTables = _context.Tables
+            .Where(t => t.Status == TableStatus.Available)
+            .Count();
 
-            var reservationsThisWeek = _context.Reservations
-                .Where(r => r.Date >= DateTime.Today && r.Date <= DateTime.Today.AddDays(7)).Count();
+        var reservationsThisWeek = _context.Reservations
+            .Where(r => r.Date >= today && r.Date <= today.AddDays(7))
+            .Count();
 
-            var upcomingReservations = _context.Reservations
-                .Where(r => r.Date >= DateTime.Today)
-                .OrderBy(r => r.Date)
-                .Take(5)
-                .ToList();
+        var upcomingReservations = _context.Reservations
+            .Where(r => r.Date >= today)
+            .OrderBy(r => r.Date)
+            .Take(5)
+            .ToList();
 
-            var vm = new AdminPageVM
+        var checkedInReservations = _context.Reservations
+            .Where(r => r.IsCheckedIn)
+            .Count();
+
+        var totalTables = _context.Tables.Count();
+
+        // 👇 Chart data: Reservations grouped by table name
+        var reservationByTable = _context.Reservations
+            .Include(r => r.Table)
+            .GroupBy(r => r.Table.TableNumber) // or use r.TableId if no name
+            .Select(group => new
             {
-                TotalReservationsToday = totalReservationsToday,
-                AvailableTables = availableTables,
-                ReservationsThisWeek = reservationsThisWeek,
-                UpcomingReservations = upcomingReservations,
-                CheckedInReservations = _context.Reservations
-                    .Where(r => r.IsCheckedIn).Count(),
-                TotalTables = _context.Tables.Count()
-            };
+                table = group.Key,
+                count = group.Count()
+            })
+            .ToList();
 
-            return View(vm);
-        }
-    
+        // Pass to view as JSON for Chart.js
+        ViewData["data"] = JsonConvert.SerializeObject(reservationByTable);
+
+        var vm = new AdminPageVM
+        {
+            TotalReservationsToday = totalReservationsToday,
+            AvailableTables = availableTables,
+            ReservationsThisWeek = reservationsThisWeek,
+            UpcomingReservations = upcomingReservations,
+            CheckedInReservations = checkedInReservations,
+            TotalTables = totalTables
+        };
+
+        return View(vm);
+    }
+
+
+
 
     private bool TableExists(int id)
         {
