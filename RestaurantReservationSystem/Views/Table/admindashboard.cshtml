@@ -1,71 +1,77 @@
 ﻿@model RestaurantReservationSystem.ViewModels.AdminPageVM
 
-<div class="container mt-4">
-    <h1 class="text-center">Admin Dashboard</h1>
+<div class="container dashboard-container">
+    <h1 class="text-center mb-4">Admin Dashboard</h1>
     <hr />
 
     <!-- Stats Section -->
     <div class="row text-center mb-4">
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5>Total Reservations Today</h5>
-                    <p class="display-4">@Model.TotalReservationsToday</p>
+                    <p class="display-6 fw-bold">@Model.TotalReservationsToday</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5>Available Tables</h5>
-                    <p class="display-4">@Model.AvailableTables</p>
+                    <p class="display-6 fw-bold">@Model.AvailableTables</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5>Reservations This Week</h5>
-                    <p class="display-4">@Model.ReservationsThisWeek</p>
+                    <p class="display-6 fw-bold">@Model.ReservationsThisWeek</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5>Checked-In Reservations</h5>
-                    <p class="display-4">@Model.CheckedInReservations</p>
+                    <p class="display-6 fw-bold">@Model.CheckedInReservations</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Upcoming Reservations -->
-    <div class="mt-4">
+    <div class="mt-4 mb-5">
         <h3>Upcoming Reservations</h3>
         @if (Model.UpcomingReservations != null && Model.UpcomingReservations.Any())
         {
             <ul class="list-group">
                 @foreach (var reservation in Model.UpcomingReservations)
                 {
-                    <li class="list-group-item">
-                        <strong>@(reservation.Date.HasValue ? reservation.Date.Value.ToString("d") : "N/A")</strong> - @reservation.Summary
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><strong>@(reservation.Date?.ToString("MMM dd") ?? "N/A")</strong></span>
+                        <span>@reservation.Summary</span>
                     </li>
                 }
             </ul>
         }
         else
         {
-            <p>No upcoming reservations at the moment.</p>
+            <p class="text-muted">No upcoming reservations at the moment.</p>
         }
     </div>
-</div>
 
-
-
-<div class="mt-5">
-    <h3 class="text-center">Reservation Distribution by Table</h3>
-    <canvas id="myChart" height="100"></canvas>
+    <!-- Chart -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="text-center mb-3" style="color: #6A1B9A;">Reservation Distribution by Table</h5>
+                    <canvas id="myChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -74,7 +80,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const chartData = @Html.Raw(ViewData["data"]);
 
-            const labels = chartData.map(item => item.table);
+            const labels = chartData.map(item => `Table ${item.table}`);
             const values = chartData.map(item => item.count);
 
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -85,9 +91,10 @@
                     datasets: [{
                         label: 'Reservations',
                         data: values,
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
+                        backgroundColor: '#6A1B9A',
+                        borderColor: '#4A148C',
+                        borderWidth: 1,
+                        borderRadius: 5
                     }]
                 },
                 options: {
@@ -95,14 +102,21 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            precision: 0
+                            precision: 0,
+                            ticks: {
+                                color: '#6A1B9A'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#6A1B9A'
+                            }
                         }
                     },
                     plugins: {
                         legend: { display: false },
                         title: {
-                            display: true,
-                            text: 'Reservations by Table'
+                            display: false
                         }
                     }
                 }
@@ -110,3 +124,22 @@
         });
     </script>
 }
+
+
+<style>
+    .dashboard-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        margin-top: 40px;
+    }
+
+    .card h5 {
+        color: #6A1B9A;
+    }
+
+    h1, h3 {
+        color: #6A1B9A;
+    }
+</style>
