@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.CustomControllers;
@@ -245,12 +246,8 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (RowVersion == null || RowVersion.Length == 0)
-            {
-                return BadRequest("Concurrency token is missing or invalid.");
-            }
 
             //Go get the table to update
             var tableToUpdate = await _context.Tables.FirstOrDefaultAsync(t => t.ID == id);
@@ -259,10 +256,6 @@ namespace RestaurantReservationSystem.Controllers
             {
                 return NotFound();
             }
-
-            //Put the original RowVersion value in the OriginalValues collection for the entity
-            _context.Entry(tableToUpdate).Property("RowVersion").OriginalValue = RowVersion;
-
 
             //Try updating it with the values posted
             if (await TryUpdateModelAsync<Table>(tableToUpdate, "",
@@ -273,38 +266,9 @@ namespace RestaurantReservationSystem.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", new { tableToUpdate.ID });
                 }
-                catch (DbUpdateConcurrencyException ex)
+                catch (DbUpdateConcurrencyException)
                 {
-                    var exceptionEntry = ex.Entries.Single();
-                    var databaseEntry = exceptionEntry.GetDatabaseValues();
-
-                    if (databaseEntry == null)
-                    {
-                        ModelState.AddModelError("", "The table was deleted by another user.");
-                    }
-                    else
-                    {
-                        var databaseValues = (Table)databaseEntry.ToObject();
-                        var clientValues = (Table)exceptionEntry.Entity;
-
-                        // Compare values and add errors for any mismatched fields
-                        if (databaseValues.TableNumber != clientValues.TableNumber)
-                            ModelState.AddModelError("TableNumber", $"Current value: {databaseValues.TableNumber}");
-                        if (databaseValues.Capacity != clientValues.Capacity)
-                            ModelState.AddModelError("Capacity", $"Current value: {databaseValues.Capacity}");
-                        if (databaseValues.Status != clientValues.Status)
-                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
-                        if (databaseValues.Location != clientValues.Location)
-                            ModelState.AddModelError("Location", $"Current value: {databaseValues.Location}");
-
-
-                        ModelState.AddModelError("", "The record you attempted to edit was modified by another user. "
-                            + "If you still want to save your changes, click Save again.");
-
-                        // Update the RowVersion to the current database value
-                        tableToUpdate.RowVersion = databaseValues.RowVersion;
-                        ModelState.Remove("RowVersion");
-                    }
+                    ModelState.AddModelError("","Concurrency Error");
                 }
                 catch (DbUpdateException dex)
                 {

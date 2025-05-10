@@ -29,54 +29,6 @@ namespace RestaurantReservationSystem.Data
                         {
                             context.Database.EnsureCreated(); //Create and update the database as per the Model
                         }
-                        //Now create any additional database objects such as Triggers or Views
-                        //--------------------------------------------------------------------
-                        //Create the Triggers
-                        string sqlCmd = @"
-                            CREATE TRIGGER SetReservationTimestampOnUpdate
-                            AFTER UPDATE ON Reservations
-                            BEGIN
-                                UPDATE Reservations
-                                SET RowVersion = randomblob(8)
-                                WHERE rowid = NEW.rowid;
-                            END;
-                        ";
-                        context.Database.ExecuteSqlRaw(sqlCmd);
-
-                        sqlCmd = @"
-                            CREATE TRIGGER SetReservationTimestampOnInsert
-                            AFTER INSERT ON Reservations
-                            BEGIN
-                                UPDATE Reservations
-                                SET RowVersion = randomblob(8)
-                                WHERE rowid = NEW.rowid;
-                            END
-                        ";
-                        context.Database.ExecuteSqlRaw(sqlCmd);
-
-                        //sqlCmd = @"
-                        //    CREATE TRIGGER SetMachineTimestampOnUpdate
-                        //    AFTER UPDATE ON Machines
-                        //    BEGIN
-                        //        UPDATE Machines
-                        //        SET RowVersion = randomblob(8)
-                        //        WHERE rowid = NEW.rowid;
-                        //    END;
-                        //";
-                        //context.Database.ExecuteSqlRaw(sqlCmd);
-
-                        //sqlCmd = @"
-                        //    CREATE TRIGGER SetMachineTimestampOnInsert
-                        //    AFTER INSERT ON Machines
-                        //    BEGIN
-                        //        UPDATE Machines
-                        //        SET RowVersion = randomblob(8)
-                        //        WHERE rowid = NEW.rowid;
-                        //    END
-                        //";
-                        //context.Database.ExecuteSqlRaw(sqlCmd);
-
-
                     }
                     else //The database is already created
                     {

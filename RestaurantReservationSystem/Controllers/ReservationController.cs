@@ -215,7 +215,7 @@ namespace RestaurantReservationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Byte[] RowVersion)
+        public async Task<IActionResult> Edit(int id)
         {
             var reservationToUpdate = await _context.Reservations
                 .Include(r => r.Table) // Optional: only if you're displaying related data
@@ -225,9 +225,6 @@ namespace RestaurantReservationSystem.Controllers
             {
                 return NotFound();
             }
-
-            // Set the original RowVersion for concurrency tracking
-            _context.Entry(reservationToUpdate).Property("RowVersion").OriginalValue = RowVersion;
 
             if (await TryUpdateModelAsync<Reservation>(reservationToUpdate, "",
                 r => r.FirstName, r => r.LastName, r => r.Phone, r => r.Email,
@@ -240,57 +237,9 @@ namespace RestaurantReservationSystem.Controllers
                     TempData["Message"] = "Reservation successfully updated.";
                     return RedirectToAction("Details", new { id = reservationToUpdate.ID });
                 }
-                catch (DbUpdateConcurrencyException ex)
+                catch (DbUpdateConcurrencyException )
                 {
-                    var exceptionEntry = ex.Entries.Single();
-                    var clientValues = (Reservation)exceptionEntry.Entity;
-                    var databaseEntry = await exceptionEntry.GetDatabaseValuesAsync();
-
-                    if (databaseEntry == null)
-                    {
-                        ModelState.AddModelError("", "Unable to save changes. The reservation was deleted by another user.");
-                    }
-                    else
-                    {
-                        var databaseValues = (Reservation)databaseEntry.ToObject();
-
-                        // Compare and display conflicting values
-                        if (databaseValues.FirstName != clientValues.FirstName)
-                            ModelState.AddModelError("FirstName", $"Current value: {databaseValues.FirstName}");
-                        if (databaseValues.LastName != clientValues.LastName)
-                            ModelState.AddModelError("LastName", $"Current value: {databaseValues.LastName}");
-                        if (databaseValues.Phone != clientValues.Phone)
-                            ModelState.AddModelError("Phone", $"Current value: {databaseValues.Phone}");
-                        if (databaseValues.Email != clientValues.Email)
-                            ModelState.AddModelError("Email", $"Current value: {databaseValues.Email}");
-                        if (databaseValues.Date != clientValues.Date)
-                            ModelState.AddModelError("Date", $"Current value: {databaseValues.Date:d}");
-                        if (databaseValues.Time != clientValues.Time)
-                            ModelState.AddModelError("Time", $"Current value: {databaseValues.Time}");
-                        if (databaseValues.PartySize != clientValues.PartySize)
-                            ModelState.AddModelError("PartySize", $"Current value: {databaseValues.PartySize}");
-                        if (databaseValues.Status != clientValues.Status)
-                            ModelState.AddModelError("Status", $"Current value: {databaseValues.Status}");
-                        if (databaseValues.SpecialRequests != clientValues.SpecialRequests)
-                            ModelState.AddModelError("SpecialRequests", $"Current value: {databaseValues.SpecialRequests}");
-                        if (databaseValues.IsCheckedIn != clientValues.IsCheckedIn)
-                            ModelState.AddModelError("IsCheckedIn", $"Current value: {databaseValues.IsCheckedIn}");
-
-                        if (databaseValues.TableID != clientValues.TableID)
-                        {
-                            var table = await _context.Tables.FirstOrDefaultAsync(t => t.ID == databaseValues.TableID);
-                            ModelState.AddModelError("TableID", $"Current value: {table?.Summary ?? "N/A"}");
-                        }
-
-                        // Show concurrency error
-                        ModelState.AddModelError("", "The record you attempted to edit "
-                            + "was modified by another user after you got the original values. The edit operation was canceled. "
-                            + "The current values in the database have been displayed. If you still want to save your changes, click Save again.");
-
-                        // Update RowVersion for retry
-                        reservationToUpdate.RowVersion = databaseValues.RowVersion;
-                        ModelState.Remove("RowVersion");
-                    }
+                    ModelState.AddModelError("", "Concurrency Error");
                 }
                 catch (DbUpdateException ex)
                 {
