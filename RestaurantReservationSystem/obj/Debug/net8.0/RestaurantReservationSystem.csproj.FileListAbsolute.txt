@@ -293,3 +293,5 @@ C:\RestaurantReservationSystem\RestaurantReservationSystem\obj\Debug\net8.0\Rest
 C:\RestaurantReservationSystem\RestaurantReservationSystem\obj\Debug\net8.0\RestaurantReservationSystem.genruntimeconfig.cache
 C:\RestaurantReservationSystem\RestaurantReservationSystem\obj\Debug\net8.0\ref\RestaurantReservationSystem.dll
 C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\OpenAI.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\DotNetEnv.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\Sprache.dll
