@@ -11,18 +11,20 @@ using RestaurantReservationSystem.CustomControllers;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Models;
 using RestaurantReservationSystem.Utilities;
+using Microsoft.AspNetCore.SignalR;
+using RestaurantReservationSystem.Hubs;
 
 namespace RestaurantReservationSystem.Controllers
 {
     public class ReservationController : ElephantController
     {
          private readonly RestaurantReservationSystemContext _context;
-         //private readonly ReservationRepository _reservationRepository;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public ReservationController(RestaurantReservationSystemContext context)//, ReservationRepository reservationRepository)
+        public ReservationController(RestaurantReservationSystemContext context, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
-            //_reservationRepository = reservationRepository;
+            _hubContext = hubContext;
         }
 
         // GET: Reservation
@@ -152,24 +154,11 @@ namespace RestaurantReservationSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(reservation);
-                    //await _context.SaveChangesAsync();
-                   
-
-                    // Update the table status before creating the reservation
-                    //bool tableUpdated = await _reservationRepository.UpdateTableStatusAsync(reservation.TableID);
-
-                    //if (!tableUpdated)
-                    //{
-                        //ModelState.AddModelError("", "The selected table is unavailable.");
-                       // PopulateDropDownLists(reservation);
-                       // return View(reservation);
-                    //}
-
-                    // Create the reservation
-
-                    //await _reservationRepository.CreateReservationAsync(reservation);
                     await _context.SaveChangesAsync();
                     //return RedirectToAction(nameof(Index));
+                    // Send real-time notification
+                    string message = $"New reservation for {reservation.FirstName} {reservation.LastName} at {reservation.Time}";
+                    await _hubContext.Clients.All.SendAsync("ReceiveNotification", message);
                     return RedirectToAction("Details", new { reservation.ID });
                 }
             }

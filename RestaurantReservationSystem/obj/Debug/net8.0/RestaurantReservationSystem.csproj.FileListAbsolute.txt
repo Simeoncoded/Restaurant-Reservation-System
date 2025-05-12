@@ -295,3 +295,7 @@ C:\RestaurantReservationSystem\RestaurantReservationSystem\obj\Debug\net8.0\ref\
 C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\OpenAI.dll
 C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\DotNetEnv.dll
 C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\Sprache.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+C:\RestaurantReservationSystem\RestaurantReservationSystem\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

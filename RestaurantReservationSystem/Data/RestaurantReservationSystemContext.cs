@@ -44,6 +44,8 @@ namespace RestaurantReservationSystem.Data
 
         public DbSet<Reservation> Reservations { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Prevent Cascade Delete from Table to Reservations
