@@ -153,33 +153,49 @@ namespace RestaurantReservationSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Save the reservation
                     _context.Add(reservation);
                     await _context.SaveChangesAsync();
-                    //return RedirectToAction(nameof(Index));
-                    // Send real-time notification
-                    string message = $"New reservation for {reservation.FirstName} {reservation.LastName} at {reservation.Time}";
-                    await _hubContext.Clients.All.SendAsync("ReceiveNotification", message);
+
+                    // Build the link to reservation details
+                    string link = Url.Action("Details", "Reservation", new { id = reservation.ID }, Request.Scheme);
+
+                    // Create and save a notification
+                    var notification = new Notification
+                    {
+                        Message = $"New reservation for {reservation.FirstName} {reservation.LastName} at {reservation.Time}",
+                        Link = link,
+                        IsRead = false,
+                        UserId = null // global notification
+                    };
+
+                    _context.Notifications.Add(notification);
+                    await _context.SaveChangesAsync();
+
+                    // Send notification via SignalR to all connected clients
+                    await _hubContext.Clients.All.SendAsync("ReceiveNotification", notification.Message, notification.Link);
+
+                    // Redirect to the reservation detail page
                     return RedirectToAction("Details", new { reservation.ID });
                 }
             }
             catch (DbUpdateException dex)
             {
-                string message = dex.GetBaseException().Message;    
-               if (message.Contains("UNIQUE") && message.Contains("Reservations.Date"))
+                string message = dex.GetBaseException().Message;
+                if (message.Contains("UNIQUE") && message.Contains("Reservations.Date"))
                 {
-                    ModelState.AddModelError("", "Unable to save changes. Remember, " +
-                        "you cannot have duplicate Reservations(Time,Date and Table)");
+                    ModelState.AddModelError("", "Unable to save changes. Remember, you cannot have duplicate Reservations(Time, Date, and Table)");
                 }
                 else
                 {
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
             }
-           
 
             PopulateDropDownLists(reservation);
             return View(reservation);
         }
+
 
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
