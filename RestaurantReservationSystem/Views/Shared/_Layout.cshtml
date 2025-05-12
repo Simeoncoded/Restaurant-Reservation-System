@@ -70,19 +70,42 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-    <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/notificationHub")
-            .build();
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    function loadNotifications() {
+        fetch("/Notification/GetAll")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("notificationList").innerHTML = html;
+                updateUnreadCount();
+            });
+    }
 
-        connection.on("ReceiveNotification", function (message) {
-            alert("🔔 " + message);
-        });
+    function updateUnreadCount() {
+        const count = document.querySelectorAll("#notificationList .fw-bold").length;
+        document.getElementById("unreadCount").textContent = count;
+    }
 
-        connection.start().then(() => {
-            console.log("✅ Connected to SignalR");
-        }).catch(err => console.error("❌ SignalR connection failed: ", err));
-    </script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .build();
+
+    connection.on("ReceiveNotification", function (message, link) {
+        const li = document.createElement("li");
+        li.classList.add("dropdown-item", "fw-bold");
+        li.innerHTML = `<a href="${link}" class="notification-link">${message}</a>`;
+        
+        const list = document.getElementById("notificationList");
+        if (list.querySelector(".text-muted")) list.innerHTML = ""; // remove 'no notifications'
+        list.prepend(li);
+        updateUnreadCount();
+    });
+
+    connection.start().then(() => {
+        console.log("SignalR connected");
+        loadNotifications(); // Load on connect
+    });
+</script>
 
 
 
