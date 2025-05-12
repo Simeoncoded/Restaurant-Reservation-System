@@ -10,9 +10,9 @@
         <p class="lead">Stay updated on today's reservations and table availability!</p>
     </div>
 
-    <a asp-action="Create" class="btn" asp-controller="Reservation" data-bs-toggle="tooltip" title="Make a reservation">
+    <button asp-action="Create" class="btn" asp-controller="Reservation" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Make a reservation">
         <i class="fa fa-plus"></i> Make a Reservation Now
-    </a>
+    </button>
 
     <div class="row">
         <!-- Total Reservations Today Card -->
@@ -64,5 +64,26 @@
     .card{
         border:none;
     }
+    .btn{
+            background-color: #6A1B9A;
+            border-radius:5px;
+            color:#fff;
+          margin-bottom:10px;
+            
+    }
+
+        .btn:hover{
+            color:#fff;
+        }
 </style>
+
+    @section Scripts {
+        <script type="text/javascript">
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        </script>
+    }
+
    
