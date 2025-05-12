@@ -16,7 +16,7 @@ namespace RestaurantReservationSystem.Controllers
         {
             var notifications = _context.Notifications
                 .OrderByDescending(n => n.CreatedAt)
-                //.Take(10)
+                .Take(10)  //list first 10 according to the time created
                 .ToList();
 
             return PartialView("~/Views/Shared/_NotificationList.cshtml", notifications);

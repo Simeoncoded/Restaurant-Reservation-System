@@ -8,7 +8,7 @@
         // Optional: link to a page (e.g., reservation details)
         public string Link { get; set; }
 
-        public string UserId { get; set; } // Foreign key to AspNetUsers
+        public string? UserId { get; set; } // Foreign key to AspNetUsers
 
         public DateTime CreatedAt {  get; set; } = DateTime.UtcNow;
         public bool IsRead { get; set; }
