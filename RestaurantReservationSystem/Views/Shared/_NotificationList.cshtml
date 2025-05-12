@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Notification>
+
+@foreach (var n in Model.OrderByDescending(n => n.CreatedAt))
+{
+    <li class="dropdown-item @(n.IsRead ? "" : "fw-bold")">
+        <a href="@n.Link" class="notification-link" data-id="@n.Id">
+            @n.Message
+        </a>
+    </li>
+}
