@@ -107,6 +107,36 @@
     });
 </script>
 
+    <script>
+        document.addEventListener('click', function (e) {
+            const button = e.target.closest('.mark-as-read');
+            if (!button) return;
+
+            const li = button.closest('li');
+            const id = li.dataset.id;
+
+            fetch('/Notification/MarkAsRead', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: parseInt(id) })
+            })
+                .then(() => {
+                    li.remove(); // Remove from UI
+                    updateUnreadCount(); // Refresh count
+                })
+                .catch(err => console.error("Error marking as read:", err));
+        });
+    </script>
+
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
 
 
 

@@ -21,5 +21,18 @@ namespace RestaurantReservationSystem.Controllers
 
             return PartialView("~/Views/Shared/_NotificationList.cshtml", notifications);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MarkAsRead(int id)
+        {
+            var notification = await _context.Notifications.FindAsync(id);
+            if (notification == null) return NotFound();
+
+            notification.IsRead = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }
