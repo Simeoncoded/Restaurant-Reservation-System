@@ -566,8 +566,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Models\\Notification.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T02:21:57.856Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-12T02:21:57.856Z"
             },
             {
               "$type": "Document",
@@ -579,8 +578,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Shared\\_NotificationList.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-12T02:12:57.808Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-12T02:12:57.808Z"
             },
             {
               "$type": "Document",
@@ -617,8 +615,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\NotificationController.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAkwCMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T01:58:10.84Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-12T01:58:10.84Z"
             }
           ]
         },
