@@ -1,20 +1,23 @@
 ﻿@model IEnumerable<Notification>
 
-@foreach (var n in Model.OrderByDescending(n => n.CreatedAt))
+@if (!Model.Any())
 {
-    <li class="dropdown-item @(n.IsRead ? "" : "fw-bold")">
-        <a href="@n.Link" class="notification-link" data-id="@n.Id">
-            @n.Message
-        </a>
-        <button type="button"
-                class="btn btn-sm mark-as-read"
-                data-bs-toggle="tooltip"
-                title="Mark as read"
-                style="margin-left:10px;">
-            <i class="bi bi-check2"></i>
-        </button>
-
+    <li class="dropdown-item text-muted" id="noNotificationsItem">
+        No notifications
     </li>
 }
-
-
+else
+{
+    foreach (var n in Model.OrderByDescending(n => n.CreatedAt))
+    {
+        <li class="dropdown-item d-flex justify-content-between align-items-center fw-bold" data-id="@n.Id">
+            <a href="@n.Link" class="text-dark text-decoration-none flex-grow-1 me-2">@n.Message</a>
+            <button type="button"
+                    class="btn btn-sm mark-as-read"
+                    data-bs-toggle="tooltip"
+                    title="Mark as read">
+                <i class="bi bi-check2"></i>
+            </button>
+        </li>
+    }
+}
