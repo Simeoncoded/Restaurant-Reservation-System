@@ -36,13 +36,24 @@
                     </ul>
                     <div id="google_translate_element" style="margin-right:10px;"></div>
                     <div id="notificationArea" class="dropdown ms-auto me-3">
-                        <button class="btn" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            🔔 Notifications<span id="unreadCount" class="badge bg-danger">0</span>
+                        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            🔔 Notifications <span id="unreadCount" class="badge bg-danger">0</span>
                         </button>
+
                         <ul id="notificationList" class="dropdown-menu dropdown-menu-end">
-                            <li class="dropdown-item text-muted">No notifications</li>
+                            <!-- ✅ Alert inside dropdown -->
+                            <li id="notificationAlertItem" class="dropdown-item text-success d-none text-center fw-bold">
+                                ✅ Notification marked as read!
+                            </li>
+
+                            <!-- Placeholder for when no notifications exist -->
+                            <li id="noNotificationsItem" class="dropdown-item text-muted">
+                                No notifications
+                            </li>
                         </ul>
                     </div>
+
+
 
 
                     <partial name="_LoginPartial" />
@@ -89,25 +100,39 @@
         document.getElementById("unreadCount").textContent = count;
     }
 
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/notificationHub")
-        .build();
+        // ✅ Establish the SignalR connection
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .build();
 
-    connection.on("ReceiveNotification", function (message, link) {
-        const li = document.createElement("li");
-        li.classList.add("dropdown-item", "fw-bold");
-        li.innerHTML = `<a href="${link}" class="notification-link">${message}</a>`;
-        
-        const list = document.getElementById("notificationList");
-        if (list.querySelector(".text-muted")) list.innerHTML = ""; // remove 'no notifications'
-        list.prepend(li);
-        updateUnreadCount();
-    });
+        // ✅ Handle new incoming notifications from the server
+        connection.on("ReceiveNotification", function (message, link) {
+            const list = document.getElementById("notificationList");
+            const noItem = document.getElementById("noNotificationsItem");
+            if (noItem) noItem.classList.add("d-none");
 
-    connection.start().then(() => {
-        console.log("SignalR connected");
-        loadNotifications(); // Load on connect
-    });
+            const li = document.createElement("li");
+            li.classList.add("dropdown-item", "fw-bold");
+            li.dataset.id = Date.now(); // Placeholder ID
+
+            li.innerHTML = `
+                    <a href="${link}" class="text-decoration-none text-dark flex-grow-1 me-2">
+                        ${message}
+                    </a>
+                    <button type="button" class="btn btn-sm btn-outline-success mark-as-read"
+                        data-bs-toggle="tooltip" title="Mark as read">
+                        <i class="bi bi-check2"></i>
+                    </button>`;
+
+            list.appendChild(li);
+            updateUnreadCount();
+            initTooltips();
+        });
+
+        connection.start().then(() => {
+            console.log("✅ SignalR connected");
+            loadNotifications(); // if you’re loading initial notifications via fetch
+        });
 </script>
 
     <script>
@@ -126,12 +151,34 @@
                 body: JSON.stringify({ id: parseInt(id) })
             })
                 .then(() => {
-                    li.remove(); // Remove from UI
-                    updateUnreadCount(); // Refresh count
+                    li.remove();
+                    updateUnreadCount();
+
+                    const list = document.getElementById("notificationList");
+                    const items = list.querySelectorAll("li:not(#notificationAlertItem):not(#noNotificationsItem)");
+                    if (items.length === 0) {
+                        document.getElementById("noNotificationsItem").classList.remove("d-none");
+                    }
+
+                    showNotificationMessageInDropdown("Notification marked as read!");
                 })
+
                 .catch(err => console.error("Error marking as read:", err));
         });
     </script>
+    <script>
+        function showNotificationMessageInDropdown(text, timeout = 2000) {
+            const alertItem = document.getElementById("notificationAlertItem");
+            alertItem.textContent = "✅ " + text;
+            alertItem.classList.remove("d-none");
+
+            setTimeout(() => {
+                alertItem.classList.add("d-none");
+            }, timeout);
+        }
+
+
+        </script>
 
 
     <script>
