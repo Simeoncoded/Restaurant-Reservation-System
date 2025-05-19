@@ -6,8 +6,15 @@
         <a href="@n.Link" class="notification-link" data-id="@n.Id">
             @n.Message
         </a>
-        <button type="button" class="btn btn-sm btn-outline-success mark-as-read" title="Mark as read">
+        <button type="button"
+                class="btn btn-sm mark-as-read"
+                data-bs-toggle="tooltip"
+                title="Mark as read"
+                style="margin-left:10px;">
             <i class="bi bi-check2"></i>
         </button>
+
     </li>
 }
+
+
