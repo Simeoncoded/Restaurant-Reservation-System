@@ -11,6 +11,6 @@
         public string? UserId { get; set; } // Foreign key to AspNetUsers
 
         public DateTime CreatedAt {  get; set; } = DateTime.UtcNow;
-        public bool IsRead { get; set; }
+        public bool IsRead { get; set; } = false;
     }
 }

@@ -173,7 +173,13 @@ namespace RestaurantReservationSystem.Controllers
                     await _context.SaveChangesAsync();
 
                     // Send notification via SignalR to all connected clients
-                    await _hubContext.Clients.All.SendAsync("ReceiveNotification", notification.Message, notification.Link);
+                    await _hubContext.Clients.All.SendAsync("ReceiveNotification", new
+                    {
+                        id = notification.Id,
+                        message = notification.Message,
+                        link = notification.Link
+                    });
+
 
                     // Redirect to the reservation detail page
                     return RedirectToAction("Details", new { reservation.ID });

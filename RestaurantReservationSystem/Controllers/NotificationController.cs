@@ -15,7 +15,7 @@ namespace RestaurantReservationSystem.Controllers
         public IActionResult GetAll()
         {
             var notifications = _context.Notifications
-                .Where(n => !n.IsRead)
+                .Where(n => n.IsRead == false)
                 .OrderByDescending(n => n.CreatedAt)
                 .Take(10)  //list first 10 according to the time created
                 .ToList();
