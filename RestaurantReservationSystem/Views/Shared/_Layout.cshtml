@@ -85,7 +85,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-<script>
+@* <script>
     function loadNotifications() {
         fetch("/Notification/GetAll")
             .then(res => res.text())
@@ -114,9 +114,87 @@
             console.log("✅ SignalR connected");
             loadNotifications(); // if you’re loading initial notifications via fetch
         });
-</script>
+</script> *@
 
+@*      <script>
+         document.addEventListener('click', function (e) {
+             const button = e.target.closest('.mark-as-read');
+             if (!button) return;
+
+             const li = button.closest('li');
+             const id = li.dataset.id;
+
+             fetch('/Notification/MarkAsRead', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({ id: parseInt(id) })
+             })
+                 .then(() => {
+                     li.remove(); // remove from list
+                     updateUnreadCount();
+
+                     const remainingItems = document.querySelectorAll("#notificationList li[data-id]");
+                     if (remainingItems.length === 0) {
+                         document.getElementById("notificationList").innerHTML += `
+                         <li class="dropdown-item text-muted" id="noNotificationsItem">
+                             No notifications
+                         </li>`;
+                     }
+
+                     showNotificationMessageInDropdown("Notification marked as read!");
+                 })
+                 .catch(err => console.error("Error marking as read:", err));
+         });
+
+     </script>
+     <script>
+         function showNotificationMessageInDropdown(text, timeout = 2000) {
+             const alertItem = document.getElementById("notificationAlertItem");
+             alertItem.textContent = "✅ " + text;
+             alertItem.classList.remove("d-none");
+
+             setTimeout(() => {
+                 alertItem.classList.add("d-none");
+             }, timeout);
+         }
+
+
+         </script> *@
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/notificationHub")
+            .build();
+
+        connection.on("ReceiveNotification", function () {
+            loadNotifications();
+        });
+
+        connection.start().then(() => {
+            console.log("✅ SignalR connected");
+            loadNotifications();
+        });
+
+        function loadNotifications() {
+            fetch("/Notification/GetAll")
+                .then(res => res.text())
+                .then(html => {
+                    const list = document.getElementById("notificationList");
+                    list.innerHTML = html;
+                    updateUnreadCount();
+                    initTooltips();
+                });
+        }
+
+        function updateUnreadCount() {
+            const count = document.querySelectorAll("#notificationList .fw-bold").length;
+            document.getElementById("unreadCount").textContent = count;
+        }
+
         document.addEventListener('click', function (e) {
             const button = e.target.closest('.mark-as-read');
             if (!button) return;
@@ -126,42 +204,23 @@
 
             fetch('/Notification/MarkAsRead', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: parseInt(id) })
             })
                 .then(() => {
-                    li.remove(); // remove from list
-                    updateUnreadCount();
-
-                    const remainingItems = document.querySelectorAll("#notificationList li[data-id]");
-                    if (remainingItems.length === 0) {
-                        document.getElementById("notificationList").innerHTML += `
-                        <li class="dropdown-item text-muted" id="noNotificationsItem">
-                            No notifications
-                        </li>`;
-                    }
-
-                    showNotificationMessageInDropdown("Notification marked as read!");
+                    loadNotifications(); // Always reload to stay in sync
                 })
                 .catch(err => console.error("Error marking as read:", err));
         });
 
-    </script>
-    <script>
-        function showNotificationMessageInDropdown(text, timeout = 2000) {
-            const alertItem = document.getElementById("notificationAlertItem");
-            alertItem.textContent = "✅ " + text;
-            alertItem.classList.remove("d-none");
-
-            setTimeout(() => {
-                alertItem.classList.add("d-none");
-            }, timeout);
+        function initTooltips() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         }
+    </script>
 
-
-        </script>
 
 
     <script>
