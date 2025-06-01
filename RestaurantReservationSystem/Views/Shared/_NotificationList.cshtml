@@ -8,7 +8,7 @@
 }
 else
 {
-    foreach (var n in Model.OrderByDescending(n => n.CreatedAt))
+    foreach (var n in Model)
     {
         <li class="dropdown-item d-flex justify-content-between align-items-center fw-bold" data-id="@n.Id">
             <a href="@n.Link" class="text-dark text-decoration-none flex-grow-1 me-2">@n.Message</a>
