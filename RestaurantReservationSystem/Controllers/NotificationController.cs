@@ -34,6 +34,5 @@ namespace RestaurantReservationSystem.Controllers
 
             return Ok();
         }
-
     }
 }
