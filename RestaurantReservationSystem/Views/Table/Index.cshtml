@@ -55,7 +55,7 @@
                             Table
                             @if ((string)ViewData["sortField"] == "Table")
                             {
-                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up" : "fa-arrow-down")"></i>
                             }
                         </button>
                     </th>
@@ -65,7 +65,7 @@
                             Capacity
                             @if ((string)ViewData["sortField"] == "Capacity")
                             {
-                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-1-9" : "fa-arrow-down-9-1")"></i>
+                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up" : "fa-arrow-down")"></i>
                             }
                         </button>
                     </th>
@@ -75,7 +75,7 @@
                             Status
                             @if ((string)ViewData["sortField"] == "Status")
                             {
-                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up" : "fa-arrow-down")"></i>
                             }
                         </button>
                     </th>
@@ -85,7 +85,7 @@
                             Location
                             @if ((string)ViewData["sortField"] == "Location")
                             {
-                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up-a-z" : "fa-arrow-down-a-z")"></i>
+                                    <i class="fa-solid @(ViewData["sortDirection"] as string == "asc" ? "fa-arrow-up" : "fa-arrow-down")"></i>
                             }
                         </button>
                     </th>
