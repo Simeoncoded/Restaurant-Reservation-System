@@ -153,7 +153,7 @@ namespace RestaurantReservationSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Save the reservation
+                   
                     _context.Add(reservation);
                     await _context.SaveChangesAsync();
 
@@ -181,7 +181,7 @@ namespace RestaurantReservationSystem.Controllers
                     });
 
 
-                    // Redirect to the reservation detail page
+                  
                     return RedirectToAction("Details", new { reservation.ID });
                 }
             }
@@ -230,7 +230,7 @@ namespace RestaurantReservationSystem.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var reservationToUpdate = await _context.Reservations
-                .Include(r => r.Table) // Optional: only if you're displaying related data
+                .Include(r => r.Table) 
                 .FirstOrDefaultAsync(r => r.ID == id);
 
             if (reservationToUpdate == null)
@@ -319,7 +319,7 @@ namespace RestaurantReservationSystem.Controllers
             }
          catch (DbUpdateException)
             {
-                //Note: there is really no reason a delete should fail if you can "talk" to the database.
+                
                 ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
             }
             return View(reservation);
@@ -329,7 +329,7 @@ namespace RestaurantReservationSystem.Controllers
         public async Task<IActionResult> Cancel(int id)
         {
             var reservation = await _context.Reservations
-                .Include(r => r.Table) // Include related data if needed
+                .Include(r => r.Table) 
                 .FirstOrDefaultAsync(r => r.ID == id);
 
             if (reservation == null)
@@ -337,7 +337,7 @@ namespace RestaurantReservationSystem.Controllers
                 return NotFound();
             }
 
-            return View(reservation); // Show the confirmation view
+            return View(reservation); // Show the confirmation 
         }
 
 
@@ -353,13 +353,13 @@ namespace RestaurantReservationSystem.Controllers
                 return NotFound();
             }
 
-            // Update the status in memory
+            // Update the status 
             reservation.Status = ReservationStatus.Cancelled;
 
-            // Save changes to the database
+            // Save changes 
             await _context.SaveChangesAsync();
 
-            // Redirect back to the reservations list
+            // Redirect back 
             return RedirectToAction(nameof(Index));
         }
 

@@ -99,7 +99,7 @@
         });
 
         connection.start().then(() => {
-            console.log("✅ SignalR connected");
+            console.log("SignalR connected");
             loadNotifications();
         });
 
@@ -119,22 +119,32 @@
             document.getElementById("unreadCount").textContent = count;
         }
 
+        async function MarkAsRead(id) {
+            const urlParameter = new URLSearchParams({ id: id });
+            console.log(urlParameter.toString())
+
+            const endpoint = `/Notification/MarkAsRead?${urlParameter}`;
+            console.log(endpoint);
+            const response = await fetch(endpoint, {
+                method: "POST"
+            });
+            if (!response.ok) {
+                console.log(await response.json());
+                return;
+            }
+            loadNotifications();
+
+        }
+
         document.addEventListener('click', function (e) {
             const button = e.target.closest('.mark-as-read');
             if (!button) return;
 
             const li = button.closest('li');
             const id = li.dataset.id;
+            console.log(id);
 
-            fetch('/Notification/MarkAsRead', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: parseInt(id) })
-            })
-                .then(() => {
-                    loadNotifications(); // Always reload to stay in sync
-                })
-                .catch(err => console.error("Error marking as read:", err));
+            MarkAsRead(id);
         });
 
         function initTooltips() {
