@@ -222,7 +222,7 @@ namespace RestaurantReservationSystem.Controllers
             return View(table);
         }
 
-        //work on calendar
+        //work on calendar using frappe or dxhtml
 
         // GET: Table/Edit/5
         public async Task<IActionResult> Edit(int? id)
