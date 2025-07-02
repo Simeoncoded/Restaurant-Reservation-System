@@ -51,11 +51,18 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Time" class="control-label"></label>
-                        <input asp-for="Time" type="time" class="form-control" data-toggle="tooltip" title="Select the reservation time" />
-                        <span asp-validation-for="Time" class="text-danger"></span>
-                    </div>
+                     @* <div class="form-group">
+                         <label asp-for="Time" class="control-label"></label>
+                         <input asp-for="Time" type="time" class="form-control" data-toggle="tooltip" title="Select the reservation time" />
+                         <span asp-validation-for="Time" class="text-danger"></span>
+                     </div> *@
+                        <div class="form-group">
+                            <label asp-for="Time" class="control-label"></label>
+                            <div id="availableTimes" class="d-flex flex-wrap gap-2"></div>
+                            <input type="hidden" id="Time" name="Time" />
+                            <span asp-validation-for="Time" class="text-danger"></span>
+                        </div>
+
                 </div>
             </div>
 
@@ -232,4 +239,61 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("input[name='Date']", {
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function (selectedDates, dateStr) {
+                    const tableId = document.getElementById("TableID").value;
+                    if (dateStr && tableId) {
+                        fetchAvailableTimes(dateStr, tableId);
+                    }
+                }
+            });
+
+            document.getElementById("TableID").addEventListener("change", function () {
+                const dateStr = document.querySelector("input[name='Date']").value;
+                if (dateStr) {
+                    fetchAvailableTimes(dateStr, this.value);
+                }
+            });
+        });
+
+        function fetchAvailableTimes(dateStr, tableId) {
+            fetch(`/Reservation/AvailableTimes?date=${dateStr}&tableId=${tableId}`)
+                .then(res => res.json())
+                .then(times => {
+                    const container = document.getElementById("availableTimes");
+                    container.innerHTML = "";
+
+                    if (!times.length) {
+                        container.innerHTML = "<p class='text-danger'>No available times for this date and table.</p>";
+                        return;
+                    }
+
+                    times.forEach(time => {
+                        const btn = document.createElement("button");
+                        btn.type = "button";
+                        btn.className = "btn btn-outline-primary m-1 time-button";
+                        btn.innerText = time;
+                        btn.onclick = () => {
+                            document.getElementById("Time").value = time;
+                            highlightTime(btn);
+                        };
+                        container.appendChild(btn);
+                    });
+                });
+        }
+
+        function highlightTime(selectedBtn) {
+            document.querySelectorAll(".time-button").forEach(btn => {
+                btn.classList.remove("btn-primary");
+                btn.classList.add("btn-outline-primary");
+            });
+            selectedBtn.classList.remove("btn-outline-primary");
+            selectedBtn.classList.add("btn-primary");
+        }
+    </script>
+
 }
