@@ -202,6 +202,11 @@ namespace RestaurantReservationSystem.Controllers
             return View(reservation);
         }
 
+        [HttpGet]
+        public async IActionResult AvailableTimes()
+        {
+            var reservation = await _context.Re
+        }
 
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
