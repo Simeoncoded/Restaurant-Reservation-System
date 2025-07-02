@@ -202,14 +202,32 @@ namespace RestaurantReservationSystem.Controllers
             return View(reservation);
         }
 
-        [HttpGet]
-        public async IActionResult AvailableTimes()
-        {
-            var reservation = await _context.Re
-        }
+		[HttpGet]
+		public async Task<IActionResult> AvailableTimes(DateTime date, int tableId)
+		{
+			// Generate hourly time slots between 10:00 AM and 9:00 PM
+			var allSlots = new List<string>();
+			for (var time = new TimeSpan(10, 0, 0); time <= new TimeSpan(21, 0, 0); time = time.Add(TimeSpan.FromHours(1)))
+			{
+				allSlots.Add(DateTime.Today.Add(time).ToString("hh:mm tt")); // e.g., "10:00 AM"
+			}
 
-        // GET: Reservation/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+			// Get reserved slots (TimeSpan?), format as strings
+			var reservedSlots = await _context.Reservations
+				.Where(r => r.Date.Value.Date == date.Date && r.TableID == tableId && r.Time.HasValue)
+				.Select(r => DateTime.Today.Add(r.Time.Value).ToString("hh:mm tt"))
+				.ToListAsync();
+
+			// Calculate available time slots
+			var availableSlots = allSlots.Except(reservedSlots).ToList();
+
+			return Json(availableSlots);
+		}
+
+
+
+		// GET: Reservation/Edit/5
+		public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
