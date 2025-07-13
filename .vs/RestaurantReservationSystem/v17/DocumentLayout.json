@@ -82,7 +82,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 138,
+          "SelectedChildIndex": 140,
           "Children": [
             {
               "$type": "Bookmark",
@@ -609,6 +609,14 @@
               "Name": "ST:2037716325:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:2019101906:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f37f5141-198e-4181-9582-7b026ee8f915}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "HomeController.cs",
@@ -618,8 +626,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\HomeController.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAQwBoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T16:41:37.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T16:41:37.913Z"
             },
             {
               "$type": "Document",
@@ -655,8 +662,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\TableController.cs",
               "ViewState": "AgIAAMwAAAAAAAAAAAAowOAAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T16:03:30.622Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-08T16:03:30.622Z"
             },
             {
               "$type": "Document",
@@ -680,8 +686,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Data\\_commoncommands.txt",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAAQAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-06-23T12:22:25.58Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T12:22:25.58Z"
             },
             {
               "$type": "Document",
@@ -693,8 +698,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Controllers\\ReservationController.cs",
               "ViewState": "AgIAAMoAAAAAAAAAAAAmwOEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T01:58:56.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-12T01:58:56.535Z"
             },
             {
               "$type": "Document",
@@ -704,7 +708,7 @@
               "RelativeDocumentMoniker": "RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
               "ToolTip": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
               "RelativeToolTip": "RestaurantReservationSystem\\Views\\Reservation\\Create.cshtml",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAYwPYAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-06-22T14:44:51.081Z",
               "EditorCaption": ""
@@ -719,8 +723,7 @@
               "RelativeToolTip": "RestaurantReservationSystem\\Data\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T13:54:39.519Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-24T13:54:39.519Z"
             },
             {
               "$type": "Document",
