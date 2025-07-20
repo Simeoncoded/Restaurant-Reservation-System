@@ -19,6 +19,7 @@ namespace RestaurantReservationSystem.Controllers
             _context = context;
         }
 
+        //do some work
         public async Task<IActionResult> Index()
         {
             var today = DateTime.Today;
