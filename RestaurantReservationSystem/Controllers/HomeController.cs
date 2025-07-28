@@ -29,7 +29,7 @@ namespace RestaurantReservationSystem.Controllers
             {
                 TotalReservationsToday = await _context.Reservations
                     .Where(r => r.Date == today)
-                    .CountAsync(), //yoo 
+                    .CountAsync(),
 
                 // Count tables that are available
                 AvailableTables = await _context.Tables
