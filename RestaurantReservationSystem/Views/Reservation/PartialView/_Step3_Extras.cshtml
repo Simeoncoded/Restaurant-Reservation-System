@@ -1,0 +1,7 @@
+﻿ @model RestaurantReservationSystem.ViewModels.ReservationWizardVM
+
+ <fieldset class="mb-3">
+     <legend class="section-title">Special Requests</legend>
+     <textarea asp-for="SpecialRequests" class="form-control" rows="3"></textarea>
+     <span asp-validation-for="SpecialRequests" class="text-danger"></span>
+ </fieldset>

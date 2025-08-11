@@ -1,0 +1,15 @@
+﻿@model RestaurantReservationSystem.ViewModels.ReservationWizardVM
+
+<fieldset class="mb-2">
+    <legend class="section-title">Review</legend>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Name:</strong>@Model.FirstName @Model.LastName</li>
+        <li class="list-group-item"><strong>Phone:</strong>@Model.Phone</li>
+        <li class="list-group-item"><strong>Email:</strong>@Model.Email</li>
+        <li class="list-group-item"><strong>Date:</strong>@Model.Date?.ToString("yyyy-MM-dd")</li>
+        <li class="list-group-item"><strong>Time:</strong>@Model.Time</li>
+        <li class="list-group-item"><strong>Party Size:</strong>@Model.PartySize</li>
+        <li class="list-group-item"><strong>Table:</strong>@Model.TableID</li>
+        <li class="list-group-item"><strong>Requests:</strong>@Model.SpecialRequests</li>
+    </ul>
+</fieldset>

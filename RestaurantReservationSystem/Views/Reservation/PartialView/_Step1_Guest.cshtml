@@ -1,0 +1,30 @@
+﻿@model RestaurantReservationSystem.ViewModels.ReservationWizardVM
+
+<fieldset class="mb-3">
+    <legend class="section-title">Guest Information</legend>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            <input asp-for="Phone" class="form-control"/>
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+</fieldset>

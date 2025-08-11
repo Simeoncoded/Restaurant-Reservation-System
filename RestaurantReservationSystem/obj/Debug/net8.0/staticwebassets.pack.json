@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\images\\bgg.jpg"
     },
     {
+      "Id": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\reservation\\reservationWizard.js",
+      "PackagePath": "staticwebassets\\js\\reservation\\reservationWizard.js"
+    },
+    {
       "Id": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

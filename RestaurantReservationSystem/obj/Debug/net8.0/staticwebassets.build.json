@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PshF4nsSG8DYn4d0/0oaBtPSVl5FvDAM5VtGIPakRaM=",
+  "Hash": "9mBMif3lEhgvp/Ahcx/49Uu+hG+Y2QwQr3PBbsyvT9w=",
   "Source": "RestaurantReservationSystem",
   "BasePath": "_content/RestaurantReservationSystem",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\bgg.jpg"
+    },
+    {
+      "Identity": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\reservation\\reservationWizard.js",
+      "SourceId": "RestaurantReservationSystem",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\",
+      "BasePath": "_content/RestaurantReservationSystem",
+      "RelativePath": "js/reservation/reservationWizard.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\reservation\\reservationWizard.js"
     },
     {
       "Identity": "C:\\RestaurantReservationSystem\\RestaurantReservationSystem\\wwwroot\\js\\site.js",
