@@ -11,6 +11,8 @@ namespace RestaurantReservationSystem.ViewModels
         public string? LastName { get; set; }
         [Required, Phone, RegularExpression("^\\d{10}$")]
         public string? Phone {  get; set; }
+        [EmailAddress]
+        public string? Email { get; set; }
 
 
         //step 2 - Details
@@ -28,6 +30,6 @@ namespace RestaurantReservationSystem.ViewModels
         public string? SpecialRequests {  get; set; }
 
         //Internal
-        public int step { get; set; } = 1;
+        public int Step { get; set; } = 1;
     }
 }
