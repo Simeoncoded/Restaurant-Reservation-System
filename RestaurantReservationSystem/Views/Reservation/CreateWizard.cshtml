@@ -1,1 +1,34 @@
-﻿
+﻿@model RestaurantReservationSystem.ViewModels.ReservationWizardVM
+@{
+    ViewData["Title"] = "Create Reservation";
+}
+<div class="form-container">
+    <h4>Create Reservation</h4>
+
+    <form asp-action="CreateWizard" method="post" id="wizardForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @if(Model.Step == 1) { @Html.Partial("_Step1_Guest", Model) }
+        @if(Model.Step == 2) { @Html.Partial("_Step2_Details", Model) }
+        @if(Model.Step == 3) { @Html.Partial("_Step3_Extras", Model) }
+        @if(Model.Step == 4) { @Html.Partial("_Step4_Review", Model) }
+
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" name="nav" value="back" class="btn" @(Model.Step==1 ? "disabled" : "")>Back</button>
+            @if(Model.Step < 4)
+            {
+                <button type="submit" name="nav" value="next" class="btn">Next</button>
+            }else{
+                <button type="submit" name="nav" value="submit" class="btn">Submit</button>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="~/js/reservation/reservationWizard.js"></script>
+    }
+}
