@@ -365,7 +365,7 @@ namespace RestaurantReservationSystem.Controllers
 
 
         //Cancel Action
-        [HttpPost, ActionName("Cancel")]
+        [HttpPost, ActionName("Cancel")] 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelConfirmed(int id)
         {
@@ -386,6 +386,9 @@ namespace RestaurantReservationSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        //SESSION HELPERS
+        private const string RES_WIZ_KEY = "RES_WIZ";
 
 
         private void PopulateDropDownLists(Reservation? reservation = null)
