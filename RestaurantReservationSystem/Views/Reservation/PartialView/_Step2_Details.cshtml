@@ -3,8 +3,8 @@
     <legend class="section-title">Reservation Details</legend>
     <div class="row g-3">
         <div class="col-md-4">
-            <label class="form-label">Date</label>
-            <input asp-for="Date" type="date" class="form-control" />
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" type="date" class="form-control" data-toggle="tooltip" title="Select the reservation date" />
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
 
@@ -29,3 +29,4 @@
     </div>
 
 </fieldset>
+

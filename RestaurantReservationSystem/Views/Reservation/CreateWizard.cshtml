@@ -25,10 +25,16 @@
     </form>
 </div>
 
-@section Scripts{
+
+@section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="~/js/reservation/reservationWizard.js"></script>
     }
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/js/reservation/reservationWizard.js"></script>
 }
+

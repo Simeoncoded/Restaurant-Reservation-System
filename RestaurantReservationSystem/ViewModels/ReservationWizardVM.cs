@@ -7,11 +7,19 @@ namespace RestaurantReservationSystem.ViewModels
         //Step 1 -  Guest   
         [Required]
         public string? FirstName {  get; set; }
+
         [Required]
         public string? LastName { get; set; }
-        [Required, Phone, RegularExpression("^\\d{10}$")]
+
+        [Required(ErrorMessage = "Customer Phone is required")]
+        [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
+        [DataType(DataType.PhoneNumber)]
+        [MaxLength(10)]
         public string? Phone {  get; set; }
-        [EmailAddress]
+
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please follow the correct email format test@email.com")]
+        [StringLength(255)]
+        [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
 
 
