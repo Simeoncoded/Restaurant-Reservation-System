@@ -8,10 +8,10 @@
     <form asp-action="CreateWizard" method="post" id="wizardForm">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        @if(Model.Step == 1) { @Html.Partial("_Step1_Guest", Model) }
-        @if(Model.Step == 2) { @Html.Partial("_Step2_Details", Model) }
-        @if(Model.Step == 3) { @Html.Partial("_Step3_Extras", Model) }
-        @if(Model.Step == 4) { @Html.Partial("_Step4_Review", Model) }
+        @if(Model.Step == 1) { @Html.Partial("PartialView/_Step1_Guest", Model) }
+        @if(Model.Step == 2) { @Html.Partial("PartialView/_Step2_Details", Model) }
+        @if(Model.Step == 3) { @Html.Partial("PartialView/_Step3_Extras", Model) }
+        @if(Model.Step == 4) { @Html.Partial("PartialView/_Step4_Review", Model) }
 
         <div class="d-flex justify-content-between mt-3">
             <button type="submit" name="nav" value="back" class="btn" @(Model.Step==1 ? "disabled" : "")>Back</button>
