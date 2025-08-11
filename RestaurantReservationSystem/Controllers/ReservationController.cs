@@ -482,9 +482,12 @@ namespace RestaurantReservationSystem.Controllers
                     SpecialRequests = vm.SpecialRequests
                 };
 
-                if (!TryValidateModel(reservation))
+                ModelState.Clear();
+                var ok = TryValidateModel(reservation);
+                if (!ok)
                 {
-                    vm.Step = 3;
+                    vm.Step = 2;
+                    PopulateDropdownListForWizard(vm.TableID);
                     SaveWizard(vm);
                     return View(vm);
                 }
