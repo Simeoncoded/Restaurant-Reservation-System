@@ -31,8 +31,10 @@ builder.Services.AddSignalR();
 builder.Services.AddHttpClient();
 
 //get openai details from appsettings.json
+builder.Services.AddHttpClient();
 builder.Services.Configure<OpenAiOptions>(builder.Configuration.GetSection("OpenAI"));
-
+builder.Services.AddScoped<IChatProvider, OpenAiChatProvider>();
+builder.Services.AddScoped<ReservationAiService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 
 builder.Services.AddControllersWithViews();
