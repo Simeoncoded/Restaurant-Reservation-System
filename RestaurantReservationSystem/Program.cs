@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservationSystem.Data;
 using RestaurantReservationSystem.Hubs;
+using RestaurantReservationSystem.Repositories;
+using RestaurantReservationSystem.Services.OpenAI;
 
 
 
@@ -26,6 +28,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddSignalR();
 
+builder.Services.AddHttpClient();
+
+//get openai details from appsettings.json
+builder.Services.Configure<OpenAiOptions>(builder.Configuration.GetSection("OpenAI"));
+
+builder.Services.AddScoped<IReservationService, ReservationService>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>
@@ -49,10 +58,6 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
