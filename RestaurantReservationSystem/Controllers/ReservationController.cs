@@ -489,7 +489,7 @@ namespace RestaurantReservationSystem.Controllers
                     vm.Step = 2;
                     PopulateDropdownListForWizard(vm.TableID);
                     SaveWizard(vm);
-                    return View(vm);
+                    return View(vm);    
                 }
 
                 _context.Add(reservation);
