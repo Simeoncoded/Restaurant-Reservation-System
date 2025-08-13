@@ -81,6 +81,7 @@ namespace RestaurantReservationSystem.Repositories
                 return available;
             }
 
+        }
             public async Task<CreateReservationResult> CreateReservationAsync(CreateReservationDto dto, CancellationToken ct = default)
             {
                 //Basic valdations
