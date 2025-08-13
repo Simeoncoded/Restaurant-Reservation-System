@@ -19,7 +19,13 @@ namespace RestaurantReservationSystem.Controllers
             _context = context;
         }
 
-   
+
+        [HttpGet]
+        public IActionResult Assistant()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             var today = DateTime.Today;

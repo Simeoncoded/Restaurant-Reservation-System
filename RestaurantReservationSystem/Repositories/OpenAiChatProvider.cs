@@ -23,7 +23,11 @@ namespace RestaurantReservationSystem.Repositories
             {
                 model = _options.Model,
                 temperature = 0.2,
-                messages = messages.Select(m => new { role = m.role, content = m.content })
+                messages = messages.Select(m => new
+                {
+                    role = m.role?.Trim().ToLowerInvariant(), // always lowercase
+                    content = m.content
+                })
             };
 
             using var req = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
@@ -34,12 +38,11 @@ namespace RestaurantReservationSystem.Repositories
             resp.EnsureSuccessStatusCode();
 
             using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync(ct));
-            return doc.RootElement.GetProperty("choices")[0]
-                                   .GetProperty("message")
-                                    .GetProperty("content")
-                                    .GetString() ?? "";
-            
+            return doc.RootElement
+                      .GetProperty("choices")[0]
+                      .GetProperty("message")
+                      .GetProperty("content")
+                      .GetString() ?? "";
         }
-
     }
 }

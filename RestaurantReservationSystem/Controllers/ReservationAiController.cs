@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantReservationSystem.Models;
 using RestaurantReservationSystem.Repositories;
 
 namespace RestaurantReservationSystem.Controllers
@@ -21,58 +22,123 @@ namespace RestaurantReservationSystem.Controllers
         public record AiResponse(bool ok, string Message, object? data = null);
 
 
+        static class SessionChatState
+        {
+            private const string Key = "AI_CHAT_STATE";
+            public static ChatState Load(ISession s)
+                => string.IsNullOrEmpty(s.GetString(Key))
+                   ? new ChatState()
+                   : System.Text.Json.JsonSerializer.Deserialize<ChatState>(s.GetString(Key)!)!;
+            public static void Save(ISession s, ChatState st)
+                => s.SetString(Key, System.Text.Json.JsonSerializer.Serialize(st));
+            public static void Clear(ISession s) => s.Remove(Key);
+
+            public static void Merge(ChatState st, dynamic intent)
+            {
+                st.Action ??= intent.Action;
+                st.Date ??= intent.Date;
+                st.Time ??= intent.Time;
+                st.PartySize ??= intent.PartySize;
+                st.Name ??= intent.Name;
+                st.Phone ??= intent.Phone;
+            }
+        }
+
         [HttpPost("handle")]
         public async Task<IActionResult> Handle([FromBody] AiRequest req, CancellationToken ct)
         {
-            if (string.IsNullOrEmpty(req.Message))
+            try
             {
-                return BadRequest(new AiResponse(false, "Empty message."));
-            }
+                if (string.IsNullOrWhiteSpace(req.Message))
+                    return BadRequest(new AiResponse(false, "Empty message."));
 
-            var intent = await _ai.ParseAsync(req.Message, ct);
+                // 1) Parse whatever the user just said
+                var intent = await _ai.ParseAsync(req.Message, ct);
 
-            // Need core fields to proceed
-            if (intent.Date is null || intent.Time is null || intent.PartySize is null)
-            {
-                return Ok(new AiResponse(false, "Please include date, time, and party size."));
-            }
+                // 2) Load & merge with previous state
+                var st = SessionChatState.Load(HttpContext.Session);
+                SessionChatState.Merge(st, intent);
 
-            //Make a DateTime from Date + Time 
-            if(!DateTime.TryParse($"{intent.Date} {intent.Time}", out var when))
-            {
-                return Ok(new AiResponse(false, "I couldn't read the date/time. Try yyyy-mm-dd and HH:mm."));
-            }
-           
-            if(intent.Action == "CheckAvailability")
-            {
-                var slots = await _res.CheckAvailabilityAsync(when, intent.PartySize.Value, ct);
-                var pretty = slots.Select(s => s.ToString("yyyy-MM-dd HH:mm")).ToList();
-                var msg = pretty.Any() ? "Here are some available times:" : "Sorry, no availability for that slot.";
-                return Ok(new AiResponse(true, msg, new { slots = pretty }));
-            }
+                // 3) Ask only for missing bits (context-aware)
+                var missing = new List<string>();
+                if (string.IsNullOrWhiteSpace(st.Date)) missing.Add("date (YYYY-MM-DD)");
+                if (string.IsNullOrWhiteSpace(st.Time)) missing.Add("time (HH:mm, e.g., 18:00)");
+                if (st.PartySize is null) missing.Add("party size");
 
-            if(intent.Action == "CreateReservation")
-            {
-                if(string.IsNullOrWhiteSpace(intent.Name) || string.IsNullOrWhiteSpace(intent.Phone))
+                if (missing.Count > 0)
                 {
-                    return Ok(new AiResponse(false, "Please include your name and phone to confirm the booking."));
+                    SessionChatState.Save(HttpContext.Session, st);
+                    return Ok(new AiResponse(false, $"I still need: {string.Join(", ", missing)}."));
                 }
 
-                var dto = new CreateReservationDto
+                // Build DateTime safely
+                if (!DateTime.TryParse($"{st.Date} {st.Time}", out var when))
                 {
-                    DateTime = when,
-                    PartySize = intent.PartySize.Value,
-                    FirstName = intent.Name.Split(' ').FirstOrDefault() ?? intent.Name,
-                    LastName = intent.Name.Contains(' ') ? intent.Name[(intent.Name.IndexOf(' ') + 1)..] : "",
-                    Phone = intent.Phone
-                };
+                    SessionChatState.Save(HttpContext.Session, st);
+                    return Ok(new AiResponse(false, "I couldn’t read the date/time. Use YYYY-MM-DD and HH:mm."));
+                }
 
+                // Default action: if none set, check availability
+                st.Action ??= "CheckAvailability";
 
-                var result = await _res.CreateReservationAsync(dto, ct);
-                if (!result.Success) return Ok(new AiResponse(false, result.Error ?? "Could not create reservation."));
-                return Ok(new AiResponse(true, "Reservation confirmed.", new { confirmation = result.ConfirmationNumber, id = result.ReservationId }));
+                if (st.Action == "CheckAvailability")
+                {
+                    var slots = await _res.CheckAvailabilityAsync(when, st.PartySize!.Value, ct);
+
+                    // Prefer slots near the requested time
+                    var shortlist = slots
+                        .OrderBy(s => Math.Abs((s - when).TotalMinutes))
+                        .Take(8)
+                        .Select(s => s.ToString("yyyy-MM-dd HH:mm"))
+                        .ToList();
+
+                    SessionChatState.Save(HttpContext.Session, st);
+                    var msg = shortlist.Any()
+                        ? "Here are times near your request:"
+                        : "No availability for that time. Here are other options today:";
+                    var payload = shortlist.Any() ? shortlist : slots.Select(s => s.ToString("yyyy-MM-dd HH:mm")).Take(12).ToList();
+
+                    return Ok(new AiResponse(true, msg, new { slots = payload }));
+                }
+
+                if (st.Action == "CreateReservation")
+                {
+                    if (string.IsNullOrWhiteSpace(st.Name) || string.IsNullOrWhiteSpace(st.Phone))
+                    {
+                        SessionChatState.Save(HttpContext.Session, st);
+                        return Ok(new AiResponse(false, "Please include your name and phone to confirm."));
+                    }
+
+                    var parts = st.Name.Split(' ', 2);
+                    var dto = new CreateReservationDto
+                    {
+                        DateTime = when,
+                        PartySize = st.PartySize!.Value,
+                        FirstName = parts[0],
+                        LastName = parts.Length > 1 ? parts[1] : "",
+                        Phone = st.Phone
+                    };
+
+                    var result = await _res.CreateReservationAsync(dto, ct);
+                    if (!result.Success)
+                    {
+                        SessionChatState.Save(HttpContext.Session, st);
+                        return Ok(new AiResponse(false, result.Error ?? "Could not create reservation."));
+                    }
+
+                    // Success: clear the state so a new conversation starts fresh
+                    SessionChatState.Clear(HttpContext.Session);
+                    return Ok(new AiResponse(true, "Reservation confirmed.", new { confirmation = result.ConfirmationNumber, id = result.ReservationId }));
+                }
+
+                SessionChatState.Save(HttpContext.Session, st);
+                return Ok(new AiResponse(false, "Tell me to check availability or create a reservation."));
             }
-            return Ok(new AiResponse(false, "Tell me to check availability or create a reservation"));
+            catch (Exception ex)
+            {
+                return StatusCode(500, new AiResponse(false, $"Server error: {ex.Message}"));
+            }
         }
+
     }
 }

@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "ContainingType": "RestaurantReservationSystem.Controllers.ReservationAiController",
+    "Method": "Handle",
+    "RelativePath": "api/ai/handle",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "RestaurantReservationSystem.Controllers.ReservationAiController\u002BAiRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

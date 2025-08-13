@@ -1,0 +1,24 @@
+﻿<div class="card p-3" style="max-width:720px;margin:auto;">
+  <h5 class="mb-3">Reservation Assistant</h5>
+  <div id="chat" style="height:360px; overflow:auto; border:1px solid #eee; border-radius:8px; padding:12px;"></div>
+  <div class="d-flex gap-2 mt-2">
+    <input id="msg" class="form-control" placeholder="e.g., Book 4 people tomorrow 7pm under John 416‑555‑1234">
+    <button id="send" class="btn btn-primary">Send</button>
+  </div>
+</div>
+<script>
+const chat = document.getElementById('chat'), msg = document.getElementById('msg'), send = document.getElementById('send');
+function bubble(text, who){ const b=document.createElement('div');
+  b.className = who==='you' ? 'text-end my-2' : 'text-start my-2';
+  b.innerHTML = `<span style="display:inline-block;padding:8px 12px;border-radius:14px;background:${who==='you'?'#0d6efd':'#f1f3f5'};color:${who==='you'?'#fff':'#000'};">${text}</span>`;
+  chat.appendChild(b); chat.scrollTop = chat.scrollHeight; }
+send.addEventListener('click', async () => {
+  const text = msg.value.trim(); if(!text) return; bubble(text,'you'); msg.value='';
+  bubble('Thinking…','bot'); const thinking = chat.lastChild;
+  const res = await fetch('/api/ai/handle',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});
+  const data = await res.json(); thinking.remove();
+  bubble(data.message || 'Hmm, try again?', 'bot');
+  if (data.data?.slots) bubble('Available: ' + data.data.slots.join(', '), 'bot');
+  if (data.data?.confirmation) bubble('Confirmation #: ' + data.data.confirmation, 'bot');
+});
+</script>
