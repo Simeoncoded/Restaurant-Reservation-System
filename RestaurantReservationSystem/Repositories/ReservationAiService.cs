@@ -24,7 +24,8 @@ namespace RestaurantReservationSystem.Repositories
             string? Time,  //"HH:mm"
             int? PartySize,
             string? Name,
-            string? Phone
+            string? Phone,
+            string? Response
             );
 
         private const string SystemPrompt = """
@@ -32,6 +33,7 @@ namespace RestaurantReservationSystem.Repositories
         - Allowed Action values: "CheckAvailability" or "CreateReservation".
         - Return ONLY strict JSON (no prose, no code fences).
         - If any field is missing, set it to null. Do not invent values.
+        - If any information is missing, ask for it in the Response
         - Schema:
           {
             "Action": "CheckAvailability" | "CreateReservation",
@@ -39,7 +41,8 @@ namespace RestaurantReservationSystem.Repositories
             "Time": "HH:mm" | null,
             "PartySize": number | null,
             "Name": string | null,
-            "Phone": string | null
+            "Phone": string | null,
+            "Response": string 
           }
         """;
 

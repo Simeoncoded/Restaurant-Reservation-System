@@ -41,7 +41,10 @@ namespace RestaurantReservationSystem.Controllers
                 st.PartySize ??= intent.PartySize;
                 st.Name ??= intent.Name;
                 st.Phone ??= intent.Phone;
+                st.Response ??= intent.Response;
             }
+
+            //return response back then process that to the db
         }
 
         [HttpPost("handle")]
@@ -68,14 +71,16 @@ namespace RestaurantReservationSystem.Controllers
                 if (missing.Count > 0)
                 {
                     SessionChatState.Save(HttpContext.Session, st);
-                    return Ok(new AiResponse(false, $"I still need: {string.Join(", ", missing)}."));
+                    // return Ok(new AiResponse(false, $"I still need: {string.Join(", ", missing)}."));
+                    return Ok(new AiResponse(false, $"{intent.Response}"));
                 }
 
                 // Build DateTime safely
                 if (!DateTime.TryParse($"{st.Date} {st.Time}", out var when))
                 {
                     SessionChatState.Save(HttpContext.Session, st);
-                    return Ok(new AiResponse(false, "I couldn’t read the date/time. Use YYYY-MM-DD and HH:mm."));
+                    // return Ok(new AiResponse(false, "I couldn’t read the date/time. Use YYYY-MM-DD and HH:mm."));
+                    return Ok(new AiResponse(false, $"{intent.Response}"));
                 }
 
                 // Default action: if none set, check availability
@@ -101,12 +106,14 @@ namespace RestaurantReservationSystem.Controllers
                     return Ok(new AiResponse(true, msg, new { slots = payload }));
                 }
 
+
                 if (st.Action == "CreateReservation")
                 {
                     if (string.IsNullOrWhiteSpace(st.Name) || string.IsNullOrWhiteSpace(st.Phone))
                     {
                         SessionChatState.Save(HttpContext.Session, st);
-                        return Ok(new AiResponse(false, "Please include your name and phone to confirm."));
+                        //return Ok(new AiResponse(false, "Please include your name and phone to confirm."));
+                        return Ok(new AiResponse(false, $"{intent.Response}"));
                     }
 
                     var parts = st.Name.Split(' ', 2);
